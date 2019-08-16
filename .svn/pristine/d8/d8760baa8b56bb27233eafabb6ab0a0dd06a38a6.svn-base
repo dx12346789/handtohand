@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="com.qst.grade.po.Message" table="message" schema="hand_to_hand">
+        <id name="mid" column="mid"/>
+        <property name="sender" column="sender"/>
+        <property name="recipient" column="recipient"/>
+        <property name="sendTime" column="send_time"/>
+        <property name="status" column="status"/>
+    </class>
+</hibernate-mapping>

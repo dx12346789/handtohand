@@ -1,0 +1,63 @@
+package com.qst.grade.po;
+
+import javax.persistence.*;
+
+@Entity
+@Table(name = "good_category", schema = "hand_to_hand", catalog = "")
+public class GoodCategory {
+    private String id;
+    private String gid;
+    private String cid;
+
+    @Id
+    @Column(name = "id")
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    @Basic
+    @Column(name = "gid")
+    public String getGid() {
+        return gid;
+    }
+
+    public void setGid(String gid) {
+        this.gid = gid;
+    }
+
+    @Basic
+    @Column(name = "cid")
+    public String getCid() {
+        return cid;
+    }
+
+    public void setCid(String cid) {
+        this.cid = cid;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        GoodCategory that = (GoodCategory) o;
+
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (gid != null ? !gid.equals(that.gid) : that.gid != null) return false;
+        if (cid != null ? !cid.equals(that.cid) : that.cid != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (gid != null ? gid.hashCode() : 0);
+        result = 31 * result + (cid != null ? cid.hashCode() : 0);
+        return result;
+    }
+}

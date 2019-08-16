@@ -1,0 +1,382 @@
+package com.qst.grade.action;
+
+import com.opensymphony.xwork2.ActionContext;
+import com.qst.grade.po.Category;
+import com.qst.grade.po.Comment;
+import com.qst.grade.po.Goods;
+import com.qst.grade.po.User;
+import com.qst.grade.service.CategoryService;
+import com.qst.grade.service.CommentService;
+import com.qst.grade.service.GoodsService;
+import com.qst.grade.service.UserService;
+import com.qst.grade.util.PinYinUtil;
+import com.qst.grade.util.UUID;
+import org.apache.commons.io.FileUtils;
+import org.apache.struts2.ServletActionContext;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+@Controller
+public class IssueManageAction {
+    private int count;
+    private Integer pageCode;
+    private int pageSize=20;
+    private int totalPage;
+    private Goods goods;
+    private User user;
+    private int onShelf;
+    private int removeShelf;
+    private String gid;
+    private int status;
+    private String cid;
+    private Category category;
+    private Comment comment;
+    private List<Goods> goodsList;
+    private List<Goods> goodsOnList;
+    private List<Goods> goodsDownList;
+    private List<Comment> commentList;
+    private List<Category> categoryList;
+    private List<User> userList;
+    private GoodsService goodsService;
+    private UserService userService;
+    private CategoryService categoryService;
+    private CommentService commentService;
+    private List<File> upload;
+    private List<String> uploadFileName;
+    private String[] img;
+
+    @Autowired
+    public IssueManageAction(GoodsService goodsService, UserService userService, CategoryService categoryService, CommentService commentService) {
+        this.goodsService = goodsService;
+        this.userService = userService;
+        this.categoryService = categoryService;
+        this.commentService = commentService;
+    }
+
+    public String toMyIssue(){
+        User user1=(User) ActionContext.getContext().getSession().get("loginUser");
+        totalPage=goodsService.count(user1.getUid());
+        if (totalPage%pageSize==0){
+            setTotalPage(totalPage/pageSize);
+        }else {
+            setTotalPage(totalPage/pageSize+1);
+        }
+        if (pageCode==null){
+            setPageCode(1);
+        }
+        goodsList=goodsService.findGoodsByUid(user1.getUid(),(pageCode-1)*pageSize,pageSize);
+        goodsOnList=new ArrayList<Goods>();
+        goodsDownList=new ArrayList<Goods>();
+        for (int i=0;i<goodsList.size();i++){
+            Goods goods=goodsList.get(i);
+            System.out.println("------商品："+goods.getName());
+            System.out.println("------图片名称："+goods.getImgPath());
+            if(goods.getStatus()==0){
+                goodsOnList.add(goods);
+            }else if(goods.getStatus()==2){
+                goodsDownList.add(goods);
+            }
+        }
+        onShelf=goodsService.countOnOrDownShelfGoodsNum(user1.getUid(),0);
+        removeShelf=goodsService.countOnOrDownShelfGoodsNum(user1.getUid(),2);
+        System.out.println("[上架的商品数："+onShelf+"],[下架的商品数："+removeShelf+"]");
+
+        return "success";
+    }
+
+    public String toAmendGoodsStatus(){
+        System.out.println("[获取到的gid:"+gid+"],[status:"+status+"]");
+        if(status==0){
+            goodsService.makeGoodsStatusToRemoveShelf(gid);
+        }else if(status==2){
+            goodsService.makeGoodsStatusToOnShelf(gid);
+        }
+        return "toMyissue";
+    }
+
+    public String toDeleteGoods(){
+        System.out.println("获取到的gid:"+gid);
+        goodsService.makeGoodsStatusToDelete(gid);
+        return "toMyissue";
+    }
+    public String toCheckUpGoods(){
+        System.out.println("[获取到的gid:"+gid+"]");
+        goods=goodsService.findGoodsByGid(gid);
+        System.out.println("--------商品名称："+goods.getName());
+        category=categoryService.findCategoryByCid(goods.getCid());
+        commentList=commentService.findByGid(goods.getGid());
+        count=commentService.count(goods.getGid());
+        System.err.println(commentList);
+        System.out.println("---------评论个数："+commentList.size());
+        user=userService.findByuId(goods.getUid());
+        userList=userService.findAll();
+        for (int i = 0; i < commentList.size(); i++) {
+            Comment comment = commentList.get(i);
+            for (int j = 0; j < userList.size(); j++) {
+                User u = userList.get(j);
+                if (comment.getAnonymous() == 1 && (comment.getCommentator()).equals(u.getUid())) {
+                    StringBuilder str = new StringBuilder(16);
+                    String name = u.getNickname();
+                    str.append(name.charAt(0));
+                    str.append("***");
+                    str.append(name.charAt(name.length() - 1));
+                    u.setNickname(str.toString());
+                }
+            }
+        }
+        return "toDetail";
+    }
+    public String toUpdateGoods(){
+        System.out.println("获取到的商品id:"+gid);
+        goods=goodsService.findGoodsByGid(gid);
+        categoryList = categoryService.findAllCategory();
+        category=categoryService.findCategoryByCid(goods.getCid());
+        return "toUpdate";
+    }
+
+    public String UpdateMyGoods() throws IOException {
+        User user1=(User) ActionContext.getContext().getSession().get("loginUser");
+        System.out.println("商品id：" + goods.getGid());
+        Goods goodsEx=goodsService.findGoodsByGid(goods.getGid());
+        System.out.println("商品名称：" + goods.getName());
+        goodsEx.setName(goods.getName());
+        System.out.println("商品详情：" + goods.getDetail());
+        goodsEx.setDetail(goods.getDetail());
+        System.out.println("商品个数：" + goods.getCount());
+        goodsEx.setCount(goods.getCount());
+        System.out.println("商品价格：" + goods.getPrice());
+        goodsEx.setPrice(goods.getPrice());
+        System.out.println("商品类型：" + goods.getCid());
+        goodsEx.setCid(goods.getCid());
+        //图片处理
+        String path = ServletActionContext.getServletContext().getRealPath("/upload");
+        System.out.println("path:" + path);
+
+        File file = new File(path);
+        if (!file.exists()) {
+            file.mkdir();
+        }
+
+        String imgStr = "";
+        if (null != img) {
+            for (int t = 0; t < img.length; t++) {
+                imgStr += img[t] + ",";
+            }
+        }
+        if(null!=uploadFileName){
+            for (int i = 0; i < uploadFileName.size(); i++) {
+                FileUtils.copyFile(upload.get(i), new File(file, uploadFileName.get(i)));
+                String file2 = new File(file, uploadFileName.get(i)).toString();
+                System.out.println("上传的图片名：" + uploadFileName.get(i));
+                System.out.println("路径：" + file2);
+                file2 = file2.substring(file2.lastIndexOf("\\"));
+                String path1 = "upload" + file2;
+                System.out.println("存入数据库路径：" + path1);
+                imgStr += path1 + ",";
+            }
+        }
+
+            goods.setImgPath(imgStr);
+            System.out.println("商品图片：" + goods.getImgPath());
+            goodsEx.setImgPath(goods.getImgPath());
+
+            String name = goods.getName();
+            String acronym = PinYinUtil.getAcronym(name);
+            goods.setAcronym(acronym);
+            System.out.println("商品首字母："+goods.getAcronym());
+            goodsEx.setAcronym(goods.getAcronym());
+
+            String fullPinyin  = PinYinUtil.getFullPinYinWithoutNumber(name);
+            goods.setFullpinyin(fullPinyin);
+            System.out.println("商品全拼音："+goods.getFullpinyin());
+            goodsEx.setFullpinyin(goods.getFullpinyin());
+
+            goodsService.updateMyGoods(goodsEx);
+            return "success";
+        }
+
+    public Goods getGoods() {
+        return goods;
+    }
+
+    public void setGoods(Goods goods) {
+        this.goods = goods;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public List<Goods> getGoodsOnList() {
+        return goodsOnList;
+    }
+
+    public void setGoodsOnList(List<Goods> goodsOnList) {
+        this.goodsOnList = goodsOnList;
+    }
+
+    public List<Goods> getGoodsDownList() {
+        return goodsDownList;
+    }
+
+    public void setGoodsDownList(List<Goods> goodsDownList) {
+        this.goodsDownList = goodsDownList;
+    }
+
+    public List<Goods> getGoodsList() {
+        return goodsList;
+    }
+
+    public void setGoodsList(List<Goods> goodsList) {
+        this.goodsList = goodsList;
+    }
+
+    public int getOnShelf() {
+        return onShelf;
+    }
+
+    public void setOnShelf(int onShelf) {
+        this.onShelf = onShelf;
+    }
+
+    public int getRemoveShelf() {
+        return removeShelf;
+    }
+
+    public void setRemoveShelf(int removeShelf) {
+        this.removeShelf = removeShelf;
+    }
+
+    public String getGid() {
+        return gid;
+    }
+
+    public void setGid(String gid) {
+        this.gid = gid;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public Comment getComment() {
+        return comment;
+    }
+
+    public void setComment(Comment comment) {
+        this.comment = comment;
+    }
+
+    public List<Comment> getCommentList() {
+        return commentList;
+    }
+
+    public void setCommentList(List<Comment> commentList) {
+        this.commentList = commentList;
+    }
+
+    public String getCid() {
+        return cid;
+    }
+
+    public void setCid(String cid) {
+        this.cid = cid;
+    }
+
+    public List<User> getUserList() {
+        return userList;
+    }
+
+    public void setUserList(List<User> userList) {
+        this.userList = userList;
+    }
+
+    public Integer getPageCode() {
+        return pageCode;
+    }
+
+    public void setPageCode(Integer pageCode) {
+        if (pageCode==null){
+            pageCode=1;
+        }
+        this.pageCode = pageCode;
+    }
+
+    public int getPageSize() {
+        return pageSize;
+    }
+
+    public void setPageSize(int pageSize) {
+        this.pageSize = pageSize;
+    }
+
+    public int getTotalPage() {
+        return totalPage;
+    }
+
+    public void setTotalPage(int totalPage) {
+        this.totalPage = totalPage;
+    }
+
+    public List<Category> getCategoryList() {
+        return categoryList;
+    }
+
+    public void setCategoryList(List<Category> categoryList) {
+        this.categoryList = categoryList;
+    }
+
+    public List<File> getUpload() {
+        return upload;
+    }
+
+    public void setUpload(List<File> upload) {
+        this.upload = upload;
+    }
+
+    public List<String> getUploadFileName() {
+        return uploadFileName;
+    }
+
+    public void setUploadFileName(List<String> uploadFileName) {
+        this.uploadFileName = uploadFileName;
+    }
+
+    public String[] getImg() {
+        return img;
+    }
+
+    public void setImg(String[] img) {
+        this.img = img;
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
+    }
+}
+

@@ -1,0 +1,60 @@
+package com.qst.grade.dao.Impl;
+
+import com.qst.grade.dao.OrderDao;
+import com.qst.grade.po.Order;
+import org.hibernate.Query;
+import org.hibernate.SessionFactory;
+import org.hibernate.classic.Session;
+import org.springframework.orm.hibernate3.HibernateTemplate;
+import org.springframework.stereotype.Repository;
+
+import javax.annotation.Resource;
+import java.sql.Timestamp;
+import java.util.Date;
+
+@Repository
+public class OrderDaoImpl extends HibernateTemplate implements OrderDao {
+
+    @Resource(name = "sessionFactory")
+    public void setSessionFactory(SessionFactory sessionFactory) {
+        super.setSessionFactory(sessionFactory);
+    }
+
+    private Session before(){
+        SessionFactory sessionFactory = super.getSessionFactory();
+        assert sessionFactory != null;
+        return sessionFactory.getCurrentSession();
+    }
+
+    @Override
+    public Integer save(Order order) {
+        Session session = this.before();
+        Query query = session.createSQLQuery("insert into `order`(oid,price,create_time,aid) values(?,?,?,?)");
+        query.setString(0, order.getOid());
+        query.setDouble(1, order.getPrice());
+        query.setTimestamp(2, order.getCreateTime());
+        query.setString(3, order.getAid());
+        return query.executeUpdate();
+    }
+
+    @Override
+    public Integer save(String oid, String pid) {
+        Session session = this.before();
+        Date date = new Date(System.currentTimeMillis());
+        Timestamp timestamp = new Timestamp(date.getTime());
+        Query query = session.createSQLQuery("update `order` set pid = ?,status = 1,pay_time = ? where oid = ?");
+        query.setString(0, pid);
+        query.setTimestamp(1, timestamp);
+        query.setString(2, oid);
+        return query.executeUpdate();
+    }
+
+    @Override
+    public Order findOrderByoid(String oid) {
+        Query query = getSession().createSQLQuery("SELECT * FROM `order` where oid= ? ").addEntity(Order.class);
+        query.setString(0,oid);
+        return (Order) query.uniqueResult();
+    }
+
+
+}

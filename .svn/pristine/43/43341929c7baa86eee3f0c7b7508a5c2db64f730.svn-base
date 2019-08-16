@@ -1,0 +1,98 @@
+package com.qst.grade.action;
+
+import com.qst.grade.po.Category;
+import com.qst.grade.po.Goods;
+import com.qst.grade.service.CategoryService;
+import com.qst.grade.service.GoodsService;
+import com.qst.grade.util.PinYinUtil;
+import com.qst.grade.util.UUID;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@Controller
+public class GoodsAction {
+    private String gid;
+    private Goods goods;
+    private GoodsService goodsService;
+    private CategoryService categoryService;
+    private List<Category> categoryList;
+
+    @Autowired
+    public GoodsAction(GoodsService goodsService, CategoryService categoryService) {
+        this.goodsService = goodsService;
+        this.categoryService = categoryService;
+    }
+
+    public String toIssue() {
+        categoryList = new ArrayList<Category>();
+        categoryList = categoryService.findAllCategory();
+        return "success";
+    }
+
+    public String addGoods(){
+        System.out.println("商品名称："+goods.getName());
+        System.out.println("商品详情："+goods.getDetail());
+        System.out.println("商品个数："+goods.getCount());
+        System.out.println("商品价格："+goods.getPrice());
+        System.out.println("商品图片："+goods.getImgPath());
+        System.out.println("商品类型："+goods.getCid());
+        goods.setStatus(0);
+        String gid = "G" + UUID.getUUID(32);
+        goods.setGid(gid);
+        System.out.println("商品id："+goods.getGid());
+
+        String name = goods.getName();
+        String acronym = PinYinUtil.getAcronym(name);
+        goods.setAcronym(acronym);
+        System.out.println("商品首字母："+goods.getAcronym());
+
+        String fullPinyin  = PinYinUtil.getFullPinYin(name);
+        goods.setFullpinyin(fullPinyin);
+        System.out.println("商品全拼音："+goods.getFullpinyin());
+        goods.setUid("Uce13f891c69e447bb6264fdca345016d");
+        //添加入数据库
+        String id=goodsService.addGoods(goods);
+        if(id==null){
+            return "error";
+        }else{
+            return "success";
+        }
+
+    }
+
+    public String fingGoodsById(){
+        setGid("1");
+        goods=goodsService.findGoodsById(gid);
+        System.out.println("1="+goods.getGid());
+        System.out.println("2="+goods.getName());
+        return "togoods";
+    }
+
+
+    public Goods getGoods() {
+        return goods;
+    }
+
+    public void setGoods(Goods goods) {
+        this.goods = goods;
+    }
+
+    public List<Category> getCategoryList() {
+        return categoryList;
+    }
+
+    public void setCategoryList(List<Category> categoryList) {
+        this.categoryList = categoryList;
+    }
+
+    public String getGid() {
+        return gid;
+    }
+
+    public void setGid(String gid) {
+        this.gid = gid;
+    }
+}

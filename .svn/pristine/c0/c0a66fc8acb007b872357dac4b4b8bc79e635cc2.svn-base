@@ -1,0 +1,68 @@
+/**
+ * 设置为同步请求
+ */
+$.ajaxSettings.async = false;
+var getjson = function(){
+    let datas;
+    console.log("进入getjson")
+    $.getJSON("json/address.json", function(data) {
+        console.log("进入");
+        datas = data;
+    });
+    return datas;
+}
+
+/**
+ * 430000
+ * 430700
+ * 430726
+ * @param {Object} num
+ */
+
+var getOne = function(num){
+    let datas = getjson();
+    let data;
+    $.each(datas,function (index,element) {
+        if(element.code === num){
+            data = "{\"index1\":\"" + index + "\",\"data\":\"" + element.name + "\"}";
+        }
+    });
+    return data;
+};
+
+
+
+var getTwo = function(index,num){
+    let datas = getjson();
+    let data;
+    datas = datas[index].cityList;
+    $.each(datas,function (localIndex,element) {
+        if(element.code === num){
+            data = "{\"index1\":\"" + index + "\",\"index2\":\"" + localIndex + "\",\"data\":\"" + element.name + "\"}"
+        }
+    });
+    return data;
+};
+var getThree = function(index1,index2,num){
+    let datas = getjson();
+    let data;
+    datas = datas[index1].cityList[index2].areaList;
+    $.each(datas,function (localIndex,element) {
+        if(element.code === num){
+            data = "{\"index1\":\"" + index1 + "\",\"index2\":\"" + index2 + "\",\"index3\":\"" + localIndex +  "\",\"data\":\"" + element.name + "\"}"
+        }
+    });
+    return data;
+};
+
+var data = getOne("430000");
+data = jQuery.parseJSON(data);
+console.log(data);
+
+data = getTwo(data.index1,"430700");
+data = jQuery.parseJSON(data);
+console.log(data);
+
+data = getThree(data.index1,data.index2,"430726");
+data = jQuery.parseJSON(data);
+console.log(data);

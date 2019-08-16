@@ -1,0 +1,92 @@
+package com.qst.grade.po;
+
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import java.sql.Timestamp;
+
+@Entity
+public class Message {
+    private String mid;
+    private String sender;
+    private String recipient;
+    private Timestamp sendTime;
+    private int status;
+
+    @Id
+    @Column(name = "mid")
+    public String getMid() {
+        return mid;
+    }
+
+    public void setMid(String mid) {
+        this.mid = mid;
+    }
+
+    @Basic
+    @Column(name = "sender")
+    public String getSender() {
+        return sender;
+    }
+
+    public void setSender(String sender) {
+        this.sender = sender;
+    }
+
+    @Basic
+    @Column(name = "recipient")
+    public String getRecipient() {
+        return recipient;
+    }
+
+    public void setRecipient(String recipient) {
+        this.recipient = recipient;
+    }
+
+    @Basic
+    @Column(name = "send_time")
+    public Timestamp getSendTime() {
+        return sendTime;
+    }
+
+    public void setSendTime(Timestamp sendTime) {
+        this.sendTime = sendTime;
+    }
+
+    @Basic
+    @Column(name = "status")
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Message message = (Message) o;
+
+        if (status != message.status) return false;
+        if (mid != null ? !mid.equals(message.mid) : message.mid != null) return false;
+        if (sender != null ? !sender.equals(message.sender) : message.sender != null) return false;
+        if (recipient != null ? !recipient.equals(message.recipient) : message.recipient != null) return false;
+        if (sendTime != null ? !sendTime.equals(message.sendTime) : message.sendTime != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = mid != null ? mid.hashCode() : 0;
+        result = 31 * result + (sender != null ? sender.hashCode() : 0);
+        result = 31 * result + (recipient != null ? recipient.hashCode() : 0);
+        result = 31 * result + (sendTime != null ? sendTime.hashCode() : 0);
+        result = 31 * result + status;
+        return result;
+    }
+}

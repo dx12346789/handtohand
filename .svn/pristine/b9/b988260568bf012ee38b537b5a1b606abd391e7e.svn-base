@@ -1,0 +1,7 @@
+package com.qst.grade.service;
+
+import com.qst.grade.po.Address;
+
+public interface AddressService {
+    Address findByUid(String uid);
+}

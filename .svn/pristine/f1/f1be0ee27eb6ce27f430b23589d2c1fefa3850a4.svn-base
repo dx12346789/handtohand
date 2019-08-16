@@ -1,0 +1,53 @@
+package com.qst.grade.service.Impl;
+
+import com.qst.grade.dao.GoodsDao;
+import com.qst.grade.po.Goods;
+import com.qst.grade.service.GoodsService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+
+@Service
+@Transactional
+public class GoodsServiceImpl implements GoodsService {
+
+    private GoodsDao goodsDao;
+
+    @Autowired
+    public GoodsServiceImpl(GoodsDao goodsDao){
+        this.goodsDao=goodsDao;
+    }
+
+    @Override
+    public String addGoods(Goods goods) {
+        return goodsDao.addGoods(goods);
+    }
+
+    @Override
+    public Goods findGoodsByGid(String gid) {
+        return goodsDao.findGoodsByGid(gid);
+    }
+
+    @Override
+    public List<Goods> findGoodsByUid(String uid) {
+        return goodsDao.findGoodsByUid(uid);
+    }
+
+    @Override
+    public Integer makeGoodsStatusToRemoveShelf(String gid) {
+        return goodsDao.makeGoodsStatusToRemoveShelf(gid);
+    }
+
+    @Override
+    public Integer makeGoodsStatusToOnShelf(String gid) {
+        return goodsDao.makeGoodsStatusToOnShelf(gid);
+    }
+
+    @Override
+    public Integer makeGoodsStatusToDelete(String gid) {
+        return goodsDao.makeGoodsStatusToDelete(gid);
+    }
+
+}

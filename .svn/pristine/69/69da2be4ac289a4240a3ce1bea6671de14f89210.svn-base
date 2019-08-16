@@ -1,0 +1,6 @@
+package com.qst.grade.action;
+
+import java.util.List;
+
+public class PointAction {
+}

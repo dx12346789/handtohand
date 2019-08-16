@@ -1,0 +1,114 @@
+<%--
+  Created by IntelliJ IDEA.
+  User: 陈芬
+  Date: 2019/8/7
+  Time: 17:35
+  To change this template use File | Settings | File Templates.
+--%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="s" uri="/struts-tags" %>
+<html>
+<head>
+    <title>收藏夹</title>
+    <link rel="stylesheet" href="bootstrap-3.3.7-dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="css/style.css"/>
+    <link rel="stylesheet" href="css/head.css"/>
+    <link rel="stylesheet" href="css/foot.css"/>
+    <link rel="stylesheet" href="css/favorite.css"/>
+    <script type="text/javascript" src="bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="jquery.min.js"></script>
+    <script type="text/javascript" src="js/collection.js"></script>
+</head>
+<body>
+<nav class="top ">
+    <div class="top_middle">
+        <a href="/tmall">
+            <span style="color:#C40000;margin:0px" class=" glyphicon glyphicon-home redColor"></span> 天猫首页
+        </a>
+        <span>喵，欢迎来天猫</span>
+        <a href="login.html">请登录</a>
+        <a href="register.html">免费注册</a>
+        <!--<a href="login.jsp">颖</a>
+        <a href="register.jsp">退出</a>-->
+        <span class="pull-right">
+			        <a href="forebought">我的淘宝</a>
+            <!--<a href="forebought">我的订单</a>-->
+			        <a href="forecart">
+			            <span style="color:#C40000;margin:0px"
+                              class=" glyphicon glyphicon-shopping-cart redColor"></span> 购物车
+				<strong>0</strong>件
+				</a>
+				<a href="forebought"><i class="fa fa-star-o" aria-hidden="true"></i>我的收藏</a>
+				</span>
+    </div>
+</nav>
+<div class="simpleSearchOutDiv"></div>
+<div class="favorite">
+    <div class="favorite_title">
+        <ul class="nav nav-tabs">
+            <li class="active">
+                <a>全部宝贝 <span style="color: #f40;"><s:property value="goodsList.size()"/> </span> </a>
+            </li>
+            <li>
+                <a>失效宝贝0</a>
+            </li>
+            <a>批量管理</a>
+        </ul>
+    </div>
+    <s:iterator value="goodsList" var="goods">
+        <figure>
+            <div style="height: 150px; width: 150px;">
+                <img src="${goods.imgPath}"/>
+            </div>
+            <a href="toGoods?gid=${goods.gid}">
+                <figcaption style="white-space: nowrap;text-overflow:ellipsis;overflow: hidden;font-size: 12px;">${goods.name}</figcaption>
+                <div class="info">
+                    <s:if test="#goods.status==2">
+                    <span class="price">
+						<strong>已下架</strong>
+					</span>
+                    </s:if>
+                    <s:else>
+                    <span class="price">
+						￥<strong>${goods.price}</strong>
+					</span>
+                    </s:else>
+                </div>
+            </a>
+            <div class="type">
+                <a href="deletefavorite?gid=${goods.gid}">
+                    <span class="glyphicon glyphicon-trash" title="删除宝贝" style="top:3px;"></span>
+                </a>
+            </div>
+            <div class="shop"><a>进入店铺</a></div>
+        </figure>
+    </s:iterator>
+</div>
+<div>
+    <ul class="pagination">
+        <li>
+            <a href="#">&laquo;</a>
+        </li>
+        <li>
+            <a href="#">1</a>
+        </li>
+        <li>
+            <a href="#">2</a>
+        </li>
+        <li>
+            <a href="#">3</a>
+        </li>
+        <li>
+            <a href="#">4</a>
+        </li>
+        <li>
+            <a href="#">5</a>
+        </li>
+        <li>
+            <a href="#">&raquo;</a>
+        </li>
+    </ul>
+</div>
+</body>
+</html>

@@ -1,0 +1,258 @@
+input {
+	border: 0;
+}
+
+a {
+	color: white;
+}
+
+a:hover {
+	color: #EEEEEE;
+}
+
+a.tel {
+	color: red;
+}
+
+a.tel:hover {
+	color: #C00000;
+}
+
+.text-button {
+	height: 35px;
+	width: 100px;
+	background-color: rgba(0, 0, 0, 0.4);
+	border: 1px solid white;
+	-webkit-transition-duration: 0.4s;
+	/* Safari */
+	transition-duration: 0.4s;
+	color: white;
+
+}
+
+.text-button:hover {
+	border: 1px solid white;
+	background-color: white;
+	color: black;
+}
+
+h2 {
+	color: white;
+	font-weight: 200;
+	font-size: 22px;
+
+}
+
+h3 {
+	font-size:16px;
+	color: #DDDDDD;
+	font-weight: 200;
+
+}
+
+h4 {
+	color: white;
+	font-weight: 200;
+	font-size: 15px;
+}
+.price{
+	line-height: 100px;
+	color: red;
+	font-size: 20px;
+	text-align: right;
+}
+
+
+.single {
+	height: 180px;
+	width: auto;
+	margin: 20px 100px;
+	background-color: rgba(0, 0, 0, 0.4);
+	*border: 1px solid red;
+
+}
+
+.single-top {
+	height: 125px;
+	line-height: 120px;
+
+}
+
+.single-footer {
+	padding: 10px 0;
+	font-size: 16px;
+	width: auto;
+	font-weight: 200;
+	color: white;
+	border-top: 1px solid white;
+}
+
+.orderbody {
+	height: auto;
+	width: auto;
+	background: url(../images/obg.jpg);
+	background-size: cover;
+	padding-top: 30px;
+}
+
+.body-or {
+	height: 170px;
+	line-height: 170px;
+	*border: 1px solid #737373;
+	background-color: rgba(0, 0, 0, 0.5);
+}
+
+.img-div {
+	padding-top: 25px;
+	height: 220px;
+	width: 220px;
+}
+
+
+
+.title {
+	background-color: red;
+
+}
+
+.line {
+	height: 50px;
+	width: 800px;
+	border: 1px solid red;
+}
+
+.submit_button {
+	border: 0;
+	width: 80px;
+	height: 35px;
+	background-color: #000000;
+	color: white;
+}
+
+.mod_title {
+	font-size: 18px;
+	font-weight: 200;
+	color: #000000;
+}
+
+
+.progressbar {
+	font-family: montserrat, arial, verdana;
+	margin: 15px;
+	padding: 0;
+	width: 80%;
+	text-align: center;
+	margin-bottom: 30px;
+	overflow: hidden;
+	counter-reset: step;
+	z-index: 99;
+}
+
+.progressbar li {
+	list-style-type: none;
+	font-size: 9px;
+	float: left;
+	width: 100%;
+	position: relative;
+}
+
+.progressbar li:before {
+	content: counter(step);
+	counter-increment: step;
+	width: 20px;
+	line-height: 20px;
+	display: block;
+	font-size: 10px;
+	color: #333;
+	background: #EEEEEE;
+	border-radius: 20px;
+	margin: 0 auto 5px auto;
+}
+
+.progressbar li:after {
+	content: '';
+	width: calc(100% - 20px);
+	height: 2px;
+	background: white;
+	position: absolute;
+	left: calc((-100% + 20px) / 2);
+	top: 9px;
+}
+
+.progressbar li:first-child:after {
+	content: none;
+}
+
+.progressbar li.active:before,
+.progressbar li.active:after {
+	background: red;
+	color: white;
+}
+
+.money {
+	font-size: 25px;
+	text-align: center;
+	color: red;
+	padding: 10px 0px 30px 0px;
+	border-bottom: 1px solid #D5D5D5;
+}
+
+.money>span {
+	font-size: 10px;
+}
+
+.money>p {
+	font-size: 12px;
+	color: #8C8C8C;
+}
+
+.order-single {
+	height: 80px;
+	padding: 10px 10px 10px 10px;
+	width: 100%;
+	border-bottom: 1px solid #D5D5D5;
+}
+
+.order-title {
+	color: black;
+	font-size: 16px;
+}
+
+.order-numbet {
+	font-size: 12px;
+}
+
+.order-info {
+	height: 100px;
+	width: 100%;
+	padding: 10px 10px 10px 10px;
+
+}
+
+.discuss-div {
+	padding: 10px 10px 10px 10px;
+	height: 100px;
+	width: 100%;
+
+	border: 1px solid #EEEEEE;
+}
+
+.discuss-input {
+	border: 0;
+	width: 100%;
+	font-size: 15px;
+	background-color: white;
+
+}
+
+.discuss-input:focus {
+	border: 1px solid white !important;
+	background-color: white;
+}
+
+.usertype {
+	margin-bottom: 10px;
+	font-size: 15px;
+	line-height: 20px;
+	background-color: red;
+}

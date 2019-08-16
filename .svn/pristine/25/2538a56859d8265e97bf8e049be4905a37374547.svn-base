@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.5//EN"
+        "http://struts.apache.org/dtds/struts-2.5.dtd">
+
+<struts>
+    <!-- /config-browser
+     可查看映射-->
+    <!-- struts2默认拦截掉了ws的请求 使用websocket需要打开  -->
+    <constant name="struts.action.excludePattern" value="/websocket/.*" />
+    <!--交给Spring管理-->
+    <constant name="struts.objectFactory" value="spring"/>
+    <!--指定解析编码-->
+    <constant name="struts.i18n.encoding" value="UTF-8"/>
+    <!--文件上传大小，默认2m-->
+    <constant name="struts.multipart.maxSize" value="10240000"/>
+    <!-- 当struts.xml改动后，是否重新加载。默认值为false(生产环境下使用),开发阶段最好打开  -->
+    <constant name="struts.configuration.xml.reload" value="true"/>
+    <!-- 是否使用struts的开发模式。开发模式会有更多的调试信息。默认值为false(生产环境下使用),开发阶段最好打开  -->
+    <constant name="struts.devMode" value="true"/>
+    <!-- 设置浏览器是否缓存静态内容。默认值为true(生产环境下使用),开发阶段最好关闭  -->
+    <constant name="struts.serve.static.browserCache" value="false"/>
+
+
+    <!--不需要拦截的包-->
+    <package name="notInterceptor" extends="struts-default,json-default" namespace="/">
+<!--        <global-results>-->
+<!--            <result type="redirectAction" name="GlobalToLogin">tologin</result>-->
+<!--        </global-results>-->
+        <action name="toindex" class="com.qst.grade.action.IndexAction" method="toIndex">
+            <result name="success" type="json">
+                <param name="root">goodsList</param>
+            </result>
+        </action>
+        <action name="toregister" class="com.qst.grade.action.UserAction" method="toRegister">
+            <result name="success">/register.jsp</result>
+        </action>
+        <action name="tologin" class="com.qst.grade.action.UserAction" method="toLogin">
+            <result name="success">/login.jsp</result>
+        </action>
+        <action name="register" class="com.qst.grade.action.UserAction" method="register">
+            <result name="success" type="chain">tologin</result>
+            <result name="admin" type="json">
+                <param name="root">jsonObject</param>
+            </result>
+            <result name="error" type="chain">toregister</result>
+        </action>
+        <action name="login" class="com.qst.grade.action.UserAction" method="login">
+            <result name="success">/</result>
+            <result name="error" type="chain">tologin</result>
+        </action>
+        <action name="exit" class="com.qst.grade.action.UserAction" method="exit">
+            <result type="redirectAction" name="success">tologin</result>
+        </action>
+        <action name="checkaccount" class="com.qst.grade.action.UserMessageAction" method="checkAccount">
+            <result type="json" name="success">
+                <param name="root">jsonObject</param>
+            </result>
+        </action>
+        <action name="toForgetPassword" class="com.qst.grade.action.UserMessageAction" method="toForgetPassword">
+            <result name="success">/ForgetPassword.jsp</result>
+        </action>
+        <action name="forgetPassword" class="com.qst.grade.action.UserMessageAction" method="forgetPassword">
+            <result name="success" type="redirect">tologin.action</result>
+        </action>
+        <action name="getRegisterEmailCode" class="com.qst.grade.action.CodeAction" method="sendRegisterEmailCode">
+            <result name="res" type="json">
+                <param name="root">jsonObject</param>
+            </result>
+        </action>
+        <action name="getRegisterPhoneCode" class="com.qst.grade.action.CodeAction" method="sendPhoneCode">
+            <result name="res" type="json">
+                <param name="root">jsonObject</param>
+            </result>
+        </action>
+        <action name="getCountCode" class="com.qst.grade.action.CodeAction" method="getCountCode">
+            <result type="stream" name="code">
+                <param name="contentType">image/jpeg</param>
+                <param name="inputName">inputStream</param>
+                <param name="bufferSize">2048</param>
+            </result>
+        </action>
+        <action name="checkCode" class="com.qst.grade.action.CodeAction" method="checkCode">
+            <result name="res" type="json">
+                <param name="root">jsonObject</param>
+            </result>
+        </action>
+        <action name="toGoods" class="com.qst.grade.action.GoodsAction" method="findGoodsByGid">
+            <result name="togoods">
+                /goods.jsp
+            </result>
+        </action>
+        <action name="addfavorite"  class="com.qst.grade.action.FavoriteAction" method="add">
+        </action>
+        <action name="addcart" class="com.qst.grade.action.CartAction" method="addCart">
+        </action>
+    </package>
+
+    <package name="interceptor" extends="struts-default" namespace="/">
+        <interceptors>
+            <interceptor name="LoginUser" class="com.qst.grade.interceptor.LoginUserInterceptor" />
+            <interceptor-stack name="userInterceptor">
+                <interceptor-ref name="LoginUser"/>
+                <interceptor-ref name="defaultStack"/>
+            </interceptor-stack>
+        </interceptors>
+        <global-results>
+            <result name="GlobalToLogin" type="redirect">/tologin.action</result>
+        </global-results>
+        <!--<default-interceptor-ref name="userInterceptor" />-->
+    </package>
+
+
+    <!--需要拦截的包-->
+    <package name="hasInterceptor" namespace="/" extends="json-default,interceptor">
+        <default-interceptor-ref name="userInterceptor"/>
+        <action name="toUserDetails" class="com.qst.grade.action.UserMessageAction" method="toUserDetails">
+            <result name="success">/mypage.jsp</result>
+        </action>
+        <action name="updateEssentialInformation" class="com.qst.grade.action.UserMessageAction" method="updateEssentialInformation">
+            <result name="success" type="redirectAction">toUserDetails</result>
+        </action>
+        <action name="toAddress" class="com.qst.grade.action.AddressAction" method="toAddress">
+            <result name="success">/address.jsp</result>
+        </action>
+        <action name="addAddress" class="com.qst.grade.action.AddressAction" method="addAddress">
+            <result name="success" type="redirect">toUserDetails.action</result>
+            <result name="error" type="redirect">toAddress.action</result>
+        </action>
+        <action name="delAddress" class="com.qst.grade.action.AddressAction" method="delAddress">
+            <result name="success" type="json">
+                <param name="root">jsonObject</param>
+            </result>
+        </action>
+        <action name="toupdateaddress" class="com.qst.grade.action.AddressAction" method="toUpdateAddress">
+            <result type="chain" name="success">toAddress</result>
+        </action>
+        <action name="updateAddress" class="com.qst.grade.action.AddressAction" method="updateAddress">
+            <result name="success" type="redirect">toUserDetails.action</result>
+            <result name="error" type="chain">toupdateaddress</result>
+        </action>
+        <action name="toupdateacount" class="com.qst.grade.action.UserMessageAction" method="toUpdateAccount">
+            <result name="success">/form.jsp</result>
+        </action>
+        <action name="updateaccount" class="com.qst.grade.action.UserMessageAction" method="updateAccount">
+            <result name="success" type="redirectAction">toUserDetails</result>
+            <result name="error" type="chain">toupdateacount</result>
+        </action>
+        <action name="checkpass" class="com.qst.grade.action.UserMessageAction" method="checkPass">
+            <result type="json" name="success">
+                <param name="root">jsonObject</param>
+            </result>
+        </action>
+        <action name="updatepass" class="com.qst.grade.action.UserMessageAction" method="updatePass">
+            <result type="json" name="success">
+                <param name="root">jsonObject</param>
+            </result>
+            <result type="redirectAction" name="successExit">exit</result>
+        </action>
+        <action name="addReport" class="com.qst.grade.action.NoticAction" method="addReport">
+            <result type="json" name="success">
+                <param name="root">jsonObject</param>
+            </result>
+        </action>
+        <action name="search" class="com.qst.grade.action.SearchAction" method="search">
+            <result name="toSearch">
+                /search.jsp?jsonObject=${jsonObject}
+            </result>
+            <result name="success" type="json">
+                <param name="root">jsonObject</param>
+            </result>
+        </action>
+
+        <action name="toIssue" class="com.qst.grade.action.GoodsAction" method="toIssue">
+            <result name="success">/issue.jsp</result>
+        </action>
+        <action name="addGoods" class="com.qst.grade.action.GoodsAction" method="addGoods">
+            <result name="success" type="redirectAction">
+               <param name="actionName">toMyissue</param>
+            </result>
+            <result name="error" type="redirectAction">
+                <param name="actionName">toIssue</param>
+            </result>
+        </action>
+        <action name="toMyissue" class="com.qst.grade.action.IssueManageAction" method="toMyIssue">
+            <result name="success">
+                /myIssue.jsp
+            </result>
+        </action>
+        <action name="toAmendGoodsStatus" class="com.qst.grade.action.IssueManageAction" method="toAmendGoodsStatus">
+            <result name="toMyissue" type="chain">
+                <param name="actionName">toMyissue</param>
+            </result>
+        </action>
+        <action name="toDeleteGoods" class="com.qst.grade.action.IssueManageAction" method="toDeleteGoods">
+            <result name="toMyissue" type="chain">
+                <param name="actionName">toMyissue</param>
+            </result>
+        </action>
+        <action name="toaddtype" class="com.qst.grade.action.CategoryAction" method="toaddtype">
+            <result name="success">/admin/addtype.jsp?categorys=${categorys}</result>
+        </action>
+        <action name="delType" class="com.qst.grade.action.CategoryAction" method="deltype">
+            <result type="json" name="success">
+                <param name="root">jsonObject</param>
+            </result>
+        </action>
+        <action name="addtype" class="com.qst.grade.action.CategoryAction" method="addtype">
+            <result name="success" type="json">
+                <param name="root">jsonObject</param>
+            </result>
+        </action>
+        <action name="topoints" class="com.qst.grade.action.PointsAction" method="showpoints">
+            <result name="success">/points.jsp?points=${points}</result>
+        </action>
+        <action name="addpoints" class="com.qst.grade.action.PointsAction" method="addpoint">
+            <result name="success" type="json">
+                <param name="root">jsonObject</param>
+            </result>
+        </action>
+        <action name="uppoints" class="com.qst.grade.action.PointsAction" method="updatepoint">
+            <result name="success" type="json">
+                <param name="root">jsonObject</param>
+            </result>
+        </action>
+        <action name="delpoints" class="com.qst.grade.action.PointsAction" method="delpoint">
+            <result name="success" type="json">
+                <param name="root">jsonObject</param>
+            </result>
+        </action>
+        <action name="toorderbuyer" class="com.qst.grade.action.OrderListAction" method="orderlistbuyer">
+            <result name="success">
+             /orderlistpayer.jsp?jsonObject=${jsonObject}
+            </result>
+        </action>
+        <action name="toorderseller" class="com.qst.grade.action.OrderListAction" method="orderlistseller">
+            <result name="success">
+               /orderlistseller.jsp?jsonObject=${jsonObject}
+            </result>
+        </action>
+        <action name="send" class="com.qst.grade.action.OrderListAction" method="send">
+            <result name="success" type="redirectAction">toorderseller</result>
+        </action>
+        <action name="savediscuss" class="com.qst.grade.action.CommentAction" method="savediscuss">
+            <result name="success" type="redirectAction">toorderbuyer</result>
+        </action>
+        <action name="savefeedback" class="com.qst.grade.action.CommentAction" method="savefeedback">
+        </action>
+        <action name="delivery" class="com.qst.grade.action.OrderListAction" method="delivery">
+            <result name="success" type="redirectAction">toorderbuyer</result>
+        </action>
+        <action name="tofavorite" class="com.qst.grade.action.FavoriteAction" method="tofavorite">
+            <result name="tofavorite">
+                /favorite.jsp
+            </result>
+        </action>
+        <action name="deletefavorite" class="com.qst.grade.action.FavoriteAction" method="delete">
+            <result name="tofavorite" type="redirectAction">
+                <param name="actionName">tofavorite</param>
+            </result>
+        </action>
+        <action name="toshop" class="com.qst.grade.action.ShopAction" method="toShop">
+            <result name="toshop">
+                /shop.jsp
+            </result>
+        </action>
+        <action name="toCart" class="com.qst.grade.action.CartAction" method="toCart">
+            <result name="cart">/cart.jsp</result>
+            <result name="login" type="redirectAction">tologin</result>
+        </action>
+        <action name="getCartInfo" class="com.qst.grade.action.CartAction" method="getCartInfo">
+            <result name="cart" type="json">
+                <param name="root">data</param>
+            </result>
+        </action>
+        <action name="changeShopCartItem" class="com.qst.grade.action.CartAction" method="changeShopCartItem">
+        </action>
+        <action name="deleteOrderItem" class="com.qst.grade.action.CartAction" method="deleteOrderItem">
+        </action>
+        <action name="tobuyitem" class="com.qst.grade.action.CartAction" method="toBuyItem">
+            <result name="toorder" type="chain">
+                <param name="actionName">toorder</param>
+                <param name="data">${data}</param>
+            </result>
+        </action>
+        <action name="toorder" class="com.qst.grade.action.OrderAction" method="toOrder">
+            <result name="order">/order.jsp?data=${data}</result>
+        </action>
+        <action name="createorder" class="com.qst.grade.action.OrderAction" method="createOrder">
+            <result name="payment" type="chain">pay</result>
+        </action>
+        <action name="pay" class="com.qst.grade.action.OrderAction" method="payment">
+            <result name="topay">/pay.jsp?oid=${oid}&amp;totalPrice=${totalPrice}&amp;subject=${subject}&amp;body=${body}</result>
+        </action>
+        <action name="toCheckUpGoods" class="com.qst.grade.action.IssueManageAction" method="toCheckUpGoods">
+            <result name="toDetail">
+                /detail.jsp
+            </result>
+        </action>
+        <action name="return_url" class="com.qst.grade.action.OrderAction" method="returnUrl">
+            <result name="success" type="chain">
+                <param name="actionName">paysuccess</param>
+                <param name="oid">${oid}</param>
+                <param name="pid">${pid}</param>
+            </result>
+        </action>
+        <action name="paysuccess" class="com.qst.grade.action.OrderAction" method="paySuccess">
+            <result name="toCart" type="redirectAction">toCart</result>
+        </action>
+        <action name="towebsocket" class="com.qst.grade.action.UserMessageAction" method="toWebSocket">
+            <result name="tologin" type="redirectAction">tologin</result>
+            <result name="websocket">/WebSocket.jsp?user=${dest}</result>
+        </action>
+        <action name="toUpdateGoods" class="com.qst.grade.action.IssueManageAction" method="toUpdateGoods">
+            <result name="toUpdate">
+                /update_goods.jsp
+            </result>
+        </action>
+        <action name="UpdateMyGoods" class="com.qst.grade.action.IssueManageAction" method="UpdateMyGoods">
+            <result name="success" type="redirectAction">
+                <param name="actionName">toMyissue</param>
+            </result>
+        </action>
+        <action name="getGoodsType" class="com.qst.grade.action.SearchAction" method="getGoodsType">
+            <result name="success" type="json">
+                <param name="root">categoryList</param>
+            </result>
+        </action>
+        <action name="getGoodsTitle" class="com.qst.grade.action.SearchAction" method="getGoodsTitle">
+            <result name="success" type="json">
+                <param name="root">goodsList</param>
+            </result>
+        </action>
+    </package>
+    <include file="struts-admin.xml"/>
+</struts>

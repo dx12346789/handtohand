@@ -1,0 +1,166 @@
+//是否可以获取验证码
+var isGetCode = true;
+//验证码是否正确
+var isCodeOk = false;
+//账号是否可用
+var isAccountOk = false;
+//密码是否可用
+var isPassOk = false;
+
+//昵称是否可用
+var isNickOk = $("#nick").length > 0 ? false : true;
+
+/**
+ * 内容改变时，验证码判定失效
+ */
+$("#Account").change(function () {
+    if (isCodeOk) {
+        getCountCode();
+        isCodeOk = false;
+    }
+    var account = $("#Account").val().trim();
+    console.log(account);
+    $("#Account").val(account);
+    console.log(isAccount(account));
+    if (isAccount(account)) {
+        $("#error").html("");
+        isAccountOk = true;
+    } else {
+        $("#error").html("请输入正确的手机号或邮箱");
+        isAccountOk = false;
+    }
+});
+
+
+/**
+ * 判断密码是否符合要求
+ */
+$("#Pwd").change(function () {
+    var content = $("#Pwd").val();
+    if (isPass(content)) {
+        if ($("#Pwd2").length > 0) {
+            if (isSamePass($("#Pwd").val(), $("#Pwd2").val())) {
+                isPassOk = true;
+            } else {
+                $("#error").html("两次密码不一致");
+                isPassOk = false;
+            }
+        } else {
+            $("#error").html("");
+            isPassOk = true;
+        }
+    } else {
+        $("#error").html("密码由6-8位的字母或数字组成");
+        isPassOk = false;
+    }
+});
+
+$("#Pwd2").change(function () {
+    var content = $("#Pwd2").val();
+    if (isPass(content)) {
+        if (isSamePass($("#Pwd").val(), $("#Pwd2").val())) {
+            $("#error").html("");
+            isPassOk = true;
+        } else {
+            $("#error").html("两次密码不一致");
+            isPassOk = false;
+        }
+    } else {
+        $("#error").html("密码由6-8位的字母或数字组成");
+        isPassOk = false;
+    }
+});
+
+
+/**
+ * 获取图片验证码
+ */
+$("#codeImg").click(function () {
+    getCountCode("#codeImg");
+});
+
+/**
+ * 获取邮箱或手机号验证码
+ */
+$("#getcode").click(function () {
+    var content = $("#Account").val();
+    getCode(content,this,60);
+});
+
+
+/**
+ * 判断验证码是否正确
+ */
+
+
+var VolidateStatus = function (status) {
+    isCodeOk = status;
+    if (status) {
+        console.log("验证码正确");
+        $("#error").html("");
+    } else {
+        console.log("验证码错误");
+        $("#error").html("验证码错误");
+    }
+};
+
+$("#Volidate").bind("input propertychange", function () {
+    var content = $("#Volidate").val();
+    if (content.length > 0) {
+        checkCode(content, VolidateStatus);
+    }
+});
+
+
+$("#nick").change(function () {
+    var content = $("#nick").val();
+    if (content != "") {
+        if (isNickName(content)) {
+            $("#error").html("");
+            isNickOk = true;
+        } else {
+            $("#error").html("昵称由4-8位字母或汉字组成");
+            isNickOk = false;
+        }
+    } else {
+        $("#error").html("请输入昵称");
+        isNickOk = false;
+    }
+});
+
+/**
+ * 登录密码加密
+ */
+$("#pass").blur(function () {
+    var pass = $.md5($("#pass").val());
+    console.log(pass);
+    $("#pass").val(pass);
+});
+
+
+/**
+ * 表单提交
+ */
+$("#contact-form").submit(function () {
+    isAccount();
+    if (isAccountOk) {
+        if (isNickOk) {
+            if (isPassOk) {
+                console.log("提交" + isCodeOk);
+                if (isCodeOk) {
+                    $("#Pwd").val($.md5($("#Pwd").val()));
+                    return true;
+                } else {
+                    $("#error").html("请输入正确的验证码");
+                }
+            } else {
+                $("#error").html("密码由6-8位的数字和字母组成");
+            }
+        } else {
+            $("#error").html("请输入昵称");
+        }
+    } else {
+        $("#error").html("请输入正确的手机号或邮箱");
+    }
+    return false;
+});

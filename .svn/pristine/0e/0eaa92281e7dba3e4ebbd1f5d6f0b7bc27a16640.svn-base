@@ -1,0 +1,175 @@
+<%--
+  Created by IntelliJ IDEA.
+  User: 陈芬
+  Date: 2019/8/5
+  Time: 9:01
+  To change this template use File | Settings | File Templates.
+--%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<html>
+<head>
+    <title>Title</title>
+    <link rel="stylesheet" href="bootstrap-3.3.7-dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="css/style1.css"/>
+    <link rel="stylesheet" href="css/head.css"/>
+    <link rel="stylesheet" href="css/foot.css"/>
+    <link rel="stylesheet" href="css/cart.css"/>
+    <script type="text/javascript" src="bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="jquery-1.11.3/jquery.min.js"></script>
+    <script type="text/javascript" src="js/cart.js"></script>
+</head>
+<body>
+<nav class="top ">
+    <div class="top_middle">
+        <a href="/tmall">
+            <span style="color:#C40000;margin:0px" class=" glyphicon glyphicon-home redColor"></span> 天猫首页
+        </a>
+        <span>喵，欢迎来天猫</span>
+        <a href="login.html">请登录</a>
+        <a href="register.html">免费注册</a>
+        <!--<a href="login.jsp">颖</a>
+        <a href="register.jsp">退出</a>-->
+        <span class="pull-right">
+			        <a href="forebought">我的淘宝</a>
+            <!--<a href="forebought">我的订单</a>-->
+			        <a href="forecart">
+			            <span style="color:#C40000;margin:0px"
+                              class=" glyphicon glyphicon-shopping-cart redColor"></span> 购物车
+				<strong>0</strong>件
+				</a>
+				<a href="forebought"><i class="fa fa-star-o" aria-hidden="true"></i>我的收藏</a>
+				</span>
+    </div>
+</nav>
+<div class="simpleSearchOutDiv"></div>
+<div class="cartDiv">
+    <div class="cartTitle">
+        <span class="cartTitleName"><b>全部商品2</b> | <b>失效商品0</b></span>
+        <div class="pull-right">
+            <span>已选商品  (不含运费)</span>
+            <span class="cartTitlePrice">￥0.00</span>
+            <button class="createOrderButton" disabled="disabled">结 算</button>
+        </div>
+        <hr/>
+    </div>
+    <div class="cartProductList">
+        <table class="cartProductTable">
+            <thead>
+            <tr>
+                <th class="selectAndImage">
+                    <img selectit="false" class="selectAllItem" src="images/cartNotSelected.png"> 全选
+                </th>
+                <th>商品信息</th>
+                <th>单价</th>
+                <th>数量</th>
+                <th width="120px">金额</th>
+                <th class="operation">操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="cartProductItemTR" style="border: 0px;">
+                <td colspan="6">
+                    <img selectit="false" oiid="16545" class="cartProductItemIfSelected" src="images/cartNotSelected.png">
+                    <a style="color: black;"><i class="fa fa-shopping-bag" aria-hidden="true"></i>店铺：艺淑旗舰店
+                        <img src="images/wangwang.png"/></a>
+                </td>
+            </tr>
+            <tr oiid="16545" class="cartProductItemTR">
+                <td>
+                    <img selectit="false" oiid="16545" class="cartProductItemIfSelected" src="images/cartNotSelected.png">
+                    <a style="display:none" href="#nowhere"><img src="images/cartSelected.png"></a>
+                    <img class="cartProductImg" src="images/productSingle_middle/2493.jpg">
+                </td>
+                <td>
+                    <div class="cartProductLinkOutDiv">
+                        <a href="foreproduct?pid=258" class="cartProductLink">Haier/海尔 EC5002-D 50升无线遥控电热水器洗澡淋浴乡镇村可达</a>
+                        <div class="cartProductLinkInnerDiv">
+                            <img src="images/creditcard.png" title="支持信用卡支付">
+                            <img src="images/7day.png" title="消费者保障服务,承诺7天退货">
+                            <img src="images/promise.png" title="消费者保障服务,承诺如实描述">
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <span class="cartProductItemOringalPrice">￥1899.0</span>
+                    <span class="cartProductItemPromotionPrice">￥1424.25</span>
+                </td>
+                <td>
+                    <div class="cartProductChangeNumberDiv">
+                        <span class="hidden orderItemStock " pid="258">78</span>
+                        <span class="hidden orderItemPromotePrice " pid="258">1424.25</span>
+                        <a pid="258" class="numberMinus" href="#nowhere">-</a>
+                        <input pid="258" oiid="16545" class="orderItemNumberSetting" autocomplete="off" value="1">
+                        <a stock="78" pid="258" class="numberPlus" href="#nowhere">+</a>
+                    </div>
+                </td>
+                <td>
+                    <span class="cartProductItemSmallSumPrice" oiid="16545" pid="258">￥1,424.25</span>
+                </td>
+                <td>
+                    <a class="deleteOrderItem" oiid="16545" href="#nowhere">删除</a>
+                </td>
+            </tr>
+            <tr class="cartProductItemTR" style="border: 0px;">
+                <td colspan="6">
+                    <img selectit="false" oiid="16545" class="cartProductItemIfSelected" src="images/cartNotSelected.png">
+                    <a style="color: black;"><i class="fa fa-shopping-bag" aria-hidden="true"></i>店铺：艺淑旗舰店
+                        <img src="images/wangwang.png"/></a>
+                </td>
+            </tr>
+            <tr oiid="16544" class="cartProductItemTR">
+                <td>
+                    <img selectit="false" oiid="16544" class="cartProductItemIfSelected" src="images/cartNotSelected.png">
+                    <a style="display:none" href="#nowhere"><img src="images/cartSelected.png"></a>
+                    <img class="cartProductImg" src="images/productSingle_middle/3533.jpg">
+                </td>
+                <td>
+                    <div class="cartProductLinkOutDiv">
+                        <a href="foreproduct?pid=353" class="cartProductLink">科沃斯地宝扫地机器人家用智能擦窗机器人玻璃双星拍档朵朵&amp;窗宝</a>
+                        <div class="cartProductLinkInnerDiv">
+                            <img src="images/creditcard.png" title="支持信用卡支付">
+                            <img src="images/7day.png" title="消费者保障服务,承诺7天退货">
+                            <img src="images/promise.png" title="消费者保障服务,承诺如实描述">
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <span class="cartProductItemOringalPrice">￥10660.0</span>
+                    <span class="cartProductItemPromotionPrice">￥9061.0</span>
+                </td>
+                <td>
+                    <div class="cartProductChangeNumberDiv">
+                        <span class="hidden orderItemStock " pid="353">70</span>
+                        <span class="hidden orderItemPromotePrice " pid="353">9061.0</span>
+                        <a pid="353" class="numberMinus" href="#nowhere">-</a>
+                        <input pid="353" oiid="16544" class="orderItemNumberSetting" autocomplete="off" value="1">
+                        <a stock="70" pid="353" class="numberPlus" href="#nowhere">+</a>
+                    </div>
+                </td>
+                <td>
+                    <span class="cartProductItemSmallSumPrice" oiid="16544" pid="353">￥9,061.00</span>
+                </td>
+                <td>
+                    <a class="deleteOrderItem" oiid="16544" href="#nowhere">删除</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="cartFoot">
+        <img selectit="false" class="selectAllItem" src="images/cartNotSelected.png">
+        <span>全选</span>
+        <a href="#">删除</a>
+        <a href="#">清除失效宝贝</a>
+        <a href="#">移入收藏夹</a>
+        <div class="pull-right">
+            <span>已选商品 <span class="cartSumNumber">0</span> 件</span>
+            <span>合计 (不含运费): </span>
+            <span class="cartSumPrice">￥0.00</span>
+            <button class="createOrderButton" disabled="disabled">结 算</button>
+        </div>
+    </div>
+</div>
+</body>
+</html>

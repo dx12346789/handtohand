@@ -1,0 +1,66 @@
+package com.qst.grade.action;
+
+import com.qst.grade.po.Category;
+import com.qst.grade.po.Goods;
+import com.qst.grade.service.CategoryService;
+import com.qst.grade.service.GoodsService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@Controller
+public class GoodsAction {
+    private String gid;
+    private Goods goods;
+    private GoodsService goodsService;
+    private CategoryService categoryService;
+    private List<Category> categoryList;
+
+    @Autowired
+    public GoodsAction(GoodsService goodsService) {
+        this.goodsService = goodsService;
+    }
+
+    public String toIssue() {
+        categoryList = new ArrayList<Category>();
+        categoryList = categoryService.findAllCategory();
+        return "success";
+    }
+    public String fingGoodsById(){
+        setGid("1");
+        goods=goodsService.findGoodsById(gid);
+        System.out.println("1="+goods.getGid());
+        System.out.println("2="+goods.getName());
+        return "togoods";
+    }
+    public String addGoods(){
+        return "success";
+    }
+
+
+    public Goods getGoods() {
+        return goods;
+    }
+
+    public void setGoods(Goods goods) {
+        this.goods = goods;
+    }
+
+    public List<Category> getCategoryList() {
+        return categoryList;
+    }
+
+    public void setCategoryList(List<Category> categoryList) {
+        this.categoryList = categoryList;
+    }
+
+    public String getGid() {
+        return gid;
+    }
+
+    public void setGid(String gid) {
+        this.gid = gid;
+    }
+}

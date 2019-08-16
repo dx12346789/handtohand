@@ -1,0 +1,124 @@
+package com.qst.grade.action;
+
+import com.opensymphony.xwork2.ActionContext;
+import com.qst.grade.po.User;
+import com.qst.grade.service.CartService;
+import net.sf.json.JSONObject;
+import org.apache.struts2.ServletActionContext;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.Map;
+
+@Controller
+public class CartAction {
+
+
+    private final CartService cartService;
+
+    @Autowired
+    public CartAction(CartService cartService) {
+        this.cartService = cartService;
+    }
+
+    private JSONObject data;
+    private String uid;
+    private String result;
+    private String[] gid;
+
+    public String toCart(){
+        Map m = ActionContext.getContext().getSession();
+        User user = (User) m.get("loginUser");
+        if (user == null){
+            return "login";
+        }
+        return "cart";
+    }
+
+    public String getCartInfo(){
+        System.out.println(uid);
+        data = cartService.toCart(uid);
+        return "cart";
+    }
+
+    public String changeShopCartItem(){
+        HttpServletResponse response = ServletActionContext.getResponse();
+        response.setCharacterEncoding("utf-8");
+        response.setContentType("text/html;charset=UTF-8");
+        System.out.println(result);
+        JSONObject jsonObject = JSONObject.fromObject(result);
+        String gid = (String) jsonObject.get("gid");
+        String numStr = (String) jsonObject.get("num");
+        int num = Integer.valueOf(numStr);
+        System.out.println(gid);
+        System.out.println(num);
+        cartService.changeShopCartItem(gid, num);
+        try {
+            response.getWriter().print("success");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public String deleteOrderItem(){
+        HttpServletResponse response = ServletActionContext.getResponse();
+        response.setCharacterEncoding("utf-8");
+        response.setContentType("text/html;charset=UTF-8");
+        System.out.println(result);
+        cartService.deleteOrderItem(result);
+        try {
+            response.getWriter().print("success");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public String toBuyItem(){
+        System.out.println(Arrays.toString(gid));
+        Map m = ActionContext.getContext().getSession();
+        User user = (User) m.get("loginUser");
+        if (user == null){
+            return "tologin";
+        }
+        String uid = user.getUid();
+        data = cartService.toOrder(gid, uid);
+        return "toorder";
+    }
+
+    public JSONObject getData() {
+        return data;
+    }
+
+    public void setData(JSONObject data) {
+        this.data = data;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
+
+    public String getResult() {
+        return result;
+    }
+
+    public void setResult(String result) {
+        this.result = result;
+    }
+
+    public String[] getGid() {
+        return gid;
+    }
+
+    public void setGid(String[] gid) {
+        this.gid = gid;
+    }
+}

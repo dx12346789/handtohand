@@ -1,0 +1,24 @@
+package com.qst.grade.po;
+
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+import javax.persistence.Entity;
+import java.util.Date;
+
+@Getter
+@Setter
+@ToString
+@Entity
+public class User {
+    private String uid;
+    private String name;
+    private String pass;
+    private String nickname;
+    private String mail;
+    private String headImage;
+    private String telphone;
+    private int sex;
+    private Date birthday;
+}

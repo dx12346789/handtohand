@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd">
+
+    <context:property-placeholder ignore-unresolvable="true" location="classpath*:Redis.properties" />
+
+
+
+    <bean id="propertyConfigurerRedis"
+          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="order" value="1" />
+        <property name="ignoreUnresolvablePlaceholders" value="true" />
+        <property name="systemPropertiesMode" value="1" />
+        <property name="searchSystemEnvironment" value="true" />
+        <property name="locations">
+            <list>
+                <value>classpath*:Redis.properties</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="jedisPoolConfig"
+          class="redis.clients.jedis.JedisPoolConfig">
+        <property name="maxIdle" value="${redis.maxIdle}" />
+        <property name="testOnBorrow" value="${redis.testOnBorrow}" />
+        <property name="maxTotal" value="${redis.moveActive}" />
+        <!-- 每次释放的链接数目 -->
+        <property name="numTestsPerEvictionRun" value="1024" />
+        <!-- 释放连接的扫描间隔（毫秒） -->
+        <property name="timeBetweenEvictionRunsMillis" value="3000" />
+        <!-- 最小连接的空闲时间 -->
+        <property name="minEvictableIdleTimeMillis" value="1800000" />
+        <!-- 空闲连接多久后释放 -->
+        <property name="softMinEvictableIdleTimeMillis" value="10000" />
+        <!-- 获取连接时的最大等待毫秒数,小于零:阻塞不确定的时间,默认-1 -->
+        <property name="maxWaitMillis" value="${redis.maxWait}" />
+        <!-- 在获取连接的时候检查有效性, 默认false -->
+        <property name="testWhileIdle" value="true" />
+        <!-- 连接耗尽时是否阻塞，false报异常，true阻塞到超时，默认true -->
+        <property name="blockWhenExhausted" value="false" />
+    </bean>
+
+    <bean id="redisClient"
+            class="redis.clients.jedis.JedisPool">
+        <constructor-arg name="host" value="${redis.host}"/>
+        <constructor-arg name="port" value="${redis.port}"/>
+        <constructor-arg name="password" value="${redis.password}"/>
+        <constructor-arg name="timeout" value="${redis.timeout}"/>
+        <constructor-arg name="database" value="${redis.default.db}"/>
+        <constructor-arg name="poolConfig" ref="jedisPoolConfig"/>
+    </bean>
+
+    <bean id="jedisClientPool" class="com.qst.grade.redis.JedisClientPool" />
+
+    <context:component-scan base-package="com.qst.grade.redis" />
+
+</beans>

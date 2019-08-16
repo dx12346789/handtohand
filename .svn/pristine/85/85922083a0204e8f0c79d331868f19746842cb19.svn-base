@@ -1,0 +1,21 @@
+package com.qst.grade.po;
+
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+import javax.persistence.Entity;
+import java.util.Date;
+
+@Getter
+@Setter
+@ToString
+@Entity
+public class Message {
+    private String mid;
+    private User sender;
+    private User recipient;
+    private Date send_time;
+    //0为未读，1为删除，2为已读
+    private int status;
+}

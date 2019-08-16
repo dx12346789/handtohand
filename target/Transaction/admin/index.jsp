@@ -1,0 +1,257 @@
+<%@ taglib prefix="s" uri="/struts-tags" %>
+<%--
+  Created by IntelliJ IDEA.
+  User: hmxh
+  Date: 2019-08-10
+  Time: 下午 07:20
+  To change this template use File | Settings | File Templates.
+--%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
+<%
+    String path = request.getContextPath();
+    String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
+            + path + "/";
+%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <base href="<%=basePath%>">
+    <title>后台管理</title>
+    <link rel="stylesheet" href="admin/plugins/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="admin/plugins/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="admin/plugins/ionicons/css/ionicons.min.css">
+    <link rel="stylesheet" href="admin/plugins/iCheck/square/blue.css">
+    <link rel="stylesheet" href="admin/plugins/morris/morris.css">
+    <link rel="stylesheet" href="admin/plugins/jvectormap/jquery-jvectormap-1.2.2.css">
+    <link rel="stylesheet" href="admin/plugins/datepicker/datepicker3.css">
+    <link rel="stylesheet" href="admin/plugins/daterangepicker/daterangepicker.css">
+    <link rel="stylesheet" href="admin/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
+    <link rel="stylesheet" href="admin/plugins/datatables/dataTables.bootstrap.css">
+    <link rel="stylesheet" href="admin/plugins/treeTable/jquery.treetable.css">
+    <link rel="stylesheet" href="admin/plugins/treeTable/jquery.treetable.theme.default.css">
+    <link rel="stylesheet" href="admin/plugins/select2/select2.css">
+    <link rel="stylesheet" href="admin/plugins/colorpicker/bootstrap-colorpicker.min.css">
+    <link rel="stylesheet" href="admin/plugins/bootstrap-markdown/css/bootstrap-markdown.min.css">
+    <link rel="stylesheet" href="admin/plugins/adminLTE/css/AdminLTE.css">
+    <link rel="stylesheet" href="admin/plugins/adminLTE/css/skins/_all-skins.min.css">
+    <link rel="stylesheet" href="admin/css/style.css">
+    <link rel="stylesheet" href="admin/plugins/ionslider/ion.rangeSlider.css">
+    <link rel="stylesheet" href="admin/plugins/ionslider/ion.rangeSlider.skinNice.css">
+    <link rel="stylesheet" href="admin/plugins/bootstrap-slider/slider.css">
+    <link rel="stylesheet" href="admin/plugins/bootstrap-datetimepicker/bootstrap-datetimepicker.css">
+</head>
+<body class="hold-transition skin-purple sidebar-mini">
+<script src="jquery-1.11.3/jquery.min.js"></script>
+<div class="wrapper">
+    <!-- 页面头部 -->
+    <header class="main-header">
+        <!-- Logo -->
+        <a href="${pageContext.request.contextPath}/" class="logo">
+            <span class="logo-mini"><b>HandToHand</b></span>
+            <span class="logo-lg"><b>HandToHand</b></span>
+        </a>
+        <!--顶部栏-->
+        <nav class="navbar navbar-static-top">
+            <!-- 左侧菜单收缩按钮-->
+            <a href="javascript:void(0);" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+                <span class="sr-only">Toggle navigation</span>
+            </a>
+            <!--右侧显示-->
+            <div class="navbar-custom-menu">
+                <ul class="nav navbar-nav">
+                    <!-- User Account: style can be found in dropdown.less -->
+                    <li class="dropdown user user-menu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <img src="<s:property value="#session.loginUser.headImage"/>" class="user-image" alt="User Image">
+                            <span class="hidden-xs"><s:property value="#session.loginUser.nickname"/></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <!-- User image -->
+                            <li class="user-header">
+                                <img src="<s:property value="#session.loginUser.headImage"/>" class="img-circle" alt="User Image">
+                                <p>
+                                    <s:property value="#session.loginUser.nickname"/> - 数据管理员
+                                    <%--<small>最后登录 11:20AM</small>--%>
+                                </p>
+                            </li>
+                            <!-- Menu Body-->
+                            <!-- Menu Footer-->
+                            <li class="user-footer">
+                                <div class="pull-left">
+                                    <a href="#" class="btn btn-default btn-flat">修改密码</a>
+                                </div>
+                                <div class="pull-right">
+                                    <a href="exit.action" class="btn btn-default btn-flat">注销</a>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <!-- 页面头部 /-->
+    <!-- 导航侧栏 -->
+    <aside id="test" class="main-sidebar">
+        <!-- 导航侧栏 -->
+        <!-- sidebar: style can be found in sidebar.less -->
+        <section class="sidebar">
+            <!-- 用户信息 -->
+            <div class="user-panel">
+                <div class="pull-left image">
+                    <img src="<s:property value="#session.loginUser.headImage"/>" class="img-circle" alt="User Image">
+                </div>
+                <div class="pull-left info">
+                    <p><s:property value="#session.loginUser.nickname"/></p>
+                    <i class="fa fa-circle text-success"></i> 在线
+                </div>
+            </div>
+            <!-- sidebar menu: : style can be found in sidebar.less -->
+            <ul id="myMenu" class="sidebar-menu">
+                <li class="header">菜单</li>
+            </ul>
+        </section>
+        <!-- /.sidebar -->
+    </aside>
+    <!--  -->
+    <!-- 导航侧栏 /-->
+    <!-- 内容区域 -->
+    <div id="content" class="content-wrapper">
+
+    </div>
+    <!-- 内容区域 /-->
+
+    <!-- 底部导航 -->
+    <footer class="main-footer">
+        <div class="pull-right hidden-xs">
+            <b>Version</b> 1.0.8
+        </div>
+        <strong>Copyright &copy; 2014-2017 <a href="http://www.itcast.cn">研究院研发部</a>.</strong> All rights reserved.
+    </footer>
+    <!-- 底部导航 /-->
+
+</div>
+<script src="admin/plugins/jQuery/jquery-2.2.3.min.js"></script>
+<script src="admin/plugins/jQueryUI/jquery-ui.min.js"></script>
+<script>
+    $.widget.bridge('uibutton', $.ui.button);
+</script>
+<script src="admin/plugins/bootstrap/js/bootstrap.min.js"></script>
+<script src="admin/plugins/raphael/raphael-min.js"></script>
+<script src="admin/plugins/morris/morris.min.js"></script>
+<script src="admin/plugins/sparkline/jquery.sparkline.min.js"></script>
+<script src="admin/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js"></script>
+<script src="admin/plugins/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
+<script src="admin/plugins/knob/jquery.knob.js"></script>
+<script src="admin/plugins/daterangepicker/moment.min.js"></script>
+<script src="admin/plugins/daterangepicker/daterangepicker.js"></script>
+<script src="admin/plugins/daterangepicker/daterangepicker.zh-CN.js"></script>
+<script src="admin/plugins/datepicker/bootstrap-datepicker.js"></script>
+<script src="admin/plugins/datepicker/locales/bootstrap-datepicker.zh-CN.js"></script>
+<script src="admin/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
+<script src="admin/plugins/slimScroll/jquery.slimscroll.min.js"></script>
+<script src="admin/plugins/fastclick/fastclick.js"></script>
+<script src="admin/plugins/iCheck/icheck.min.js"></script>
+<script src="admin/plugins/adminLTE/js/app.min.js"></script>
+<script src="admin/plugins/treeTable/jquery.treetable.js"></script>
+<script src="admin/plugins/select2/select2.full.min.js"></script>
+<script src="admin/plugins/colorpicker/bootstrap-colorpicker.min.js"></script>
+<script src="admin/plugins/bootstrap-wysihtml5/bootstrap-wysihtml5.zh-CN.js"></script>
+<script src="admin/plugins/bootstrap-markdown/js/bootstrap-markdown.js"></script>
+<script src="admin/plugins/bootstrap-markdown/locale/bootstrap-markdown.zh.js"></script>
+<script src="admin/plugins/bootstrap-markdown/js/markdown.js"></script>
+<script src="admin/plugins/bootstrap-markdown/js/to-markdown.js"></script>
+<script src="admin/plugins/ckeditor/ckeditor.js"></script>
+<script src="admin/plugins/input-mask/jquery.inputmask.js"></script>
+<script src="admin/plugins/input-mask/jquery.inputmask.date.extensions.js"></script>
+<script src="admin/plugins/input-mask/jquery.inputmask.extensions.js"></script>
+<script src="admin/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="admin/plugins/datatables/dataTables.bootstrap.min.js"></script>
+<script src="admin/plugins/chartjs/Chart.min.js"></script>
+<script src="admin/plugins/flot/jquery.flot.min.js"></script>
+<script src="admin/plugins/flot/jquery.flot.resize.min.js"></script>
+<script src="admin/plugins/flot/jquery.flot.pie.min.js"></script>
+<script src="admin/plugins/flot/jquery.flot.categories.min.js"></script>
+<script src="admin/plugins/ionslider/ion.rangeSlider.min.js"></script>
+<script src="admin/plugins/bootstrap-slider/bootstrap-slider.js"></script>
+<script src="admin/plugins/bootstrap-datetimepicker/bootstrap-datetimepicker.js"></script>
+<script src="admin/plugins/bootstrap-datetimepicker/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+<script type="text/javascript" src="js/jquery.md5.js"></script>
+<script>
+    $(document).ready(function() {
+        // 选择框
+        $(".select2").select2();
+        // WYSIHTML5编辑器
+        $(".textarea").wysihtml5({
+            locale: 'zh-CN'
+        });
+    });
+    // 设置激活菜单
+    function setSidebarActive(tagUri) {
+        console.log(tagUri);
+        var a = $("#myMenu").find(".active");
+        $.each(a,function(index,item){
+            $(item).removeClass("active");
+        })
+
+        var liObj = $("#" + tagUri);
+        if (liObj.length > 0) {
+            liObj.parent().parent().addClass("active");
+            liObj.addClass("active");
+        }
+    }
+
+    function getHtml(id, address) {
+        console.log(id + "---" + address);
+        // 激活导航位置
+        setSidebarActive(id);
+        $("#content").load(address);
+    }
+    $.getJSON("admin/json/menu.json", function(data) { //each循环 使用$.each方法遍历返回的数据date
+        $.each(data, function(index, item1) {
+            let isChild = false;
+            if (item1.id === "") {
+                isChild = true;
+            }
+            let liTemplemt = "<li ";
+            if (isChild) {
+                liTemplemt += "class=\"treeview\">";
+            } else {
+                liTemplemt += "id=\"" + item1.id + "\" onclick=\"getHtml('" + item1.id + "','" + item1.url + "')\" >";
+            }
+            liTemplemt += "<a href=\"javascript:void(0);\">" +
+                "<i class=\"fa " + item1.img + "\"></i>" +
+                "<span>" + item1.name + "</span>";
+            if (isChild) {
+                liTemplemt += "<span class=\"pull-right-container\">" +
+                    "<i class=\"fa fa-angle-left pull-right\"></i>" +
+                    "</span>";
+            }
+            liTemplemt += "</a>";
+            if (isChild) {
+                liTemplemt += "<ul class=\"treeview-menu\">";
+            }
+            if (item1.treeList.length > 0) {
+                $.each(item1.treeList, function(index, item) {
+                    liTemplemt += "<li id=\"" + item.id + "\" onclick=\"getHtml('" + item.id + "','" + item.url + "')\" >" +
+                        "<a href=\"javascript:void(0);\">" +
+                        "<i class=\"fa " + item.img + "\"></i> " + item.name +
+                        "</a>" +
+                        "</li>";
+                })
+            }
+            if (isChild) {
+                liTemplemt += "</ul>";
+            }
+            liTemplemt += "</li>";
+            $("#myMenu").append(liTemplemt);
+            if(index == 0){
+                getHtml(item1.id,item1.url);
+            }
+        })
+    });
+</script>
+</body>
+
+</html>

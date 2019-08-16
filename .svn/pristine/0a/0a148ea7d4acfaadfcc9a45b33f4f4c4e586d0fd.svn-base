@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="com.qst.grade.po.GoodCategory" table="good_category" schema="hand_to_hand">
+        <id name="id" column="id"/>
+        <property name="cid" column="cid"/>
+        <property name="gid" column="gid"/>
+    </class>
+</hibernate-mapping>

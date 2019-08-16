@@ -1,0 +1,247 @@
+function formatMoney(num) {
+    num = num.toString().replace(/\$|\,/g, '');
+    if (isNaN(num))
+        num = "0";
+    sign = (num == (num = Math.abs(num)));
+    num = Math.floor(num * 100 + 0.50000000001);
+    cents = num % 100;
+    num = Math.floor(num / 100).toString();
+    if (cents < 10)
+        cents = "0" + cents;
+    for (var i = 0; i < Math.floor((num.length - (1 + i)) / 3); i++)
+        num = num.substring(0, num.length - (4 * i + 3)) + ',' +
+            num.substring(num.length - (4 * i + 3));
+    return (((sign) ? '' : '-') + num + '.' + cents);
+}
+
+function checkEmpty(id, name) {
+    var value = $("#" + id).val();
+    if (value.length === 0) {
+
+        $("#" + id)[0].focus();
+        return false;
+    }
+    return true;
+}
+
+$(function () {
+
+    $("a.productDetailTopReviewLink").click(function () {
+        $(".productReviewDiv").show();
+        $(".productDetailDiv").hide();
+    });
+    $("a.productReviewTopPartSelectedLink").click(function () {
+        $(".productReviewDiv").hide();
+        $(".productDetailDiv").show();
+    });
+
+    $(".leaveMessageTextareaSpan").hide();
+    $(".leaveMessageImg").click(function () {
+
+        $(this).hide();
+        $(".leaveMessageTextareaSpan").show();
+        $(".orderItemSumDiv").css("height", "100px");
+    });
+});
+var deleteOrderItem = false;
+var deleteOrderItemid = 0;
+$(function () {
+
+    $("a.deleteOrderItem").click(function () {
+        deleteOrderItem = false;
+        var sid = $(this).attr("sid")
+        deleteOrderItemid = sid;
+        $("#deleteConfirmModal").show();
+    });
+    $(".deleteConfirmButton").click(function () {
+        deleteOrderItem = true;
+        $("#deleteConfirmModal").modal("hide");
+    });
+
+    $('#deleteConfirmModal').on('hidden.bs.modal', function (e) {
+        if (deleteOrderItem) {
+            var page = "foredeleteOrderItem";
+            $.post(
+                page, {
+                    "sid": deleteOrderItemid
+                },
+                function (result) {
+                    if ("success" == result) {
+                        $(".cartProductItemTR[sid=" + deleteOrderItemid + "]").hide();
+                    } else {
+                        location.href = "login.jsp";
+                    }
+                }
+            );
+
+        }
+    })
+
+    $(".cartProductItemIfSelected").on('click', function () {
+        var selectit = $(this).attr("selectit");
+        if ("selectit" === selectit) {
+            $(this).attr("src", "images/cartNotSelected.png");
+            $(this).attr("selectit", "false")
+            $(this).parents(".cartProductItemTR").css("background-color", "#fff");
+        } else {
+            $(this).attr("src", "images/cartSelected.png");
+            $(this).attr("selectit", "selectit")
+            $(this).parents(".cartProductItemTR").css("background-color", "#FFF8E1");
+        }
+        syncSelect();
+        syncCreateOrderButton();
+        calcCartSumPriceAndNumber();
+    });
+    $(".selectAllItem").click(function () {
+        var selectit = $(this).attr("selectit");
+        console.log(selectit);
+        if ("selectit" === selectit) {
+            $(".selectAllItem").attr("src", "images/cartNotSelected.png");
+            $(".selectAllItem").attr("selectit", "false")
+            $(".cartProductItemIfSelected").each(function () {
+                $(this).attr("src", "images/cartNotSelected.png");
+                $(this).attr("selectit", "false");
+                $(this).parents(".cartProductItemTR").css("background-color", "#fff");
+            });
+        } else {
+            $(".selectAllItem").attr("src", "images/cartSelected.png");
+            $(".selectAllItem").attr("selectit", "selectit")
+            $(".cartProductItemIfSelected").each(function () {
+                $(this).attr("src", "images/cartSelected.png");
+                $(this).attr("selectit", "selectit");
+                $(this).parents(".cartProductItemTR").css("background-color", "#FFF8E1");
+            });
+        }
+        syncCreateOrderButton();
+        calcCartSumPriceAndNumber();
+
+    });
+
+    $(".orderItemNumberSetting").keyup(function () {
+        var gid = $(this).attr("gid");
+        var stock = $(".orderItemStock[gid=" + gid + "]").text();
+        var price = $(".orderItemPromotePrice[gid=" + gid + "]").text();
+
+        var num = $(".orderItemNumberSetting[gid=" + gid + "]").val();
+        num = parseInt(num);
+        if (isNaN(num))
+            num = 1;
+        if (num <= 0)
+            num = 1;
+        if (num > stock)
+            num = stock;
+
+        syncPrice(gid, num, price);
+    });
+
+    $(".numberPlus").on('click', function () {
+
+        var gid = $(this).attr("gid");
+        var stock = $(".orderItemStock[gid=" + gid + "]").text();
+        var price = $(".orderItemPromotePrice[gid=" + gid + "]").text();
+        var num = $(".orderItemNumberSetting[gid=" + gid + "]").val();
+
+        num++;
+        if (num > stock)
+            num = stock;
+        syncPrice(gid, num, price);
+    });
+    $(".numberMinus").on('click', function () {
+        var gid = $(this).attr("gid");
+        var stock = $(".orderItemStock[gid=" + gid + "]").text();
+        var price = $(".orderItemPromotePrice[gid=" + gid + "]").text();
+
+        var num = $(".orderItemNumberSetting[gid=" + gid + "]").val();
+        --num;
+        if (num <= 0)
+            num = 1;
+        syncPrice(gid, num, price);
+    });
+
+    $(".createOrderButton").click(function () {
+        var params = "";
+        $(".cartProductItemIfSelected").each(function () {
+            if ("false" == $(this).attr("selectit")) {
+                var sid = $(this).attr("sid");
+                params += "&sid=" + sid;
+            }
+        });
+        params = params.substring(1);
+        location.href = "forebuy?" + params;
+    });
+
+})
+
+function syncCreateOrderButton() {
+    var selectAny = false;
+    $(".cartProductItemIfSelected").each(function () {
+        if ("selectit" === $(this).attr("selectit")) {
+            selectAny = true;
+        }
+    });
+
+    if (selectAny) {
+        $(".createOrderButton").css("background-color", "#C40000");
+        $(".createOrderButton").removeAttr("disabled");
+    } else {
+        $(".createOrderButton").css("background-color", "#AAAAAA");
+        $(".createOrderButton").attr("disabled", "disabled");
+    }
+
+}
+
+function syncSelect() {
+    var selectAll = true;
+    $(".cartProductItemIfSelected").each(function () {
+        if ("false" === $(this).attr("selectit")) {
+            selectAll = false;
+        }
+    });
+
+    if (selectAll)
+        $(".selectAllItem").attr("src", "images/cartSelected.png");
+    else
+        $(".selectAllItem").attr("src", "images/cartNotSelected.png");
+
+}
+
+function calcCartSumPriceAndNumber() {
+    var sum = 0;
+    var totalNumber = 0;
+    $(".cartProductItemIfSelected[selectit='selectit']").each(function () {
+        var sid = $(this).attr("sid");
+        var price = $(".cartProductItemSmallSumPrice[sid=" + sid + "]").text();
+        price = price.replace(/,/g, "");
+        price = price.replace(/￥/g, "");
+        sum += new Number(price);
+
+        var num = $(".orderItemNumberSetting[sid=" + sid + "]").val();
+        totalNumber += new Number(num);
+
+    });
+
+    $(".cartSumPrice").html("￥" + formatMoney(sum));
+    $(".cartTitlePrice").html("￥" + formatMoney(sum));
+    $(".cartSumNumber").html(totalNumber);
+}
+
+function syncPrice(gid, num, price) {
+    $(".orderItemNumberSetting[gid=" + gid + "]").val(num);
+    var cartProductItemSmallSumPrice = formatMoney(num * price);
+    $(".cartProductItemSmallSumPrice[gid=" + gid + "]").html("￥" + cartProductItemSmallSumPrice);
+    calcCartSumPriceAndNumber();
+
+    var page = "forechangeOrderItem";
+    $.post(
+        page, {
+            "gid": gid,
+            "number": num
+        },
+        function (result) {
+            if ("success" != result) {
+                location.href = "login.jsp";
+            }
+        }
+    );
+
+}

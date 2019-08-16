@@ -1,0 +1,22 @@
+var mouseIn = function (obj) {
+    $(obj).find(".type").show();
+    $(obj).find(".shop").show();
+}
+var mouseLeave = function (obj) {
+    $(obj).find(".type").hide();
+    $(obj).find(".shop").hide();
+}
+$(function(){
+    $(".dimmed_goods").click(function(){
+        $(".figure2").show();
+        $(".figure1").hide();
+        $(this).addClass("active");
+        $(this).prev().removeClass("active");
+    });
+    $(".all_goods").click(function(){
+        $(".figure1").show();
+        $(".figure2").hide();
+        $(this).addClass("active");
+        $(this).next().removeClass("active");
+    });
+});

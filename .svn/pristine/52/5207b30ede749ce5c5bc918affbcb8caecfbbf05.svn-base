@@ -1,0 +1,9 @@
+package com.qst.grade.util;
+
+public class UUID {
+    public static String getUUID(int length) {
+        String s = java.util.UUID.randomUUID().toString();
+        s = s.replace("-", "");
+        return s.substring(0, length);
+    }
+}

@@ -1,0 +1,12 @@
+package com.qst.grade.service;
+
+import com.qst.grade.po.Favorite;
+
+import java.util.List;
+
+public interface FavoriteService {
+    public String add(Favorite favorite);
+    public Favorite findByGidUid(String gid,String uid);
+    public int delete(String gid,String Uid);
+    public List<Favorite> findByUid(String uid);
+}

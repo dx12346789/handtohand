@@ -1,0 +1,92 @@
+package com.qst.grade.po;
+
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import java.sql.Timestamp;
+
+@Entity
+public class Notic {
+    private String nid;
+    private String content;
+    private Timestamp createTime;
+    private String uid;
+    private int status;
+
+    @Id
+    @Column(name = "nid")
+    public String getNid() {
+        return nid;
+    }
+
+    public void setNid(String nid) {
+        this.nid = nid;
+    }
+
+    @Basic
+    @Column(name = "content")
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    @Basic
+    @Column(name = "create_time")
+    public Timestamp getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Timestamp createTime) {
+        this.createTime = createTime;
+    }
+
+    @Basic
+    @Column(name = "uid")
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
+
+    @Basic
+    @Column(name = "status")
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Notic notic = (Notic) o;
+
+        if (status != notic.status) return false;
+        if (nid != null ? !nid.equals(notic.nid) : notic.nid != null) return false;
+        if (content != null ? !content.equals(notic.content) : notic.content != null) return false;
+        if (createTime != null ? !createTime.equals(notic.createTime) : notic.createTime != null) return false;
+        if (uid != null ? !uid.equals(notic.uid) : notic.uid != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = nid != null ? nid.hashCode() : 0;
+        result = 31 * result + (content != null ? content.hashCode() : 0);
+        result = 31 * result + (createTime != null ? createTime.hashCode() : 0);
+        result = 31 * result + (uid != null ? uid.hashCode() : 0);
+        result = 31 * result + status;
+        return result;
+    }
+}

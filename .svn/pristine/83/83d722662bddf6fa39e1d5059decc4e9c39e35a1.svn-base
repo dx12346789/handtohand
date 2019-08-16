@@ -1,0 +1,24 @@
+package com.qst.grade.po;
+
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+import javax.persistence.Entity;
+
+@Setter
+@Getter
+@ToString
+@Entity
+public class Address {
+    private String aid;
+    //省 唯一编号
+    private int province;
+    //市 唯一编号
+    private int city;
+    //区，唯一编号
+    private int town;
+    private String detailAddress;
+    private String telphone;
+    private User user;
+}

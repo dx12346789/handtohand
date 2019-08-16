@@ -1,0 +1,58 @@
+package com.qst.grade.po;
+
+import javax.persistence.*;
+
+@Entity
+@Table(name = "`favorite`")
+public class Favorite {
+    private String fid;
+    private String gid;
+
+    @Id
+    @Column(name = "fid")
+    public String getFid() {
+        return fid;
+    }
+
+    public void setFid(String fid) {
+        this.fid = fid;
+    }
+
+    @Basic
+    @Column(name = "gid")
+    public String getGid() {
+        return gid;
+    }
+
+    public void setGid(String gid) {
+        this.gid = gid;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Favorite favorite = (Favorite) o;
+
+        if (fid != null ? !fid.equals(favorite.fid) : favorite.fid != null) return false;
+        if (gid != null ? !gid.equals(favorite.gid) : favorite.gid != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = fid != null ? fid.hashCode() : 0;
+        result = 31 * result + (gid != null ? gid.hashCode() : 0);
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Favorite{" +
+                "fid='" + fid + '\'' +
+                ", gid='" + gid + '\'' +
+                '}';
+    }
+}

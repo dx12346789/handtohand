@@ -1,0 +1,40 @@
+.top {
+	padding-top: 5px;
+	padding-bottom: 5px;
+	border-bottom-style: solid;
+	border-bottom-width: 1px;
+	border-bottom-color: #e7e7e7;
+	background-color: #f2f2f2;
+
+}
+.top_middle{
+	max-width:1024px;
+	margin:0px auto;
+}
+.redColor {
+	color: #C40000;
+}
+.boldWord {
+	font-weight: bold;
+}
+.top span {
+	margin-right: 20px;
+}
+.top span, a {
+	color: #999;
+	margin: 0px 10px 0px 10px;
+}
+.top a:hover {
+	color: #C40000;
+}
+.top .row div {
+	margin: 5px 0px;
+	background-color: lightgray;
+	border: 1px solid gray;
+	text-align: center;
+}
+.simpleSearchOutDiv{
+	max-width:1024px;
+	margin:0px auto;
+	position:relative;
+}

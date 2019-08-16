@@ -1,0 +1,110 @@
+package com.qst.grade.action;
+
+import com.opensymphony.xwork2.ActionContext;
+import com.qst.grade.po.User;
+import com.qst.grade.service.OrderService;
+import net.sf.json.JSONObject;
+import org.apache.struts2.ServletActionContext;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
+
+@Controller
+public class OrderAction {
+
+    private JSONObject data;
+    private String oid;
+    private double totalPrice;
+    private String subject;
+    private String body;
+    private String[] sid;
+    private String[] gid;
+
+    private final OrderService orderService;
+
+    @Autowired
+    public OrderAction(OrderService orderService) {
+        this.orderService = orderService;
+    }
+
+    public String toOrder(){
+        return "order";
+    }
+
+    public String createOrder(){
+        Map m = ActionContext.getContext().getSession();
+        User user = (User) m.get("loginUser");
+        oid = orderService.createOrder(gid, sid, user.getUid(), totalPrice);
+        return "payment";
+    }
+
+    public String payment(){
+        System.out.println(totalPrice);
+        System.out.println(oid);
+        subject = "商品购买";
+        body = "商品描述";
+        System.out.println(subject);
+        System.out.println(body);
+
+        return "topay";
+    }
+
+    public JSONObject getData() {
+        return data;
+    }
+
+    public void setData(JSONObject data) {
+        this.data = data;
+    }
+
+    public String getOid() {
+        return oid;
+    }
+
+    public void setOid(String oid) {
+        this.oid = oid;
+    }
+
+    public double getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(double totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+
+    public String[] getSid() {
+        return sid;
+    }
+
+    public void setSid(String[] sid) {
+        this.sid = sid;
+    }
+
+
+    public String[] getGid() {
+        return gid;
+    }
+
+    public void setGid(String[] gid) {
+        this.gid = gid;
+    }
+
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
+
+    public String getBody() {
+        return body;
+    }
+
+    public void setBody(String body) {
+        this.body = body;
+    }
+}

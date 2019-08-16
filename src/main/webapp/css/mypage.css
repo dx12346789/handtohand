@@ -1,0 +1,321 @@
+h3{
+    color: red !important;
+}
+.agileits_main {
+
+    background: url(../images/b1.jpg);
+    width: 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    height: 200px;
+    text-align: center;
+    color: white;
+    padding: 40px 0;
+}
+.agileits_main span{
+
+    font-size: 45px;
+
+
+}
+
+
+.xian{
+    height: 1px;
+    width: 300px;
+
+    background-color: whitesmoke;
+    margin: 0 auto;
+
+
+}
+
+.calendar{
+    display: table;
+    content: " "
+}
+
+.banner_text_w3layouts p {
+    color: red;
+    font-size:20px;
+    margin: 0.5em;
+    letter-spacing: 2px;
+    text-transform: capitalize;
+    font-weight: 300;
+}
+html {
+    font-size: 10px;
+}
+.callbacks_container {
+    position: relative;
+    float: left;
+    width: 100%;
+    z-index:0;
+}
+.rslides {
+    position: relative;
+    list-style: none;
+    overflow: hidden;
+    width: 100%;
+    color: white;
+    padding: 0;
+}
+.rslides li {
+    -webkit-backface-visibility: hidden;
+    position: absolute;
+    display:none;
+    width: 100%;
+    left: 0;
+    top: 0;
+}
+.rslides li{
+    position: relative;
+    display: block;
+    float: left;
+}
+.rslides img {
+    height: auto;
+    border: 0;
+}
+.callbacks {
+    position: relative;
+    list-style: none;
+    overflow: hidden;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+}
+.callbacks li {
+    position: absolute;
+    width: 100%;
+}
+.callbacks img {
+    position: relative;
+    z-index: 1;
+    height: auto;
+    border: 0;
+}
+.callbacks .caption {
+    display: block;
+    position: absolute;
+    z-index: 2;
+    font-size: 20px;
+    text-shadow: none;
+    color: #fff;
+    left: 0;
+    right: 0;
+    padding: 10px 20px;
+    margin: 0;
+    max-width: none;
+    top: 10%;
+    text-align: center;
+}
+.banner_text_w3layouts h3 {
+    font-size: 30px;
+    color: white;
+
+}
+
+
+.about,.about-skills,.gallery,.about-education,.w3layoutsbooking{padding:3em 0;}
+.about-left {width:100%;}
+.about-left img {
+
+
+}
+.about-right h2 {
+    margin: 1em 0 0;
+}
+.about-right.wthree {
+    padding-left:0em;
+}
+.about{background:#7b7474;height: 800px;}
+.about-right.wthree {
+    padding-left: 3em;
+}
+.about-right h2 {
+    font-size: 2.5em;
+    color: #fff;
+}
+.about-right h2 span {
+    color: #000;
+}
+.about-right h4 {
+    font-size: 1.1em;
+    color: #fff;
+    margin-top: 1em;
+    letter-spacing: 2px;
+}
+ul.address {
+    margin-top: 1.5em;
+    border-top: 1px dashed rgba(96, 125, 139, 0.38);
+    padding-top: 0.5em;
+}
+ul.address li {
+    display: block;
+}
+ul.address li b{
+    letter-spacing: 5px;
+}
+ul.address li ul.agileits-address-text li {
+    display: inline-block;
+    font-size: 1.1em;
+    color: #fff;
+    margin-top: 1.5em;
+    font-weight: 100;
+}
+ul.address li ul.agileits-address-text li:nth-child(1){
+    width: 20%;
+}
+ul.address li ul.agileits-address-text li a {
+    color: #fff;
+    text-decoration:none;
+    letter-spacing: 2px;
+}
+ul.address li ul.agileits-address-text li a:hover{
+    color: #000;
+}
+a.wthree-more {
+    padding: 0 1em;
+    border: 1px solid #fff;
+    font-size: 1em;
+    color: #fff;
+    text-decoration: none;
+    display: inline-block;
+    text-transform: uppercase;
+    vertical-align: middle;
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+    letter-spacing: 1px;
+    z-index:0;
+}
+a.wthree-more.w3more1 {
+    margin-left: 1.5em;
+}
+a.wthree-more > span {
+    display: inline-block;
+    padding: 1em 0;
+    vertical-align: middle;
+    opacity: 0;
+    color: #fff;
+    -webkit-transform: translate3d(0, -10px, 0);
+    -moz-transform: translate3d(0, -10px, 0);
+    -o-transform: translate3d(0, -10px, 0);
+    -ms-transform: translate3d(0, -10px, 0);
+    transform: translate3d(0, -10px, 0);
+    -webkit-transition: -webkit-transform 0.3s, opacity 0.3s;
+    -moz-transition: -moz-transform 0.3s, opacity 0.3s;
+    -o-transition: transform 0.3s, opacity 0.3s;
+    transition: transform 0.3s, opacity 0.3s;
+    -webkit-transition-timing-function: cubic-bezier(0.75, 0, 0.125, 1);
+    transition-timing-function: cubic-bezier(0.75, 0, 0.125, 1);
+}
+a.wthree-more::before {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    padding: 1em 0;
+    -webkit-transition: -webkit-transform 0.3s, opacity 0.3s;
+    -moz-transition: transform 0.3s, opacity 0.3s;
+    -o-transition: transform 0.3s, opacity 0.3s;
+    transition: transform 0.3s, opacity 0.3s;
+    -webkit-transition-timing-function: cubic-bezier(0.75, 0, 0.125, 1);
+    transition-timing-function: cubic-bezier(0.75, 0, 0.125, 1);
+}
+a.wthree-more:hover {
+    background-color: #000;
+}
+a.wthree-more:hover::before {
+    opacity: 0;
+    -webkit-transform: translate3d(0, 100%, 0);
+    -moz-transform: translate3d(0, 100%, 0);
+    -o-transform: translate3d(0, 100%, 0);
+    -ms-transform: translate3d(0, 100%, 0);
+    transform: translate3d(0, 100%, 0);
+}
+a.wthree-more:hover > span {
+    opacity: 1;
+    -webkit-transform: translate3d(0, 0, 0);
+    -moz-transform: translate3d(0, 0, 0);
+    -o-transform: translate3d(0, 0, 0);
+    -ms-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+}
+a.wthree-more:hover > span:nth-child(1) {
+    -webkit-transition-delay: 0.045s;
+    -moz-transition-delay: 0.045s;
+    -o-transition-delay: 0.045s;
+    -ms-transition-delay: 0.045s;
+    transition-delay: 0.045s;
+}
+a.wthree-more:hover > span:nth-child(2) {
+    -webkit-transition-delay: 0.09s;
+    -moz-transition-delay: 0.09s;
+    -o-transition-delay: 0.09s;
+    -ms-transition-delay: 0.09s;
+    transition-delay: 0.09s;
+}
+a.wthree-more:hover > span:nth-child(3) {
+    -webkit-transition-delay: 0.135s;
+    -moz-transition-delay: 0.135s;
+    -o-transition-delay: 0.135s;
+    -moz-transition-delay: 0.135s;
+    transition-delay: 0.135s;
+}
+a.wthree-more:hover > span:nth-child(4) {
+    -webkit-transition-delay: 0.18s;
+    -moz-transition-delay: 0.18s;
+    -o-transition-delay: 0.18s;
+    -ms-transition-delay: 0.18s;
+    transition-delay: 0.18s;
+}
+a.wthree-more:hover > span:nth-child(5) {
+    -webkit-transition-delay: 0.225s;
+    -moz-transition-delay: 0.225s;
+    -o-transition-delay: 0.225s;
+    -ms-transition-delay: 0.225s;
+    transition-delay: 0.225s;
+}
+a.wthree-more:hover > span:nth-child(6) {
+    -webkit-transition-delay: 0.27s;
+    -moz-transition-delay: 0.27s;
+    -o-transition-delay: 0.27s;
+    -ms-transition-delay: 0.27s;
+    transition-delay: 0.27s;
+}
+a.wthree-more:hover > span:nth-child(7) {
+    -webkit-transition-delay: 0.315s;
+    -moz-transition-delay: 0.315s;
+    -o-transition-delay: 0.315s;
+    -ms-transition-delay: 0.315s;
+    transition-delay: 0.315s;
+}
+a.wthree-more:hover > span:nth-child(8) {
+    -webkit-transition-delay: 0.36s;
+    -moz-transition-delay: 0.36s;
+    -o-transition-delay: 0.36s;
+    -ms-transition-delay: 0.36s;
+    transition-delay: 0.36s;
+}
+a.wthree-more:hover > span:nth-child(9) {
+    -webkit-transition-delay: 0.405s;
+    -moz-transition-delay: 0.405s;
+    -o-transition-delay: 0.405s;
+    -ms-transition-delay: 0.405s;
+    transition-delay: 0.405s;
+}
+a.wthree-more:hover > span:nth-child(10) {
+    -webkit-transition-delay: 0.45s;
+    -moz-transition-delay: 0.45s;
+    -o-transition-delay: 0.45s;
+    -ms-transition-delay: 0.45s;
+    transition-delay: 0.45s;
+}
+.hire-w3lgrids {
+    margin-top: 1.5em;
+}

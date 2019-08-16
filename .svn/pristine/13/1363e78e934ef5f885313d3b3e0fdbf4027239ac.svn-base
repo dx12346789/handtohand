@@ -1,0 +1,53 @@
+package com.qst.grade.service.Impl;
+
+import com.qst.grade.dao.UserDao;
+import com.qst.grade.po.User;
+import com.qst.grade.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+
+@Service
+@Transactional
+public class UserServiceImpl implements UserService {
+    private UserDao userDao;
+
+    @Autowired
+    public UserServiceImpl(UserDao userDao) {
+        this.userDao = userDao;
+    }
+
+    @Override
+    public String addUser(User user) {
+        return userDao.addUser(user);
+    }
+
+    @Override
+    public User findByMailAndPass(String mail, String pass) {
+        List<User> users = userDao.findByMailAndPass(mail,pass);
+        for (User user : users){
+            if(user.getStatus() == 0){
+                return user;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public User findByPhoneAndPass(String phone, String pass) {
+        List<User> users = userDao.findByPhoneAndPass(phone,pass);
+        for (User user : users){
+            if(user.getStatus() == 0){
+                return user;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public User findByuId(String uid) {
+        return userDao.findByuId(uid);
+    }
+}

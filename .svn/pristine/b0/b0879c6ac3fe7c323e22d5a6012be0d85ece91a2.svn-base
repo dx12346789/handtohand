@@ -1,0 +1,9 @@
+package com.qst.grade.dao;
+
+import com.qst.grade.po.Category;
+
+import java.util.List;
+
+public interface CategoryDao {
+    public List<Category> findAllCategory();
+}

@@ -1,0 +1,26 @@
+package com.qst.grade.dao.Impl;
+
+import com.qst.grade.dao.AddressDao;
+import com.qst.grade.po.Address;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.springframework.orm.hibernate3.HibernateTemplate;
+import org.springframework.stereotype.Repository;
+
+import javax.annotation.Resource;
+
+@Repository
+public class AddressDaoImpl extends HibernateTemplate implements AddressDao {
+    @Resource(name = "sessionFactory")
+    public void setSessionFactory(SessionFactory sessionFactory){
+        super.setSessionFactory(sessionFactory);
+    }
+    @Override
+    public Address findByUid(String uid) {
+        Session session=super.getSession();
+        Query query=session.createQuery("from Address where uid=?");
+        query.setString(0,uid);
+        return (Address) query.uniqueResult();
+    }
+}

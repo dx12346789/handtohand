@@ -1,0 +1,326 @@
+<%@ taglib prefix="s" uri="/struts-tags" %>
+<%--
+  Created by IntelliJ IDEA.
+  User: hmxh
+  Date: 2019-08-06
+  Time: 下午 07:54
+  To change this template use File | Settings | File Templates.
+--%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
+<%@ taglib prefix="s" uri="/struts-tags" %>
+<%
+    String path = request.getContextPath();
+    String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
+            + path + "/";
+%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <base href="<%=basePath%>">
+    <title>MyPage</title>
+    <!--meta tags -->
+    <meta charset="UTF-8">
+    <!-- Mobile Specific Meta-->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="images/favicon.png"/>
+    <link href="css/mypage.css" rel='stylesheet' type='text/css' media="all">
+    <script src="js/jquery.min.js"></script>
+    <script src="bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/model2.css"/>
+    <link rel="stylesheet" type="text/css" href="font-awesome-4.7.0/css/font-awesome.min.css"/>
+    <link rel="stylesheet" type="text/css" href="bootstrap-3.3.7-dist/css/bootstrap.min.css"/>
+    <script type="text/javascript" src="js/dcalendar.picker.js"></script>
+    <script type="text/javascript" src="js/UserRule.js"></script>
+    <script type="text/javascript" src="js/jquery.md5.js"></script>
+</head>
+<body>
+<div class="agileits_main">
+
+    <span>我的主页</span><br/>
+    <div class="xian">
+
+    </div>
+    <h3>MyPage</h3>
+
+</div>
+<!-- //banner -->
+</div>
+<!-- //header -->
+<!-- about -->
+<div class="about" id="about" style="height: 600px;">
+    <div class="container">
+
+        <div class="about-agileinfo">
+            <div class="col-md-4 col-sm-4 about-left ">
+                <img src="images/bio.jpg" class="img-responsive" alt=""/>
+            </div>
+            <div class="col-md-8 col-sm-8 about-right wthree">
+                <h2> 昵称：<s:property value="user.nickname"/></h2>
+                <ul class="address">
+
+                    <li>
+                        <ul class="agileits-address-text">
+                            <li><b>性别</b></li>
+                            <li>
+                                <s:if test="user.sex == 0">
+                                    女
+                                </s:if>
+                                <s:elseif test="user.sex == 1">
+                                    男
+                                </s:elseif>
+                                <s:else>
+                                    未知
+                                </s:else>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <ul class="agileits-address-text">
+                            <li><b>生日</b></li>
+                            <li><s:date name="user.birthday" format="yyyy-MM-dd"/></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <ul class="agileits-address-text">
+                            <li><b>我的手机</b></li>
+                            <li><s:property value="user.telphone"/></li>
+                            <li><a href="toupdateacount.action?accountType=0">&nbsp;<i class="fa fa-pencil-square-o"
+                                                                                       aria-hidden="true"></i> </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <ul class="agileits-address-text">
+                            <li><b>邮箱</b></li>
+                            <li><a href="mailto:<s:property value='user.mail'/>"> <s:property value="user.mail"/></a>
+                            </li>
+                            <li><a href="toupdateacount.action?accountType=1">&nbsp;<i class="fa fa-pencil-square-o"
+                                                                                       aria-hidden="true"></i> </a>
+                            </li>
+                        </ul>
+                    </li>
+
+
+                    <li>
+                        <ul class="agileits-address-text">
+                            <li><b>我的积分</b></li>
+                            <li><s:property value="user.gold"/></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <ul class="agileits-address-text">
+                            <li><b>收货地址&nbsp;</b></li>
+                            <s:iterator value="addresses" var="address">
+                                <li><s:property value="province"/><s:property value="city"/><s:property
+                                        value="town"/><s:property value="detailAddress"/></li>
+                                <br/>
+                            </s:iterator>
+                        </ul>
+                    </li>
+                    <li>
+                        <ul class="agileits-address-text">
+                            <li><b></b></li>
+                            <li>添加新地址</li>
+                            <li>&nbsp;&nbsp;<a href="toAddress.action"><i
+                                    class="fa fa-plus-square-o " aria-hidden="true"></i></a></li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <div class="hire-w3lgrids">
+                    <s:if test="#session.loginUser.uid == uid">
+                        <input type="hidden" id="uid" value="<s:property value="user.uid"/>">
+                        <a href="javascript:void(0);" class="wthree-more w3more1 nina" data-toggle="modal"
+                           data-target="#myModalPass" data-text="密码">
+                            <span>修改</span>
+                        </a>
+                        <!-- 模态框（Modal） -->
+
+                        <!-- /.modal -->
+                        <script type="text/javascript">
+                            var passOk = false;
+                            $('#myModalPass').on('show.bs.modal', function () {
+                                $("#originalPass").val("");
+                                $("#newPass").val("");
+                                $("#newPass2").val("");
+                                $("#submitPassUid").val($("#uid").val());
+                                /*$("#localSubmit").attr("disabled", "disabled");*/
+                                passOk = false;
+                            });
+                            $("#originalPass").change(function () {
+                                let uId = $("#uid").val();
+                                let pass = $("#originalPass").val();
+                                let data = "{\"uid\":\"" + uId + "\",\"pass\":\"" + pass + "\"}";
+                                console.log(data);
+                                $.ajax({
+                                    url: "checkpass",
+                                    dataType: "json",
+                                    type: "post",
+                                    data: {"uid":uId,"pass": $.md5(pass)},
+                                    success: function (data) {
+                                        data = eval(data);
+                                        console.log(data);
+                                        passOk = "ok" === data.msg;
+                                        if (passOk) {
+                                            $("#errorPass").text("");
+                                        } else {
+                                            $("#errorPass").text("原密码错误");
+                                        }
+                                    }
+                                });
+                            });
+                            $("#passForm").submit(function () {
+                                let pass1 = $("#newPass").val();
+                                let pass2 = $("#newPass2").val();
+                                if(passOk){
+                                    if(isPass(pass1)){
+                                        if(pass1 === pass2){
+                                            $("#newPass").val($.md5(pass1));
+                                            return true;
+                                        }else {
+                                            $("#errorPass").text("两次密码不一致");
+                                        }
+                                    }else {
+                                        $("#errorPass").text("密码由6-8位的字母或数字组成");
+                                    }
+                                }else {
+                                    $("#errorPass").text("原密码错误");
+                                }
+                                return false;
+                            });
+                        </script>
+                        <a href="javascript:void(0);" id="bj" class="wthree-more w3more1 nina" data-text="资料"
+                           data-toggle="modal"
+                           data-target="#baseinformat">
+                            <span>修改</span>
+                        </a>
+                        <form id="passForm" action="updatepass" method="post">
+                            <input type="hidden" id="submitPassUid" name="uid" value="">
+                            <div class="modal fade" id="myModalPass" tabindex="-1" role="dialog"
+                                 aria-labelledby="myModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal"
+                                                    aria-hidden="true">×
+                                            </button>
+                                            <span class="modal-title">
+                                            修改密码
+                                        </span>
+                                        </div>
+                                        <div class="modal-body">
+                                            原密码： <input type="password" value="" id="originalPass"><br/>
+                                            新密码： <input type="password" name="pass" value="" id="newPass"><br/>
+                                            确认密码:<input type="password" value="" id="newPass2"><br/>
+                                        </div>
+                                        <div class="form-group" style="text-align: center;padding: 10px 0;">
+
+                                        </div>
+                                        <div class="modal-footer">
+                                            <span id="errorPass">
+                                                <s:property value="jsonObject.data"/>
+                                            </span>
+                                            <button type="button" class="btn btn-default"
+                                                    data-dismiss="modal">关闭
+                                            </button>
+                                            <button type="submit" class="btn btn-primary">
+                                                修改
+                                            </button>
+                                        </div>
+                                    </div><!-- /.modal-content -->
+                                </div><!-- /.modal-dialog -->
+                            </div>
+                        </form>
+                    </s:if>
+                    <s:else>
+                        <a href="#" class="wthree-more w3more1 nina" data-text="联系Ta">
+                            <span>联系</span>
+                        </a>
+                    </s:else>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- 模态框基本信息修改 -->
+    <div class="modal fade" id="baseinformat" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form action="updateEssentialInformation.action" method="post">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                            &times;
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel">
+                            修改基本信息
+                        </h4>
+                        <%--                    <h5>edit</h5>--%>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" name="uid" value="<s:property value="user.uid"/> ">
+                        <div class="modal-div">
+                            昵称：<input id="localNickName" type="text" name="user.nickname"
+                                      value="<s:property value="user.nickname"/> " class="text-input input-size1"/>
+                            <script type="text/javascript">
+                                $("#localNickName").on("input propertychange", function () {
+                                    let content = $("#localNickName").val();
+                                    if (isNickName(content)) {
+                                        $("#error").text("");
+                                        $("#localSubmit").removeAttr("disabled");
+                                    } else {
+                                        $("#error").text("昵称由4-8位的汉字或字母组成");
+                                        $("#localSubmit").attr("disabled", "disabled");
+                                    }
+                                });
+                            </script>
+                        </div>
+
+                        <div class="modal-div">
+                            生日：<input type="text" name="user.birthday" value="" readonly AUTOCOMPLETE="off"
+                                      class="text-input input-size1" id="mydatepicker1"/>
+                            <script type="text/javascript">
+                                $('#mydatepicker1').dcalendarpicker({
+                                    format: 'yyyy-mm-dd'
+                                });
+                                $(function () {
+                                    $('#mydatepicker1').val("<s:date name="user.birthday" format="yyyy-MM-dd" />");
+                                });
+                            </script>
+                        </div>
+                        <div class="modal-div">
+                            性别：<select name="user.sex" class="select">
+                            <option value="1"
+                                    <s:if test="user.sex == 1">selected="selected"</s:if> >男
+                            </option>
+                            <option value="0" <s:if test="user.sex == 0">selected="selected"</s:if>>女</option>
+                        </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="form-group" style="text-align: center;padding: 10px 0;">
+                            <span id="error">
+                                <s:property value="jsonObject.data"/>
+                            </span>
+                        </div>
+                        <button type="button" class="mod-button btn-cansal" data-dismiss="modal">关闭
+                        </button>
+                        <button id="localSubmit" type="submit" class=" mod-button btn-submit">
+                            确定
+                        </button>
+                    </div>
+                </form>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+    <script type="text/javascript">
+        $('#baseinformat').on('show.bs.modal', function () {
+            $("#localSubmit").attr("disabled", "disabled");
+        });
+    </script>
+    <!-- /拟态框1——基本信息修改 -->
+
+</body>
+</html>

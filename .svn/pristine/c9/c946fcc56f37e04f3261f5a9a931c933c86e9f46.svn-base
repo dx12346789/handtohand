@@ -1,0 +1,106 @@
+package com.qst.grade.action;
+
+import com.qst.grade.po.User;
+import com.qst.grade.service.MessageService;
+import com.qst.grade.service.UserService;
+import net.sf.json.JSONObject;
+import org.springframework.stereotype.Component;
+import org.springframework.web.context.ContextLoader;
+
+import javax.websocket.*;
+import javax.websocket.server.PathParam;
+import javax.websocket.server.ServerEndpoint;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
+@ServerEndpoint("/websocket/{userId}/{destUserId}")
+@Component
+public class WebSocket {
+    private static Integer onlineNum = 0; //当前在线人数，线程安全
+    private static final Map<String, Session> client = new HashMap<String, Session>();//存放每一个客户的webSocket对象
+    private MessageService messageService;
+    private UserService userService;
+    private String userId;
+    private User user;
+
+    /**
+     * 开启连接
+     * @param session 当前连接的session对象
+     * @throws Exception 用户为登录
+     */
+    @OnOpen
+    public void onOpen(@PathParam("userId") String userId, @PathParam("destUserId") String destUserId, Session session){
+        messageService = (MessageService) ContextLoader.getCurrentWebApplicationContext().getBean("messageService");
+        userService = (UserService) ContextLoader.getCurrentWebApplicationContext().getBean("userService");
+        this.userId = userId;
+        System.out.println(userId);
+        user = userService.findByuId(userId);
+        client.put(user.getUid(), session);
+        this.addOnlineNum();
+        System.out.println("有一个新的连接加入，当前连接人数为：" + this.getOnlineNum() + "人");
+        System.out.println("当前连接的用户id为：" + user.getUid() + "，用户昵称为：" + user.getNickname());
+        JSONObject result = messageService.onOpen(userId, destUserId);
+        try {
+            this.onSend(session, result);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @OnClose
+    public void onClose(@PathParam("userId") String userId, @PathParam("destUserId") String destUserId){
+        client.remove(userId);
+        this.subOnlineNum();
+    }
+
+    @OnError
+    public void onError(Throwable throwable){
+        System.out.println("发生异常");
+        throwable.printStackTrace();
+}
+
+    public void onSend(Session session, JSONObject msg) throws IOException {
+        System.out.println("消息发送：" + msg.toString());
+        session.getBasicRemote().sendText(msg.toString());
+    }
+
+    /**
+     *
+     * @param session
+     * @param str json字符串
+     */
+    @OnMessage
+    public void onMessage(Session session, String str){
+        System.out.println("消息监控：消息为\n\n\n\n" + str + "\n\n\n\n");
+        JSONObject jsonObject = JSONObject.fromObject(str);
+        JSONObject message = (JSONObject) jsonObject.get("message");
+        String destId = (String) message.get("destId");
+        String srcId = (String) message.get("srcId");
+        JSONObject msg = messageService.parseMessage(str);
+        Session destSession = client.get(destId);
+        String data = (String) jsonObject.get("data");
+        try {
+            this.onSend(session, msg);
+            if (destSession != null && "sendMessage".equals(data)) {
+                this.onSend(destSession, msg);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+    private void addOnlineNum(){
+        onlineNum++;
+    }
+
+    private void subOnlineNum(){
+        onlineNum--;
+    }
+
+    private Integer getOnlineNum(){
+        return onlineNum;
+    }
+}

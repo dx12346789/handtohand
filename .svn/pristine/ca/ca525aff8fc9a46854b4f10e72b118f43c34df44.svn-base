@@ -1,0 +1,21 @@
+package com.qst.grade.service.Impl;
+
+import com.qst.grade.dao.AddressDao;
+import com.qst.grade.po.Address;
+import com.qst.grade.service.AddressService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
+public class AddressServiceImpl implements AddressService {
+    private AddressDao addressDao;
+    @Autowired
+    public AddressServiceImpl(AddressDao addressDao) {
+        this.addressDao = addressDao;
+    }
+
+    @Override
+    public Address findByUid(String uid) {
+        return addressDao.findByUid(uid);
+    }
+}

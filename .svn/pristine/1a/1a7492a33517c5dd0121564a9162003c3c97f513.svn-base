@@ -1,0 +1,191 @@
+<%--
+  Created by IntelliJ IDEA.
+  User: 陈芬
+  Date: 2019/8/10
+  Time: 19:51
+  To change this template use File | Settings | File Templates.
+--%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<html>
+<head>
+    <title>Title</title>
+    <link  rel="stylesheet" type="text/css" href="css/buy.css">
+    <link rel="shortcut icon" type="image/x-icon" href="images/favicon.png" />
+    <link rel="stylesheet" href="plugins/themefisher-font/style.css">
+    <link rel="stylesheet" type="text/css" href="plugins/slick-carousel/slick/slick.css" />
+    <link rel="stylesheet" type="text/css" href="plugins/slick-carousel/slick/slick-theme.css" />
+    <link rel="stylesheet" type="text/css" href="font-awesome-4.7.0/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="bootstrap-3.3.7-dist/css/bootstrap.min.css" />
+    <script type="text/javascript" src="bootstrap-3.3.7-dist/js/bootstrap.min.js" ></script>
+    <script type="text/javascript" src="jquery-1.11.3/jquery.min.js" ></script>
+    <script src="plugins/slick-carousel/slick/slick.min.js"></script>
+    <script src="js/script.js"></script>
+</head>
+<body>
+<section class="top-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 col-xs-12 col-sm-4">
+                <div class="contact-number">
+                    <i class="tf-ion-ios-telephone"></i>
+                    <span>0129- 12323-1213123</span>
+                </div>
+            </div>
+            <div class="col-md-4 col-xs-12 col-sm-4">
+                <div class="logo text-center">
+                    <a href="index.jsp">
+                        <svg width="320px" height="40px" viewBox="-55 0 320 30" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                             xmlns:xlink="http://www.w3.org/1999/xlink">
+                            <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" font-size="30" font-family="AustinBold, Austin"
+                               font-weight="bold">
+                                <g id="Group" transform="translate(-99.000000, -297.000000)" fill="#000000">
+                                    <text id="AVIATO">
+                                        <tspan x="89.94" y="325">Hand To Hand</tspan>
+                                    </text>
+                                </g>
+                            </g>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<div class="buyPageDiv">
+    <form action="forecreateOrder" method="post">
+        <div class="address">
+            <div class="addressTip">输入收货地址</div>
+            <div>
+                <table class="addressTable">
+                    <tr>
+                        <td class="firstColumn">详细地址<span class="redStar">*</span></td>
+                        <td><textarea name="address" placeholder="建议您如实填写详细收货地址，例如接到名称，门牌好吗，楼层和房间号等信息"></textarea></td>
+                    </tr>
+                    <tr>
+                        <td>收货人姓名<span class="redStar">*</span></td>
+                        <td><input name="receiver" placeholder="长度不超过25个字符" type="text"></td>
+                    </tr>
+                    <tr>
+                        <td>手机号码 <span class="redStar">*</span></td>
+                        <td><input name="mobile" placeholder="请输入11位手机号码" type="text"></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="productList">
+            <div class="productListTip">确认订单信息</div>
+            <table class="productListTable">
+                <thead>
+                <tr>
+                    <th colspan="2" class="productListTableFirstColumn">
+                        <a class="marketLink" href="#nowhere">店铺：天猫店铺</a>
+                        <a class="wangwanglink" href="#nowhere"> <span class="wangwangGif"></span> </a>
+                    </th>
+                    <th>单价</th>
+                    <th>数量</th>
+                    <th>小计</th>
+                    <th>配送方式</th>
+                </tr>
+                <tr class="rowborder">
+                    <td colspan="2"></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                </thead>
+                <tbody class="productListTableTbody">
+                <tr class="orderItemTR">
+                    <td class="orderItemFirstTD"><img class="orderItemImg" src="images/9.jpg"></td>
+                    <td class="orderItemProductInfo">
+                        <a href="foreproduct?pid=258" class="orderItemProductLink">
+                            Haier/海尔 EC5002-D 50升无线遥控电热水器洗澡淋浴乡镇村可达
+                        </a>
+                        <img src="images/creditcard.png" title="支持信用卡支付">
+                        <img src="images/7day.png" title="消费者保障服务,承诺7天退货">
+                        <img src="images/promise.png" title="消费者保障服务,承诺如实描述">
+
+                    </td>
+                    <td>
+                        <span class="orderItemProductPrice">￥1,424.25</span>
+                    </td>
+                    <td>
+                        <span class="orderItemProductNumber">6</span>
+                    </td>
+                    <td><span class="orderItemUnitSum">￥8,545.50</span></td>
+                    <td rowspan="5" class="orderItemLastTD">
+                        <label class="orderItemDeliveryLabel">
+                            <input type="radio" value="" checked="checked">普通配送
+                        </label>
+                        <select class="orderItemDeliverySelect" class="form-control">
+                            <option>快递 免邮费</option>
+                        </select>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="orderItemSumDiv">
+                <div class="pull-left">
+                    <span class="leaveMessageText">给卖家留言:</span>
+                    <textarea name="userMessage" class="leaveMessageTextarea" placeholder="请输入对卖家的留言"></textarea>
+                </div>
+                <span class="pull-right">店铺合计(含运费): ￥8,545.50</span>
+            </div>
+        </div>
+        <div class="orderItemTotalSumDiv">
+            <div class="pull-right">
+                <span>实付款：</span>
+                <span class="orderItemTotalSumSpan">￥8,545.50</span>
+            </div>
+        </div>
+        <div class="submitOrderDiv"><button type="submit" class="submitOrderButton">提交订单</button></div>
+    </form>
+</div>
+<footer class="footer section text-center">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <ul class="social-media">
+                    <li>
+                        <a href="">
+                            <i class="tf-ion-social-facebook"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="">
+                            <i class="tf-ion-social-instagram"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="">
+                            <i class="tf-ion-social-twitter"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="">
+                            <i class="tf-ion-social-pinterest"></i>
+                        </a>
+                    </li>
+                </ul>
+                <ul class="footer-menu">
+                    <li>
+                        <a href="">CONTACT</a>
+                    </li>
+                    <li>
+                        <a href="">SHIPPING</a>
+                    </li>
+                    <li>
+                        <a href="">TERMS OF SERVICE</a>
+                    </li>
+                    <li>
+                        <a href="">PRIVACY POLICY</a>
+                    </li>
+                </ul>
+                <p class="copyright-text">Copyright &copy; 2019.Company name All rights reserved.<a target="_blank" href="http://sc.chinaz.com/moban/">&#x7F51;&#x9875;&#x6A21;&#x677F;</a></p>
+            </div>
+        </div>
+    </div>
+</footer>
+</body>
+</html>

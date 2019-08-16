@@ -1,0 +1,117 @@
+@media only screen and (min-width: 100px) and (max-width: 1024px) {
+	
+}
+.favorite{
+	max-width: 1130px;
+	margin: 3% auto;
+	text-align: center;
+}
+.favorite_title{
+}
+.favorite_title ul{
+	font-size: 15px;
+}
+.favorite figure{
+	border: 1px solid #DDDDDD;
+	padding: 24px;
+	border-radius: 4px;
+	display: inline-block;
+	margin: 2% 5px;
+	width: 200px;
+	text-align: left;
+	position: relative;
+}
+.shop a{
+	color: #FFFFFF;
+}
+.favorite figure img{
+	vertical-align: middle;
+	max-width: 100%;
+	display: block;
+	max-width: 150px;
+	max-height: 150px;
+}
+.favorite figcaption{
+	text-align: left;
+	color: #3c3c3c;
+	line-height: 1.5;
+}
+.favorite .info{
+	padding: 5px auto;
+}
+.favorite .price{
+	color: #f40;
+	font-family: verdana,arial;
+	font-weight: 700;
+}
+.favorite .type{
+	width: 25px;
+	height: 20px;
+	line-height: 20px;
+	font-size: 14px;
+	text-align: center;
+	color: #FFFFFF;
+	background-color:#696969;
+	position: absolute;
+	top: 0px;
+	left: 173px;
+	opacity: 0.9;
+}
+.favorite .shop{
+	width: 80px;
+	height: 30px;
+	line-height: 30px;
+	font-size: 14px;
+	text-align: center;
+	color: #FFFFFF;
+	background-color:#696969;
+	position: absolute;
+	top: 86%;
+	left: 60%;
+	opacity: 0.9;
+}
+.img{
+    height: 150px;
+    width: 150px;
+}
+.all_goods a,.dimmed_goods a{
+	cursor: pointer;
+}
+.management{
+	padding-left: 60%;
+	margin-top:5px;
+	margin-left:25px;
+	color:black;
+}
+.management img{
+	height: 20px;
+	width: 25px;
+	margin-right:-5px;
+	margin-top: -5px;
+}
+.management span{
+	font-weight: 500;
+}
+
+.batchManagement{
+	float: right;
+}
+.selOne{
+	top: 0px;
+	left: 173px;
+	position: absolute;
+}
+.selOne img{
+	height: 20px;
+	width: 29px;
+}
+#productParamterPart-img span{
+	color: #8d8d8d;
+	font-size: 16px;
+	position: absolute;
+	font-weight: 561;
+	top: 550px;
+	right: 235;
+	left:225px;
+}
+

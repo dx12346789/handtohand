@@ -1,0 +1,21 @@
+package com.qst.grade.po;
+
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+import javax.persistence.Entity;
+import java.util.Date;
+
+@Getter
+@Setter
+@ToString
+@Entity
+public class Notic {
+    private String nid;
+    private String content;
+    private Date createTime;
+    private User user;
+    //0为未读，1为删除，2为已读
+    private int status;
+}

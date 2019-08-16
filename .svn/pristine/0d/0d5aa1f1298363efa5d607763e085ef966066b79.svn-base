@@ -1,0 +1,13 @@
+package com.qst.grade.dao.Impl;
+
+import com.qst.grade.dao.UserDao;
+import com.qst.grade.po.User;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public class UserDaoImpl implements UserDao {
+    @Override
+    public Integer addUser(User user) {
+        return null;
+    }
+}

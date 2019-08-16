@@ -1,0 +1,13 @@
+package com.qst.grade.dao;
+
+import com.qst.grade.po.Favorite;
+
+import java.util.List;
+
+public interface FavoriteDao {
+    String add(Favorite favorite);
+    Favorite findByGidUid(String gid,String uid);
+    int delete(String[] gid,String uid);
+    List<Favorite> findByUid(String uid,Integer pageCode,int pageSize);
+    int count(String uid);
+}

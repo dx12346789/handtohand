@@ -1,0 +1,115 @@
+package com.qst.grade.action;
+
+import com.opensymphony.xwork2.ActionContext;
+import com.qst.grade.po.User;
+import com.qst.grade.service.UserService;
+import com.qst.grade.util.UUID;
+import net.sf.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+
+import javax.swing.*;
+import java.util.Map;
+
+@Controller
+public class UserAction {
+    private String uid;
+    private String account;
+    private User user;
+    private UserService userService;
+    private JSONObject jsonObject;
+
+    @Autowired
+    public UserAction(UserService userService) {
+        this.userService = userService;
+    }
+
+    public String toRegister(){
+        return "success";
+    }
+    public String toLogin(){
+        return "success";
+    }
+
+    public String register() {
+        user.setUid("U" + UUID.getUUID(32));
+        user.setNickname("默认用户名");
+        if(account.contains("@")){
+            account = account.toUpperCase();
+            user.setMail(account);
+        }else {
+            user.setTelphone(account);
+        }
+        user.setHeadImage("images/default.jpg");
+        user.setGold(0);
+        user.setSex(0);
+        user.setStatus(0);
+        user.setAuth(0);
+        System.out.println(user);
+        if (userService.addUser(user) != null) {
+            return "success";
+        }
+        jsonObject = new JSONObject();
+        jsonObject.put("status","400");
+        jsonObject.put("msg","ERROR");
+        jsonObject.put("data","注册异常");
+        return "error";
+    }
+
+
+    public String login() {
+        User user1 = null;
+        if(account.contains("@")){
+            user.setMail(account);
+            user1 = userService.findByMailAndPass(user.getMail(),user.getPass());
+        }else {
+            user.setTelphone(account);
+            user1 = userService.findByPhoneAndPass(user.getTelphone(),user.getPass());
+        }
+        System.out.println(user);
+        if (user1 != null) {
+            Map session = ActionContext.getContext().getSession();
+            session.put("loginUser",user1);
+            System.out.println(user1);
+            uid = user1.getUid();
+            return "success";
+        }
+        jsonObject = new JSONObject();
+        jsonObject.put("status","400");
+        jsonObject.put("msg","ERROR");
+        jsonObject.put("data","账号或密码错误");
+        return "error";
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public String getAccount() {
+        return account;
+    }
+
+    public void setAccount(String account) {
+        this.account = account;
+    }
+
+    public JSONObject getJsonObject() {
+        return jsonObject;
+    }
+
+    public void setJsonObject(JSONObject jsonObject) {
+        this.jsonObject = jsonObject;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
+}

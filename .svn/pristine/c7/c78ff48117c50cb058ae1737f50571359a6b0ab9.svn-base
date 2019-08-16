@@ -1,0 +1,78 @@
+package com.qst.grade.po;
+
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
+public class Goods {
+    private String gid;
+    private String name;
+    private String detail;
+    private int status;
+
+    @Id
+    @Column(name = "gid")
+    public String getGid() {
+        return gid;
+    }
+
+    public void setGid(String gid) {
+        this.gid = gid;
+    }
+
+    @Basic
+    @Column(name = "name")
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Basic
+    @Column(name = "detail")
+    public String getDetail() {
+        return detail;
+    }
+
+    public void setDetail(String detail) {
+        this.detail = detail;
+    }
+
+    @Basic
+    @Column(name = "status")
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Goods goods = (Goods) o;
+
+        if (status != goods.status) return false;
+        if (gid != null ? !gid.equals(goods.gid) : goods.gid != null) return false;
+        if (name != null ? !name.equals(goods.name) : goods.name != null) return false;
+        if (detail != null ? !detail.equals(goods.detail) : goods.detail != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = gid != null ? gid.hashCode() : 0;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (detail != null ? detail.hashCode() : 0);
+        result = 31 * result + status;
+        return result;
+    }
+}

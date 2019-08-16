@@ -1,0 +1,31 @@
+package com.qst.grade.dao.Impl;
+
+import com.qst.grade.dao.OrderDetailDao;
+import com.qst.grade.po.OrderDetail;
+import org.hibernate.SessionFactory;
+import org.hibernate.classic.Session;
+import org.springframework.orm.hibernate3.HibernateTemplate;
+import org.springframework.stereotype.Repository;
+
+import javax.annotation.Resource;
+import java.math.BigInteger;
+
+@Repository
+public class OrderDetailDaoImpl  extends HibernateTemplate implements OrderDetailDao {
+
+    @Resource(name = "sessionFactory")
+    public void setSessionFactory(SessionFactory sessionFactory){
+        super.setSessionFactory(sessionFactory);
+    }
+
+    private Session before(){
+        SessionFactory sessionFactory = super.getSessionFactory();
+        assert sessionFactory != null;
+        return sessionFactory.getCurrentSession();
+    }
+
+    @Override
+    public String save(OrderDetail orderDetail) {
+        return (String) super.save(orderDetail);
+    }
+}

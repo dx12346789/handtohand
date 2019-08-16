@@ -1,0 +1,364 @@
+<%--
+  Created by IntelliJ IDEA.
+  User: 糖糖正
+  Date: 2019/8/8
+  Time: 11:49
+  To change this template use File | Settings | File Templates.
+--%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@taglib prefix="s" uri="/struts-tags" %>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>我的发布</title>
+    <!-- Mobile Specific Meta-->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Favicon -->
+    <link rel="stylesheet" type="text/css" href="font-awesome-4.7.0/css/font-awesome.css"/>
+    <link rel="stylesheet" type="text/css" href="bootstrap-3.3.7-dist/css/bootstrap.min.css"/>
+    <script src="jquery-1.11.3/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="https://cdn.staticfile.org/popper.js/1.12.5/umd/popper.min.js"></script>
+    <script type="text/javascript" src="bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+    <script src="jquery-1.11.3/jquery.js"></script>
+
+    <!--主-->
+    <link rel="shortcut icon" type="image/x-icon" href="images/favicon.png" />
+    <link rel="stylesheet" href="plugins/themefisher-font/style.css">
+    <link rel="stylesheet" type="text/css" href="plugins/slick-carousel/slick/slick.css" />
+    <link rel="stylesheet" type="text/css" href="plugins/slick-carousel/slick/slick-theme.css" />
+
+    <link rel="stylesheet" type="text/css" href="css/myIssue.css"/>
+    <!-- Slick Carousel -->
+    <script src="plugins/slick-carousel/slick/slick.min.js"></script>
+    <!-- Main Js File -->
+    <script src="js/script.js"></script>
+</head>
+<body id="body">
+
+<!-- Start Top Header Bar -->
+<section class="top-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 col-xs-12 col-sm-4">
+                <div class="contact-number">
+                    <i class="tf-ion-ios-telephone"></i>
+                    <span>0129- 12323-1213123</span>
+                </div>
+            </div>
+            <div class="col-md-4 col-xs-12 col-sm-4">
+                <!-- Site Logo -->
+                <div class="logo text-center">
+                    <a href="index.jsp">
+                        <!-- replace logo here -->
+                        <svg width="320px" height="40px" viewBox="-55 0 320 30" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                             xmlns:xlink="http://www.w3.org/1999/xlink">
+                            <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" font-size="30" font-family="AustinBold, Austin"
+                               font-weight="bold">
+                                <g id="Group" transform="translate(-99.000000, -297.000000)" fill="#000000">
+                                    <text id="AVIATO">
+                                        <tspan x="89.94" y="325">Hand To Hand</tspan>
+                                    </text>
+                                </g>
+                            </g>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-4 col-xs-12 col-sm-4">
+                <!-- Cart -->
+                <ul class="top-menu text-right list-inline">
+                    <li class="dropdown cart-nav dropdown-slide">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"><i class="tf-ion-android-cart"></i>购物车</a>
+                        <div class="dropdown-menu cart-dropdown">
+                            <!-- Cart Item -->
+                            <div class="media">
+                                <a class="pull-left" href="#">
+                                    <img class="media-object" src="images/shop/cart/cart-1.jpg" alt="image" />
+                                </a>
+                                <div class="media-body">
+                                    <h4 class="media-heading"><a href="">眼镜</a></h4>
+                                    <div class="cart-price">
+                                        <span>1 x</span>
+                                        <span>1250.00</span>
+                                    </div>
+                                    <h5><strong>$1200</strong></h5>
+                                </div>
+                                <a href="#" class="remove"><i class="tf-ion-close"></i></a>
+                            </div><!-- / Cart Item -->
+                            <!-- Cart Item -->
+                            <div class="media">
+                                <a class="pull-left" href="#">
+                                    <img class="media-object" src="images/shop/cart/cart-2.jpg" alt="image" />
+                                </a>
+                                <div class="media-body">
+                                    <h4 class="media-heading"><a href="">短袖</a></h4>
+                                    <div class="cart-price">
+                                        <span>1 x</span>
+                                        <span>1250.00</span>
+                                    </div>
+                                    <h5><strong>$1200</strong></h5>
+                                </div>
+                                <a href="#" class="remove"><i class="tf-ion-close"></i></a>
+                            </div><!-- / Cart Item -->
+
+                            <div class="cart-summary">
+                                <span>总金额</span>
+                                <span class="total-price">$999999</span>
+                            </div>
+                            <ul class="text-center cart-buttons">
+                                <li><a href="" class="btn btn-small">结算</a></li>
+                                <li><a href="" class="btn btn-small btn-solid-border">清空</a></li>
+                            </ul>
+                        </div>
+
+                    </li><!-- / Cart -->
+
+                    <!-- Search -->
+                    <li class="dropdown search dropdown-slide">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"><i class="tf-ion-ios-search-strong"></i>搜索
+                        </a>
+                        <ul class="dropdown-menu search-dropdown">
+                            <li>
+                                <form action="post"><input type="search" class="form-control" placeholder="Search..."></form>
+                            </li>
+                        </ul>
+                    </li><!-- / Search -->
+
+
+
+                </ul><!-- / .nav .navbar-nav .navbar-right -->
+            </div>
+        </div>
+    </div>
+</section><!-- End Top Header Bar -->
+
+<section class="page-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="content">
+                    <h1 class="page-name">我的发布</h1>
+                    <ol class="breadcrumb">
+                        <li><a href="index.jsp">主页</a></li>
+                        <li class="active">我的发布</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="products section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="content">
+                    <ul class="nav nav-tabs">
+                        <li class="active">
+                            <a data-toggle="tab" href="#onShelf">上架中 ${onShelf}</a>
+                        </li>
+                        <li>
+                            <a data-toggle="tab" href="#removeShelf">已下架 ${removeShelf}</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="tab-content">
+                    <div id="onShelf" class="tab-pane fade in active">
+                        <div id="product-div">
+                           <s:iterator value="goodsOnList" var="goods">
+                            <figure>
+                                <img src="${goods.imgPath.split(",")[0]}"/>
+                                <div class="hide-div">
+                                    <figcaption>
+                                        <h5>${goods.name}</h5>
+                                    </figcaption>
+                                    <div>
+                                        <div class="price">
+                                            ￥${goods.price}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="preview-meta">
+                                    <ul>
+                                        <li>
+                                            <a href="#">
+                                                <i class="fa fa-wrench"></i>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a  data-toggle="modal" data-target="#upOrdown${goods.gid}" href="###"><i class="fa fa-level-down"></i></a>
+                                        </li>
+                                        <li>
+                                            <a data-toggle="modal" data-target="#delete${goods.gid}" href="#"><i class="fa fa-trash"></i></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </figure>
+                           </s:iterator>
+                        </div>
+                    </div>
+                    <div id="removeShelf" class="tab-pane fade">
+                        <div id="product-div-2">
+                            <s:iterator value="goodsDownList" var="goods">
+                            <figure>
+                                <img src="${goods.imgPath.split(",")[0]}"/>
+                                <div class="hide-div">
+                                    <figcaption>
+                                        <h5>${goods.name}</h5>
+                                    </figcaption>
+                                    <div>
+                                        <div class="price">
+                                            ￥${goods.price}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="preview-meta">
+                                    <ul>
+                                        <li>
+                                            <a href="#">
+                                                <i class="fa fa-wrench"></i>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a data-toggle="modal" data-target="#upOrdown${goods.gid}" href="###"><i class="fa fa-level-up"></i></a>
+                                        </li>
+                                        <li>
+                                            <a data-toggle="modal" data-target="#delete${goods.gid}" href="#"><i class="fa fa-trash"></i></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </figure>
+                            </s:iterator>
+                        </div>
+                    </div>
+                    <!-- 模态框/ -->
+                    <s:iterator value="goodsList" var="goods">
+                    <%--商品上下架--%>
+                    <div class="modal fade" id="upOrdown${goods.gid}" style="padding-top:180px;">
+                        <div class="modal-dialog modal-sm">
+                            <div class="modal-content">
+                                <!-- 模态框头部 -->
+                                <div class="modal-header">
+                                    <h5 class="modal-title">
+                                        <s:if test="#goods.status==0">
+                                            是否下架此商品
+                                        </s:if>
+                                        <s:elseif test="#goods.status==2">
+                                            是否上架此商品
+                                        </s:elseif>
+                                    </h5>
+                                    <button type="button" class="close" data-dismiss="modal"
+                                            style="width: 10px;height: 20px;position: relative;margin-top: -20px;background-color:white;">
+                                        &times;
+                                    </button>
+                                </div>
+
+                                <!-- 模态框主体 -->
+                                <div class="modal-body" style="text-align: center;">
+                                    <i class="fa fa-crosshairs" style="color: #A94442;"></i>${goods.name}
+                                </div>
+
+                                <!-- 模态框底部 -->
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                                    <div class="conf">
+                                        <a href="delSubject.action">确定</a>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <%-- 商品删除 --%>
+                    <div class="modal fade" id="delete${goods.gid}" style="padding-top:180px;">
+                        <div class="modal-dialog modal-sm">
+                            <div class="modal-content">
+                                <!-- 模态框头部 -->
+                                <div class="modal-header">
+                                    <h5 class="modal-title">
+                                        <s:if test="#goods.status==0">
+                                            是否删除此商品
+                                        </s:if>
+                                        <s:elseif test="#goods.status==2">
+                                            是否彻底删除此商品
+                                        </s:elseif>
+                                    </h5>
+                                    <button type="button" class="close" data-dismiss="modal"
+                                            style="width: 10px;height: 20px;position: relative;margin-top: -20px;background-color:white;">
+                                        &times;
+                                    </button>
+                                </div>
+
+                                <!-- 模态框主体 -->
+                                <div class="modal-body" style="text-align: center;">
+                                    <i class="fa fa-crosshairs" style="color: #A94442;"></i>${goods.name}
+                                </div>
+
+                                <!-- 模态框底部 -->
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                                    <div class="conf">
+                                        <a href="delSubject.action">确定</a>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    </s:iterator>
+                    <!-- 模态框 -->
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer class="footer section text-center">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <ul class="social-media">
+                    <li>
+                        <a href="">
+                            <i class="tf-ion-social-facebook"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="">
+                            <i class="tf-ion-social-instagram"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="">
+                            <i class="tf-ion-social-twitter"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="">
+                            <i class="tf-ion-social-pinterest"></i>
+                        </a>
+                    </li>
+                </ul>
+                <ul class="footer-menu">
+                    <li>
+                        <a href="">CONTACT</a>
+                    </li>
+                    <li>
+                        <a href="">SHIPPING</a>
+                    </li>
+                    <li>
+                        <a href="">TERMS OF SERVICE</a>
+                    </li>
+                    <li>
+                        <a href="">PRIVACY POLICY</a>
+                    </li>
+                </ul>
+                <p class="copyright-text">Copyright &copy; 2019.Company name All rights reserved.<a target="_blank" href="http://sc.chinaz.com/moban/">&#x7F51;&#x9875;&#x6A21;&#x677F;</a></p>
+            </div>
+        </div>
+    </div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+        "http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+    <package name="admin" namespace="/" extends="struts-default,json-default">
+        <action name="toadmin" class="com.qst.grade.action.admin.UserManageAction" method="toAdmin">
+            <result name="success">/admin/index.jsp</result>
+        </action>
+        <action name="toUserManage" class="com.qst.grade.action.admin.UserManageAction" method="toUserManage">
+            <result name="success">/admin/user-manage-list.jsp</result>
+        </action>
+        <action name="toAdminManage" class="com.qst.grade.action.admin.UserManageAction" method="toAdminManage">
+            <result name="success">/admin/admin-manage-list.jsp</result>
+        </action>
+        <action name="freezeuser" class="com.qst.grade.action.admin.UserManageAction" method="freezeUser">
+            <result name="success" type="json">
+                <param name="root">jsonObject</param>
+            </result>
+        </action>
+        <action name="deluser" class="com.qst.grade.action.admin.UserManageAction" method="delUser">
+            <result name="success" type="json">
+                <param name="root">jsonObject</param>
+            </result>
+        </action>
+        <action name="adminUpdatePass" class="com.qst.grade.action.admin.UserManageAction" method="updatePass">
+            <result name="success" type="json">
+                <param name="root">jsonObject</param>
+            </result>
+        </action>
+        <action name="toReport" class="com.qst.grade.action.NoticAction" method="findAll">
+            <result name="success">/admin/message.jsp</result>
+        </action>
+        <action name="delReport" class="com.qst.grade.action.NoticAction" method="delReport">
+            <result name="success" type="json">
+                <param name="root">jsonObject</param>
+            </result>
+        </action>
+        <action name="updateStatus" class="com.qst.grade.action.NoticAction" method="updateStatus">
+            <result name="success" type="json">
+                <param name="root">jsonObject</param>
+            </result>
+        </action>
+    </package>
+</struts>

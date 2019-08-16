@@ -1,0 +1,13 @@
+package com.qst.grade.dao;
+
+import com.qst.grade.po.Category;
+
+import java.util.List;
+
+public interface CategoryDao {
+    public List<Category> findAllCategory();
+    public Category findCategoryByCid(String cid);
+    public void deltype(Category cate);
+    public  String addtype(Category cate);
+    public Category findBytype(String typename);
+}

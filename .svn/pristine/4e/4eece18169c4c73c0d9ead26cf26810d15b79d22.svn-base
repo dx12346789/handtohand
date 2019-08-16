@@ -1,0 +1,36 @@
+#image-div{
+	width: 100px;
+	height: 100px;
+	border: solid 1px cornflowerblue;
+	margin-left: -16px;
+	float: left;
+}
+
+.image-div-input{
+	width: 100px;
+	height: 100px;
+	border:1px solid lightgray;
+	float: left;
+		margin-left: -16px;
+}
+.fa-times {
+	font-size: 15px;
+}
+.panel {
+	height:170px;
+	margin-bottom: 0;
+	margin-top: 10px;
+}
+.panel-heading {
+	text-align: right;
+}
+#image {
+	overflow: hidden;
+}
+.panel-body {
+	/*padding-top: 0px;
+	padding-bottom: 0px;*/
+}
+label {
+	width: 100%;
+}

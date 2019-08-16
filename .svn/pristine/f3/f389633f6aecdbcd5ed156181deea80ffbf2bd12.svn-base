@@ -1,0 +1,119 @@
+<%--
+  Created by IntelliJ IDEA.
+  User: 一别半笙
+  Date: 2019/8/8
+  Time: 12:11
+  To change this template use File | Settings | File Templates.
+--%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<html>
+<head>
+    <title>添加收货地址</title>
+    <link href="bootstrap-3.3.7-dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/chosen.css" rel="stylesheet">
+    <link href="css/address.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="font-awesome-4.7.0/css/font-awesome.min.css" />
+
+</head>
+<body>
+<div class="ibox float-e-margins">
+    <div class="ibox-title">
+        <h2>新增收货地址</h2>
+    </div>
+    <div class="ibox-content">
+        <h3>
+            Address
+        </h3>
+        <!-- 单选 -->
+        <div class="form-group">
+            <label class="font-noraml">收货人</label>
+            <div class="input-group">
+                <input type="text" name="" class="input-size" />
+            </div>
+            <br />
+            <label class="font-noraml">联系方式</label>
+            <div class="input-group">
+                <input type="text" name="" class="input-size"/>
+            </div>
+            <br />
+            <label class="font-noraml">请选择省</label>
+            <div class="input-group">
+                <select data-placeholder="选择省份..." class="chosen-select" style="width:500px;" tabindex="2">
+                    <option value="">请选择省份</option>
+                    <option value="110000" hassubinfo="true">北京</option>
+                    <option value="120000" hassubinfo="true">天津</option>
+                    <option value="130000" hassubinfo="true">河北省</option>
+                    <option value="140000" hassubinfo="true">山西省</option>
+                    <option value="150000" hassubinfo="true">内蒙古自治区</option>
+                    <option value="210000" hassubinfo="true">辽宁省</option>
+                    <option value="220000" hassubinfo="true">吉林省</option>
+                    <option value="230000" hassubinfo="true">黑龙江省</option>
+                    <option value="310000" hassubinfo="true">上海</option>
+                    <option value="320000" hassubinfo="true">江苏省</option>
+                    <option value="330000" hassubinfo="true">浙江省</option>
+                    <option value="340000" hassubinfo="true">安徽省</option>
+                    <option value="350000" hassubinfo="true">福建省</option>
+                    <option value="360000" hassubinfo="true">江西省</option>
+                    <option value="370000" hassubinfo="true">山东省</option>
+                    <option value="410000" hassubinfo="true">河南省</option>
+                    <option value="420000" hassubinfo="true">湖北省</option>
+                    <option value="430000" hassubinfo="true">湖南省</option>
+                    <option value="440000" hassubinfo="true">广东省</option>
+                    <option value="450000" hassubinfo="true">广西壮族自治区</option>
+                    <option value="460000" hassubinfo="true">海南省</option>
+                    <option value="500000" hassubinfo="true">重庆</option>
+                    <option value="510000" hassubinfo="true">四川省</option>
+                    <option value="520000" hassubinfo="true">贵州省</option>
+                    <option value="530000" hassubinfo="true">云南省</option>
+                    <option value="540000" hassubinfo="true">西藏自治区</option>
+                    <option value="610000" hassubinfo="true">陕西省</option>
+                    <option value="620000" hassubinfo="true">甘肃省</option>
+                    <option value="630000" hassubinfo="true">青海省</option>
+                    <option value="640000" hassubinfo="true">宁夏回族自治区</option>
+                    <option value="650000" hassubinfo="true">新疆维吾尔自治区</option>
+                    <option value="710000" hassubinfo="true">台湾省</option>
+                    <option value="810000" hassubinfo="true">香港特别行政区</option>
+                    <option value="820000" hassubinfo="true">澳门特别行政区</option>
+                    <option value="990000" hassubinfo="true">海外</option>
+                </select>
+            </div>
+            <!-- /单选 --><br />
+            <!-- 市 -->
+            <label class="font-noraml">请选择市</label>
+            <div class="input-group">
+                <select data-placeholder="选择市..." class="chosen-select" style="width:500px;" tabindex="2">
+                    <option value="">请选择市</option>
+                    <option value="110000" hassubinfo="true">北京市</option>
+
+                </select>
+            </div>
+            <!-- /市 -->
+            <!-- 区、县 -->
+            <br />
+            <label class="font-noraml">请选择区、县</label>
+            <div class="input-group">
+                <select data-placeholder="选择市..." class="chosen-select" style="width:500px;" tabindex="2">
+                    <option value="">请选择市</option>
+                    <option value="110000" hassubinfo="true">朝阳区</option>
+                </select>
+            </div>
+            <!-- /区 -->
+            <br />
+            <label class="font-noraml">请输入详细地址</label>
+            <div class="input-group">
+                <input type="text" name="" class="input-size"/>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script src="jquery-1.11.3/jquery.min.js"></script>
+<script src="bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+<script src="js/content.js" type="text/javascript" charset="utf-8"></script>
+<!-- Chosen -->
+<script src="js/chosen.jquery.js"></script>
+<script src="js/form-advanced-demo.js"></script>
+</body>
+
+</html>

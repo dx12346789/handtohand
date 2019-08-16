@@ -1,0 +1,12 @@
+package com.qst.grade.dao;
+
+import com.qst.grade.po.User;
+
+public interface UserDao {
+    /**
+     * 添加用户信息
+     * @param user
+     * @return
+     */
+    public Integer addUser(User user);
+}

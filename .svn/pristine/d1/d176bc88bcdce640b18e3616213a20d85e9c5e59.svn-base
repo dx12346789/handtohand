@@ -1,0 +1,11 @@
+package com.qst.grade.dao;
+
+import com.qst.grade.po.Goods;
+
+import java.math.BigDecimal;
+import java.util.List;
+
+public interface SearchDao {
+    public int findCountByNameAndPriceAndCid(String name, BigDecimal price1,BigDecimal price2,String cIds);
+    public List<Goods> findAllByNameAndPriceAndCid(String name, BigDecimal price1,BigDecimal price2,String cIds,int num);
+}

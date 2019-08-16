@@ -1,0 +1,37 @@
+package com.qst.grade.service.Impl;
+
+import com.qst.grade.dao.CommentDao;
+import com.qst.grade.po.Comment;
+import com.qst.grade.service.CommentService;
+import com.qst.grade.util.UUID;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+@Service
+@Transactional
+public class CommentServiceImpl implements CommentService {
+    private final CommentDao commentDao;
+
+    @Autowired
+    public CommentServiceImpl(CommentDao commentDao) {
+        this.commentDao = commentDao;
+    }
+
+    @Override
+    public List<Comment> findByGid(String gid) {
+        return commentDao.findByGid(gid);
+    }
+
+    @Override
+    public String saveComment(Comment comment) {
+        comment.setCommentId("C" + UUID.getUUID(32));
+        return commentDao.savecomment(comment);
+    }
+
+    @Override
+    public Comment findByOid(String oid) {
+        return commentDao.findByOid(oid);
+    }
+}

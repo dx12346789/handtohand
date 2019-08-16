@@ -1,0 +1,18 @@
+package com.qst.grade.po;
+
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+import javax.persistence.Entity;
+
+@Getter
+@Setter
+@ToString
+@Entity
+public class ShopCart {
+    private String sid;
+    private Goods goods;
+    private User user;
+    private int count;
+}

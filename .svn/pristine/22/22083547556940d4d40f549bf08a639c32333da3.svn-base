@@ -1,0 +1,65 @@
+package com.qst.grade.service.Impl;
+
+import com.qst.grade.dao.CategoryDao;
+import com.qst.grade.dao.GoodsDao;
+import com.qst.grade.po.Category;
+import com.qst.grade.service.CategoryService;
+import com.qst.grade.util.UUID;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+
+@Service
+@Transactional
+public class CategoryServiceImpl implements CategoryService {
+
+    private CategoryDao categoryDao;
+    private GoodsDao goodsDao;
+
+
+    @Autowired
+    public CategoryServiceImpl(CategoryDao categoryDao, GoodsDao goodsDao) {
+        this.categoryDao = categoryDao;
+        this.goodsDao = goodsDao;
+    }
+
+    @Override
+    public List<Category> findAllCategory() {
+        List<Category> categories = categoryDao.findAllCategory();
+        return categories;
+    }
+    @Override
+    public Category findCategoryByCid(String cid) {
+        return categoryDao.findCategoryByCid(cid);
+    }
+
+    @Override
+    public void deltype(String cid) {
+        Category cate = new Category();
+        cate.setCid(cid);
+        categoryDao.deltype(cate);
+    }
+
+    @Override
+    public String addtype(String typename) {
+        if (categoryDao.findBytype(typename) == null) {
+            Category cate = new Category();
+            cate.setCid("C" + UUID.getUUID(32));
+            cate.setName(typename);
+            return categoryDao.addtype(cate);
+        }
+        return null;
+    }
+
+    @Override
+    public String existGoods(String cid) {
+        if(goodsDao.findBytypeid(cid)!=null){
+            return "error";
+        }
+        return null;
+    }
+
+
+}

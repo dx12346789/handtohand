@@ -1,0 +1,8 @@
+package com.qst.grade.service;
+
+import com.qst.grade.po.Goods;
+
+public interface GoodsService {
+    public String addGoods(Goods goods);
+    public Goods findGoodsById(String gid);
+}

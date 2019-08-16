@@ -1,0 +1,108 @@
+package com.qst.grade.po;
+
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import java.sql.Timestamp;
+
+@Entity
+public class Order {
+    private String oid;
+    private int count;
+    private double price;
+    private Timestamp createTime;
+    private Timestamp payTime;
+    private int status;
+
+    @Id
+    @Column(name = "oid")
+    public String getOid() {
+        return oid;
+    }
+
+    public void setOid(String oid) {
+        this.oid = oid;
+    }
+
+    @Basic
+    @Column(name = "count")
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
+    }
+
+    @Basic
+    @Column(name = "price")
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    @Basic
+    @Column(name = "create_time")
+    public Timestamp getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Timestamp createTime) {
+        this.createTime = createTime;
+    }
+
+    @Basic
+    @Column(name = "pay_time")
+    public Timestamp getPayTime() {
+        return payTime;
+    }
+
+    public void setPayTime(Timestamp payTime) {
+        this.payTime = payTime;
+    }
+
+    @Basic
+    @Column(name = "status")
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Order order = (Order) o;
+
+        if (count != order.count) return false;
+        if (Double.compare(order.price, price) != 0) return false;
+        if (status != order.status) return false;
+        if (oid != null ? !oid.equals(order.oid) : order.oid != null) return false;
+        if (createTime != null ? !createTime.equals(order.createTime) : order.createTime != null) return false;
+        if (payTime != null ? !payTime.equals(order.payTime) : order.payTime != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result;
+        long temp;
+        result = oid != null ? oid.hashCode() : 0;
+        result = 31 * result + count;
+        temp = Double.doubleToLongBits(price);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        result = 31 * result + (createTime != null ? createTime.hashCode() : 0);
+        result = 31 * result + (payTime != null ? payTime.hashCode() : 0);
+        result = 31 * result + status;
+        return result;
+    }
+}

@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="com.qst.grade.po.User" table="user" schema="hand_to_hand">
+        <id name="uid" column="uid"/>
+        <property name="name" column="name"/>
+        <property name="pass" column="pass"/>
+        <property name="nickname" column="nickname"/>
+        <property name="mail" column="mail"/>
+        <property name="headImage" column="head_image"/>
+        <property name="telphone" column="telphone"/>
+        <property name="sex" column="sex"/>
+        <property name="birthday" column="birthday"/>
+        <property name="gold" column="gold"/>
+        <property name="status" column="status"/>
+        <property name="auth" column="auth"/>
+    </class>
+</hibernate-mapping>

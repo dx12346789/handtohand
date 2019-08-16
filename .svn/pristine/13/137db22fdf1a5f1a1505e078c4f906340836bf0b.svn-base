@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<emails>
+    <email>
+        <!--smtp服务器地址-->
+        <HostName>smtp.qq.com</HostName>
+        <!--传输协议-->
+        <protocol>smtp</protocol>
+        <!--认证方式-->
+        <auth>true</auth>
+        <!--端口-->
+        <port>465</port>
+        <!--控制台是否打印-->
+        <debug>false</debug>
+        <!--ssl认证-->
+        <ssl>true</ssl>
+        <emailName>3298919284@qq.com</emailName>
+        <name>HandToHand</name>
+        <userName>3298919284@qq.com</userName>
+        <password>joroskvuhfpqcjfa</password>
+    </email>
+</emails>

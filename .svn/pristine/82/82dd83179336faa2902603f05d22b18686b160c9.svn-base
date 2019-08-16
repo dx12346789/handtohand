@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+    "-//Hibernate/Hibernate Configuration DTD//EN"
+    "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+  <session-factory>
+    <property name="connection.url">jdbc:mysql://192.144.131.244:3306/hand_to_hand?characterEncoding=UTF-8</property>
+    <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
+    <mapping resource="com/qst/grade/po/Address.hbm.xml"/>
+    <mapping class="com.qst.grade.po.Address"/>
+    <mapping resource="com/qst/grade/po/Category.hbm.xml"/>
+    <mapping class="com.qst.grade.po.Category"/>
+    <mapping resource="com/qst/grade/po/Comment.hbm.xml"/>
+    <mapping class="com.qst.grade.po.Comment"/>
+    <mapping resource="com/qst/grade/po/Favorite.hbm.xml"/>
+    <mapping class="com.qst.grade.po.Favorite"/>
+    <mapping resource="com/qst/grade/po/GoodCategory.hbm.xml"/>
+    <mapping class="com.qst.grade.po.GoodCategory"/>
+    <mapping resource="com/qst/grade/po/Goods.hbm.xml"/>
+    <mapping class="com.qst.grade.po.Goods"/>
+    <mapping resource="com/qst/grade/po/Message.hbm.xml"/>
+    <mapping class="com.qst.grade.po.Message"/>
+    <mapping resource="com/qst/grade/po/Notic.hbm.xml"/>
+    <mapping class="com.qst.grade.po.Notic"/>
+    <mapping resource="com/qst/grade/po/Order.hbm.xml"/>
+    <mapping class="com.qst.grade.po.Order"/>
+    <mapping resource="com/qst/grade/po/OrderDetail.hbm.xml"/>
+    <mapping class="com.qst.grade.po.OrderDetail"/>
+    <mapping resource="com/qst/grade/po/ShopCart.hbm.xml"/>
+    <mapping class="com.qst.grade.po.ShopCart"/>
+    <mapping resource="com/qst/grade/po/User.hbm.xml"/>
+    <mapping class="com.qst.grade.po.User"/>
+    <!-- <property name="connection.username"/> -->
+    <!-- <property name="connection.password"/> -->
+
+    <!-- DB schema will be updated if needed -->
+    <!-- <property name="hibernate.hbm2ddl.auto">update</property> -->
+  </session-factory>
+</hibernate-configuration>

@@ -1,0 +1,79 @@
+<%--
+  Created by IntelliJ IDEA.
+  User: ding xin
+  Date: 2019/8/7
+  Time: 17:14
+  To change this template use File | Settings | File Templates.
+--%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="s" uri="/struts-tags" %>
+<html>
+<head>
+    <title>Title</title>
+    <!-- Mobile Specific Meta-->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="images/favicon.png"/>
+    <script src="jquery-1.11.3/jquery.min.js" charset="UTF-8"></script>
+    <style>
+        .btn--red {
+            border: 0 solid red;
+            background-color: red;
+            color: white;
+            height: 40px;
+            width: 120px;
+        }
+
+        #totalPrice {
+
+            font-size: 16px;
+            color: red;
+        }
+        .input{
+            border: none;
+            outline: none;
+            background-color: #fff;
+        }
+    </style>
+</head>
+<body>
+<form action="createorder" method="get">
+    <s:iterator value="data.data" var="data" status="st">
+        <div>
+            卖家：<span><s:property value="#data.user.nickname"/></span>
+        </div>
+        <div>
+            图片路径：<s:property value="#data.good.imgPath.split(\",\")[0]"/>
+        </div>
+        <div>
+            商品名：<s:property value="#data.good.name"/>
+        </div>
+        <div>
+            数量：<span class="count"><s:property value="#data.cart.count"/></span>
+        </div>
+        <div>
+            小计：<span class="subtotal"><s:property value="#data.cart.count * #data.good.price"/></span>
+        </div>
+        <div>
+            <input hidden="hidden" class="goodsId" name="gid" value="<s:property value="#data.good.gid"/>"/>
+            <input hidden="hidden" class="sartId" name="sid" value="<s:property value="#data.cart.sid"/>"/>
+        </div>
+        <br/>
+    </s:iterator>
+    总计：<input readonly="readonly" value="50" class="input" id="totalPrice" name="totalPrice"><br/>
+    <button id="buyItem" class="btn btn--red" type="submit">提交订单</button>
+</form>
+</body>
+<script type="text/javascript">
+    $(function () {
+        var price = 0;
+        $('.subtotal').each(function () {
+            price += Number($(this).text());
+        });
+        console.log(price);
+        $("#totalPrice").val(price);
+    })
+</script>
+</html>
+
+<%--  商品数量、商品总价格、店家id、商品id  --%>

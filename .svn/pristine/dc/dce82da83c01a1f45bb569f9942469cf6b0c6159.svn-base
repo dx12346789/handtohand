@@ -1,0 +1,54 @@
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-weight: 100;
+}
+
+body{
+	background-color: white;
+}
+.gray-bg {
+    background-color: #f3f3f4;
+}
+.check-button{
+	position: absolute;
+	width: 100px;
+	height: 35px;
+	top: 26px;
+	left: 85%;
+	color: white;
+	background-color: black;
+	  border: 0;
+}
+.check-span{
+	position: relative;
+}
+.wrapper {
+    padding: 0 20px;
+}
+.wrapper-content {
+    padding: 20px;
+}
+.animated.modal.fade .modal-dialog {
+    -webkit-transform: none;
+    -ms-transform: none;
+    transform: none;
+}
+.ibox-content.text-box {
+    padding-bottom: 0px;
+    padding-top: 15px;
+}
+.ibox-content {
+    background-color: #ffffff;
+    color: inherit;
+    padding: 15px 20px 20px 20px;
+    border-color: #e7eaec;
+    -webkit-border-image: none;
+    -o-border-image: none;
+    border-image: none;
+    border-style: solid solid none;
+    border-width: 1px 0px;
+}

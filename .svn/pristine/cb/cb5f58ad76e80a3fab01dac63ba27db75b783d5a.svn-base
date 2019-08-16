@@ -1,0 +1,19 @@
+package com.qst.grade.po;
+
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+import javax.persistence.Entity;
+
+@Getter
+@Setter
+@ToString
+@Entity
+public class Goods {
+    private String gid;
+    private String name;
+    private float price;
+    private int count;
+    private int status;
+}

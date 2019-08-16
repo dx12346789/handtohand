@@ -1,0 +1,68 @@
+<%--
+  Created by IntelliJ IDEA.
+  User: ding xin
+  Date: 2019/8/8
+  Time: 17:56
+  To change this template use File | Settings | File Templates.
+--%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="s" uri="/struts-tags" %>
+<html>
+<head>
+    <title>正在与 聊天</title>
+    <link href="bootstrap-3.3.7-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/chat.css"/>
+    <link rel="stylesheet" type="text/css" href="font-awesome-4.7.0/css/font-awesome.min.css"/>
+    <link rel="stylesheet" type="text/css" href="plugins/style.css"/>
+    <link rel="stylesheet" type="text/css" href="plugins/style.min.css"/>
+    <link rel="stylesheet" type="text/css" href="css/animate.css"/>
+    <script src="jquery-1.11.3/jquery.min.js" charset="UTF-8"></script>
+    <script src="bootstrap-3.3.7-dist/js/bootstrap.min.js" charset="UTF-8"></script>
+    <script src="js/websocket.js" charset="UTF-8"></script>
+    <style>
+        .hidden{
+            display: none!important;
+        }
+    </style>
+</head>
+<body lang="zh">
+<div class="hidden" id="destId"><s:property value="uid"/></div>
+<div class="hidden" id="uid"><s:property value="#session.loginUser.uid"/></div>
+<div class="abs cover contaniner">
+    <div class="abs cover pnl">
+        <div class="top pnl-head"></div>
+        <div class="abs cover pnl-body" id="pnlBody">
+            <div class="abs cover pnl-left">
+                <div class="abs cover pnl-msgs scroll" id="show">
+                    <div class="msg min time" id="histStart">加载历史消息</div>
+                    <div class="pnl-list" id="hists">
+                        <!-- 历史消息 -->
+                    </div>
+                    <div class="pnl-list" id="msgs">
+                    </div>
+
+                </div>
+                <div class="abs bottom pnl-text">
+                    <!-- 图片表情等等 -->
+                    <div class="abs top pnl-warn" id="pnlWarn"></div>
+                    <div class="abs cover pnl-input">
+                        <textarea class="scroll" id="text"wrap="hard"placeholder="在此输入信息..."></textarea>
+                    </div>
+                    <div class="abs br pnl-btn" id="submit" style="background-color: rgb(32, 196, 202); color: rgb(255, 255, 255);" onclick="SendMsg()">发送</div>
+                    <div class="pnl-support" id="copyright"><a href="#">版权什么的</a></div>
+                </div>
+            </div>
+            <div class="abs right pnl-right">
+                <div class="slider-container hide"></div>
+                <div class="pnl-right-content">
+                    <div class="chat=users">
+                        <div class="chat-list">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

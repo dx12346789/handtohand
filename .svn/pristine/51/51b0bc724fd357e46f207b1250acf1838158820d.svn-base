@@ -1,0 +1,21 @@
+package com.qst.grade.po;
+
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+import javax.persistence.Entity;
+import java.util.Date;
+
+@Getter
+@Setter
+@ToString
+@Entity
+public class Order {
+    private String oid;
+    private int count;
+    private float price;
+    private Date createTime;
+    private Date payTime;
+    private int status;
+}

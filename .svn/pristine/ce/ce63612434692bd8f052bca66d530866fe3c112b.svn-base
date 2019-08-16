@@ -1,0 +1,26 @@
+package com.qst.grade.dao;
+
+import com.qst.grade.po.Goods;
+
+public interface GoodsDao {
+
+    /**
+     * 添加商品
+     * **/
+    public String addGoods(Goods goods);
+    /**
+     * 按Gid查找商品
+     */
+
+
+    public Goods findGoodsByGid(String gid);
+
+    /**
+     *
+     * @param 类型Id
+     * @return 返回是否有该类型的商品记录（goods|null）
+     */
+    public Goods findBytypeid(String typeid);
+
+
+}

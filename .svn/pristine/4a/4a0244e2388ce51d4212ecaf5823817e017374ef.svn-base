@@ -1,0 +1,557 @@
+<%--
+  Created by IntelliJ IDEA.
+  User: 陈芬
+  Date: 2019/8/5
+  Time: 9:01
+  To change this template use File | Settings | File Templates.
+--%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
+<%@ taglib prefix="s" uri="/struts-tags" %>
+<html>
+<head>
+    <title>Title</title>
+    <!-- Mobile Specific Meta-->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="images/favicon.png"/>
+    <link rel="stylesheet" href="bootstrap-3.3.7-dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="css/style1.css"/>
+    <link rel="stylesheet" href="css/head.css"/>
+    <link rel="stylesheet" href="css/foot.css"/>
+    <link rel="stylesheet" href="css/cart.css"/>
+    <script type="text/javascript" src="bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="jquery-1.11.3/jquery.min.js"></script>
+<%--    <script type="text/javascript" src="js/cart.js"></script>--%>
+</head>
+<body>
+<nav class="top ">
+    <div class="top_middle">
+        <a href="${pageContext.request.contextPath}/">
+            <span style="color:#C40000;margin:0px" class=" glyphicon glyphicon-home redColor"></span> HandToHand
+        </a>
+        <span>嗨，欢迎来到HandToHand</span>
+        <s:if test="#session.loginUser ==  null">
+        <a href="tologin.action">请登录</a>
+        <a href="toregister.action">免费注册</a>
+        </s:if>
+        <s:if test="#session.loginUser !=  null">
+            <a href="#"><s:property value="#session.loginUser.nickname" /></a>
+            <a href="logout.action">退出</a>
+        </s:if>
+        <span class="pull-right">
+<%--			        <a href="forebought">我的淘宝</a>--%>
+                     <a href="#">我的订单</a>
+			        <a href="#">
+			            <span style="color:#C40000;margin:0px"
+                              class=" glyphicon glyphicon-shopping-cart redColor"></span> 购物车
+				<strong>0</strong>件
+				</a>
+				<a href="forebought"><i class="fa fa-star-o" aria-hidden="true"></i>我的收藏</a>
+				</span>
+    </div>
+</nav>
+<div class="simpleSearchOutDiv"></div>
+<div class="cartDiv">
+    <div class="cartTitle">
+        <span class="cartTitleName"><b>全部商品<s:property value="data.data.goodsNumber" /> </b> |
+            <b>失效商品<s:property value="data.data.invalidNumber" /></b></span>
+        <div class="pull-right">
+            <span>已选商品  (不含运费)</span>
+            <span class="cartTitlePrice">￥0.00</span>
+            <button class="createOrderButton" disabled="disabled">结 算</button>
+        </div>
+        <hr/>
+    </div>
+    <div class="cartProductList">
+        <table class="cartProductTable">
+            <thead>
+            <tr>
+                <th class="selectAndImage">
+                    <img selectit="false" class="selectAllItem" src="images/cartNotSelected.png"> 全选
+                </th>
+                <th>商品信息</th>
+                <th>单价</th>
+                <th>数量</th>
+                <th width="120px">金额</th>
+                <th class="operation">操作</th>
+            </tr>
+            </thead>
+            <tbody>
+<%--            <tr class="cartSellerNameTR" style="border: 0px;">--%>
+<%--                <td colspan="6">--%>
+<%--                    <img selectit="false" class="cartSellerNameTR" src="images/cartNotSelected.png">--%>
+<%--                    <a style="color: black;"><i class="fa fa-shopping-bag" aria-hidden="true"></i>店铺：艺淑旗舰店--%>
+<%--                        <img src="images/wangwang.png"/></a>--%>
+<%--                </td>--%>
+<%--            </tr>--%>
+<%--            <tr sid="16545" class="cartProductItemTR">--%>
+<%--                <td>--%>
+<%--                    <img selectit="false" sid="16545" class="cartProductItemIfSelected" src="images/cartNotSelected.png">--%>
+<%--                    <a style="display:none" href="#nowhere"><img src="images/cartSelected.png"></a>--%>
+<%--                    <img class="cartProductImg" src="images/productSingle_middle/2493.jpg">--%>
+<%--                </td>--%>
+<%--                <td>--%>
+<%--                    <div class="cartProductLinkOutDiv">--%>
+<%--                        <a href="foreproduct?gid=258" class="cartProductLink">Haier/海尔 EC5002-D 50升无线遥控电热水器洗澡淋浴乡镇村可达</a>--%>
+<%--                        <div class="cartProductLinkInnerDiv">--%>
+<%--                            <img src="images/creditcard.png" title="支持信用卡支付">--%>
+<%--                            <img src="images/7day.png" title="消费者保障服务,承诺7天退货">--%>
+<%--                            <img src="images/promise.png" title="消费者保障服务,承诺如实描述">--%>
+<%--                        </div>--%>
+<%--                    </div>--%>
+<%--                </td>--%>
+<%--                <td>--%>
+<%--                    <span class="cartProductItemOringalPrice">￥1899.0</span>--%>
+<%--                    <span class="cartProductItemPromotionPrice">￥1424.25</span>--%>
+<%--                </td>--%>
+<%--                <td>--%>
+<%--                    <div class="cartProductChangeNumberDiv">--%>
+<%--                        <span class="hidden orderItemStock " gid="258">78</span>--%>
+<%--                        <span class="hidden orderItemPromotePrice " gid="258">1424.25</span>--%>
+<%--                        <a gid="258" class="numberMinus" href="#nowhere">-</a>--%>
+<%--                        <input gid="258" sid="16545" class="orderItemNumberSetting" autocomplete="off" value="1">--%>
+<%--                        <a stock="78" gid="258" class="numberPlus" href="#nowhere">+</a>--%>
+<%--                    </div>--%>
+<%--                </td>--%>
+<%--                <td>--%>
+<%--                    <span class="cartProductItemSmallSumPrice" sid="16545" gid="258">￥1,424.25</span>--%>
+<%--                </td>--%>
+<%--                <td>--%>
+<%--                    <a class="deleteOrderItem" sid="16545" href="#nowhere">删除</a>--%>
+<%--                </td>--%>
+<%--            </tr>--%>
+<%--            <tr class="cartSellerNameTR" style="border: 0px;">--%>
+<%--                <td colspan="6">--%>
+<%--                    <img selectit="false" class="cartSellerNameTR" src="images/cartNotSelected.png">--%>
+<%--                    <a style="color: black;"><i class="fa fa-shopping-bag" aria-hidden="true"></i>店铺：艺淑旗舰店--%>
+<%--                        <img src="images/wangwang.png"/></a>--%>
+<%--                </td>--%>
+<%--            </tr>--%>
+<%--            <tr sid="16544" class="cartProductItemTR">--%>
+<%--                <td>--%>
+<%--                    <img selectit="false" sid="16544" class="cartProductItemIfSelected" src="images/cartNotSelected.png">--%>
+<%--                    <a style="display:none" href="#nowhere"><img src="images/cartSelected.png"></a>--%>
+<%--                    <img class="cartProductImg" src="images/productSingle_middle/3533.jpg">--%>
+<%--                </td>--%>
+<%--                <td>--%>
+<%--                    <div class="cartProductLinkOutDiv">--%>
+<%--                        <a href="foreproduct?gid=353" class="cartProductLink">科沃斯地宝扫地机器人家用智能擦窗机器人玻璃双星拍档朵朵&amp;窗宝</a>--%>
+<%--                        <div class="cartProductLinkInnerDiv">--%>
+<%--                            <img src="images/creditcard.png" title="支持信用卡支付">--%>
+<%--                            <img src="images/7day.png" title="消费者保障服务,承诺7天退货">--%>
+<%--                            <img src="images/promise.png" title="消费者保障服务,承诺如实描述">--%>
+<%--                        </div>--%>
+<%--                    </div>--%>
+<%--                </td>--%>
+<%--                <td>--%>
+<%--                    <span class="cartProductItemOringalPrice">￥10660.0</span>--%>
+<%--                    <span class="cartProductItemPromotionPrice">￥9061.0</span>--%>
+<%--                </td>--%>
+<%--                <td>--%>
+<%--                    <div class="cartProductChangeNumberDiv">--%>
+<%--                        <span class="hidden orderItemStock " gid="353">70</span>--%>
+<%--                        <span class="hidden orderItemPromotePrice " gid="353">9061.0</span>--%>
+<%--                        <a gid="353" class="numberMinus" href="#nowhere">-</a>--%>
+<%--                        <input gid="353" sid="16544" class="orderItemNumberSetting" autocomplete="off" value="1">--%>
+<%--                        <a stock="70" gid="353" class="numberPlus" href="#nowhere">+</a>--%>
+<%--                    </div>--%>
+<%--                </td>--%>
+<%--                <td>--%>
+<%--                    <span class="cartProductItemSmallSumPrice" sid="16544" gid="353">￥9,061.00</span>--%>
+<%--                </td>--%>
+<%--                <td>--%>
+<%--                    <a class="deleteOrderItem" sid="16544" href="#nowhere">删除</a>--%>
+<%--                </td>--%>
+<%--            </tr>--%>
+            </tbody>
+        </table>
+    </div>
+    <div class="cartFoot">
+        <img selectit="false" class="selectAllItem" src="images/cartNotSelected.png">
+        <span>全选</span>
+        <a href="javascript:void(0);" onclick="deleteSelectItem();">删除</a>
+        <a href="javascript:void(0);" onclick="clearGoods();">清除失效宝贝</a>
+        <a href="#">移入收藏夹</a>
+        <div class="pull-right">
+            <span>已选商品 <span class="cartSumNumber">0</span> 件</span>
+            <span>合计 (不含运费): </span>
+            <span class="cartSumPrice">￥0.00</span>
+            <button class="createOrderButton" disabled="disabled">结 算</button>
+        </div>
+    </div>
+    <div class="modal" id="deleteConfirmModal" tabindex="-1" role="dialog" style="display: none">
+        <div class="modal-dialog deleteConfirmModalDiv">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button data-dismiss="modal" class="close" type="button"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title">确认删除？</h4>
+                </div>
+                <div class="modal-footer">
+                    <button data-dismiss="modal" class="btn btn-default" type="button">关闭</button>
+                    <button class="btn btn-primary deleteConfirmButton" id="submit" type="button">确认</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script type="text/javascript">
+    $(function () {
+        var data = {"uid":"<s:property value="#session.loginUser.uid" />"};
+       $.ajax({
+           url:'getCartInfo.action',
+           type:'post',
+           dataType: 'json',
+           data: data,
+           success:function (result) {
+               console.log(result.data);
+               if (result.status === "200") {
+                   var goodsNumber = result.data.goodsNumber;
+                   var invalidNumber = result.data.invalidNumber;
+                   var title = $('.cartTitleName:eq(0)');
+                   var html = "<b>全部商品" + goodsNumber + "</b>|<b>失效商品" + invalidNumber + "</b>";
+                   title.html(html);
+                   number = result.data.goods.length;
+                   for (good of result.data.goods) {
+                       var tbody = $('tbody');
+                       var tr = "<tr class=\"cartSellerNameTR\" selectit=\"false\" style=\"border: 0px;\">" +
+                           "<td colspan=\"6\"><img selectit=\"false\"class=\"cartSellerNameTR\"" +
+                           "src=\"images/cartNotSelected.png\" onclick='sellerNameTRClick(this);'><a style=\"color: black;\">" +
+                           "<i class=\"fa fa-shopping-bag\" aria-hidden=\"true\"></i>卖家：" + good.seller + "<img src=" +
+                           "\"images/wangwang.png\"/></a></td></tr>";
+                       tbody.append(tr);
+                       console.log(tr);
+                       var imgPath = good.imgPath.split(",");
+                       tr = "<tr sid=\"" + good.sid + "\" class=\"cartProductItemTR\" status=\"" + good.status + "\"><td>" +
+                           "<img selectit=\"false\"sid=\"" + good.sid + "\" class=\"cartProductItemIfSelected\"" +
+                           "src=\"images/cartNotSelected.png\"onclick='goodsTRClick(this)'>" + "<a style=\"display:none\" " +
+                           "href=\"#nowhere\"><img src=\"images/cartSelected.png\"></a>" + "<img class=\"cartProductImg\" src=\"" +
+                           imgPath[0] + "\" /></td><td><div class=\"cartProductLinkOutDiv\"><a href=\"toGoods?gid=" +
+                           good.gid + "\" class=\"cartProductLink\">" + good.name + "</a><div class=\"" +
+                           "cartProductLinkInnerDiv\"><img src=\"images/creditcard.png\" title=\"支持信用卡支付\">\<" +
+                           "img src=\"images/7day.png\" title=\"消费者保障服务,承诺7天退货\"><img src=\"" +
+                           "images/promise.png\" title=\"消费者保障服务,承诺如实描述\"></div></div></td><td>" +
+                           "<span class=\"cartProductItemPromotionPrice\">￥" + good.price + "</span></td>" +
+                           "<td><div class=\"cartProductChangeNumberDiv\"><span class=\"hidden orderItemStock \" " +
+                           "gid=\"" + good.gid + "\">" + good.stock + "</span><span class=\"hidden orderItemPromotePrice" +
+                           " \" gid=\"" + good.gid + "\">" + good.price + "</span><a gid=\"" + good.gid + "\" class=\"" +
+                           "numberMinus\" href=\"#nowhere\" onclick='numSub(this)'>-</a><input gid=\"" + good.gid + "\" " +
+                           "sid=\"" + good.sid + "\"class=\"orderItemNumberSetting\" autocomplete=\"off\" value=\"" + good.count + "\" " +
+                           "onblur='changeNumber(this)'><a stock=\"" + good.stock + "\"gid=\"" + good.gid + "\" " +
+                           "class=\"numberPlus\" href=\"#nowhere\"onclick='numPlus(this)'>+</a></div></td><td><span " +
+                           "class=\"cartProductItemSmallSumPrice\" gid=\"" + good.gid + "\" sid=\"" + good.sid + "\">￥" +
+                           formatMoney(good.price * good.count) + "</span></td><td><a class=\"deleteOrderItem\" sid=\"" + good.sid + "\" " +
+                           "href=\"#nowhere\" onclick='deleteItem(this)'>删除</a></td></tr>";
+                       tbody.append(tr);
+                       console.log(tr);
+                   }
+               }
+
+           }
+
+       });
+    });
+</script>
+
+<script type="text/javascript">
+    var isClick = true;
+    var number = 0;
+    var selectNumber = 0;
+    var allMoney = 0;
+
+    function setClickStyle(param) {
+        if (param.obj !== undefined) {
+            $(param.obj).css('background', param.color);
+            $(param.obj).attr('selectit', param.selectit);
+        }
+        if (param.img !== undefined) {
+            $(param.img).attr('src', param.imgPath);
+            $(param.img).attr('selectit', param.selectit);
+        }
+    }
+
+    function asyncSelect(){
+        var param;
+        if (selectNumber === number) {
+            param = {"img":".selectAllItem","selectit":"selectit","imgPath":"images/cartSelected.png"};
+        } else {
+            param = {"img":".selectAllItem","false":"false","imgPath":"images/cartNotSelected.png"};
+        }
+        console.log(param);
+        setClickStyle(param);
+    }
+
+    var sellerNameTRClick = function(obj){
+        var param;
+        var parent = $(obj).parents('.cartSellerNameTR')[0];
+        if ('false' === $(obj).attr('selectit')){
+            selectNumber++;
+            param = {"obj":parent,"selectit":"selectit","color":"#FFF8E1","img":obj,"imgPath":"images/cartSelected.png"};
+            setClickStyle(param);
+        } else {
+            selectNumber--;
+            param = {"obj":parent,"selectit":"false","color":"#fff","img":obj,"imgPath":"images/cartNotSelected.png"};
+            setClickStyle(param);
+        }
+        param.obj = $(parent).next('.cartProductItemTR')[0];
+        param.img = $(param.obj).find('img.cartProductItemIfSelected')[0];
+        setClickStyle(param);
+        $('.cartSumNumber:eq(0)').text(selectNumber);
+        asyncSelect();
+        calcAllMoney();
+    };
+
+    var goodsTRClick = function (obj) {
+        var param;
+        var img = $(obj);
+        var parent = img.parents(".cartProductItemTR")[0];
+        if ('false' === img.attr('selectit')) {
+            selectNumber++;
+            param = {"obj":parent,"selectit":"selectit","color":"#FFF8E1","img":obj,"imgPath":"images/cartSelected.png"};
+            setClickStyle(param);
+        } else {
+            selectNumber--;
+            param = {"obj":parent,"selectit":"false","color":"#fff","img":obj,"imgPath":"images/cartNotSelected.png"};
+            setClickStyle(param);
+        }
+        param.obj = $(parent).prev('.cartSellerNameTR')[0];
+        param.img = $(param.obj).find('img.cartSellerNameTR');
+        setClickStyle(param);
+        $('.cartSumNumber:eq(0)').text(selectNumber);
+        asyncSelect();
+        calcAllMoney();
+    };
+
+    $('.selectAllItem').click(function () {
+        var selectit = $(this).attr("selectit");
+        var param;
+        $('.cartSellerNameTR').each(function(){
+            if ("false" === selectit) {
+                param = {"obj":$(this).parents(".cartSellerNameTR"),"img":this,"imgPath":"images/cartSelected.png","selectit":"selectit","color":"#FFF8E1"};
+            } else {
+                param = {"obj":$(this).parents(".cartSellerNameTR"),"img":this,"imgPath":"images/cartNotSelected.png","selectit":"false","color":"#fff"};
+            }
+            setClickStyle(param);
+        });
+        $('.cartProductItemIfSelected').each(function(){
+            if ("false" === selectit) {
+                param = {"obj":$(this).parents(".cartProductItemTR"),"img":this,"imgPath":"images/cartSelected.png","selectit":"selectit","color":"#FFF8E1"};
+            } else {
+                param = {"obj":$(this).parents(".cartProductItemTR"),"img":this,"imgPath":"images/cartNotSelected.png","selectit":"false","color":"#fff"};
+            }
+            setClickStyle(param);
+        });
+        if ('false' === selectit) {
+            param = {"img":$('.selectAllItem'),"selectit":"selectit","imgPath":"images/cartSelected.png"};
+            setClickStyle(param);
+            selectNumber = number;
+        } else {
+            param = {"img":$('.selectAllItem'),"selectit":"false","imgPath":"images/cartNotSelected.png"};
+            setClickStyle(param);
+            selectNumber = 0;
+        }
+        $('.cartSumNumber:eq(0)').text(selectNumber);
+        calcAllMoney();
+    });
+
+    function formatMoney(num) {
+        num = num.toString().replace(/\$|\,/g, '');
+        console.log("转换格式后的num为：" + num);
+        if (isNaN(num))
+            num = "0";
+        console.log("当前num的格式为" + typeof num);
+        num = Number(num);
+        sign = (num === (num = Math.abs(num)));
+        num = Math.floor(num * 100 + 0.50000000001);
+        console.log("乘100再四省五入后的num" + num);
+        cents = num % 100;
+        num = Math.floor(num / 100).toString();
+        console.log("除100再四省五入后的num" + num);
+        if (cents < 10)
+            cents = "0" + cents;
+        for (var i = 0; i < Math.floor((num.length - (1 + i)) / 3); i++)
+            num = num.substring(0, num.length - (4 * i + 3)) + ',' +
+                num.substring(num.length - (4 * i + 3));
+        console.log("一顿操作后的num为" + num);
+        console.log("sign为" + sign);
+        return (((sign) ? '' : '-') + num + '.' + cents);
+    }
+
+    function calcAllMoney(){
+        allMoney = 0;
+        $('.cartProductItemTR').each(function () {
+           if ("selectit" === $(this).attr('selectit')) {
+               var sid = $(this).attr("sid");
+               var price = $(".cartProductItemSmallSumPrice[sid=" + sid + "]").text();
+               price = price.replace(/,/g, "");
+               price = price.replace(/￥/g, "");
+               allMoney += new Number(price);
+           }
+        });
+        allMoney = formatMoney(allMoney);
+        $('.cartSumPrice').text('￥' + allMoney);
+        $('.cartTitlePrice').text('￥' + allMoney);
+        var button = $('.createOrderButton');
+        if (0 !== selectNumber) {
+            button.attr('disabled',false);
+            button.attr('style','background-color:red;border:0px solid red');
+        }else {
+            button.attr('disabled',true);
+            button.attr('style','background-color:#AAAAAA;border:0px solid #AAAAAA');
+        }
+    }
+    var numSub = function (obj) {
+       var gid = $(obj).attr('gid');
+       var stock = $('.orderItemStock[gid=' + gid + ']').text();
+       var price = $('.orderItemPromotePrice[gid=' + gid + ']').text();
+       var num = $('.orderItemNumberSetting[gid=' + gid + ']').val();
+
+       --num;
+       if (num <= 0) {
+           num = 1;
+       }
+        syncPrice(gid, num, price);
+    };
+
+    var numPlus = function(obj) {
+        var gid = $(obj).attr('gid');
+        var stock = $('.orderItemStock[gid=' + gid + ']').text();
+        var price = $('.orderItemPromotePrice[gid=' + gid + ']').text();
+        var num = $('.orderItemNumberSetting[gid=' + gid + ']').val();
+
+        ++num;
+        if (num > stock) {
+            num = stock;
+        }
+        syncPrice(gid, num, price);
+    };
+
+    function syncPrice(gid, num, price) {
+        $('.orderItemNumberSetting[gid=' + gid + ']').val(num);
+        var cartProductItemSmallSumPrice = formatMoney(num * price);
+        $(".cartProductItemSmallSumPrice[gid=" + gid + "]").html("￥" + cartProductItemSmallSumPrice);
+        calcAllMoney();
+
+        var page = "changeShopCartItem";
+        var result = "{\"gid\":\"" + gid + "\",\"num\":\"" + num + "\"}";
+        $.ajax({
+            url: page,
+            type: 'post',
+            data: {"result":result},
+            success: function (result) {
+                if ('success' !== result.trim()) {
+                    alert('请先登录！');
+                    location.href = 'tologin.action';
+                }
+            }
+        });
+    }
+
+    var changeNumber = function(obj){
+        var gid = $(obj).attr('gid');
+        var stock = $('.orderItemStock[gid=' + gid + ']').text();
+        var price = $('.orderItemPromotePrice[gid=' + gid + ']').text();
+        var num = $('.orderItemNumberSetting[gid=' + gid + ']').val();
+        num = parseInt(num);
+        if (isNaN(num))
+            num = 1;
+        if (num <= 0)
+            num = 1;
+        if (num > stock)
+            num = stock;
+
+        syncPrice(gid, num, price);
+    };
+
+    var deleteOrderItem = false;
+    var deleteOrderItemSid = 0;
+
+    var deleteItem = function(obj){
+        deleteOrderItem = false;
+        deleteOrderItemSid = $(obj).attr("sid");
+        $("#deleteConfirmModal").show();
+    };
+
+    $("#submit").on('click',function () {
+       deleteOrderItem = true;
+       $("#deleteConfirmModal").hide();
+       $("#deleteConfirmModal").trigger("hidden");
+    });
+
+    $(".btn-default").on('click',function () {
+        deleteOrderItem = false;
+       $("#deleteConfirmModal").hide();
+       $("#deleteConfirmModal").trigger("hidden");
+    });
+
+    $(".close").on('click',function () {
+        deleteOrderItem = false;
+        $("#deleteConfirmModal").hide();
+        $("#deleteConfirmModal").trigger("hidden");
+    });
+
+    $("#deleteConfirmModal").on('hidden',function () {
+       if (deleteOrderItem) {
+           var page = "deleteOrderItem";
+           $.ajax({
+               url: page,
+               type: "post",
+               data: {"result":deleteOrderItemSid},
+               success: function(data) {
+                   if ("success" === data.trim()){
+                       var obj = $(".cartProductItemTR[sid=" + deleteOrderItemSid + "]");
+                       obj.hide();
+                       obj.prev(".cartSellerNameTR").hide();
+                   } else {
+                       alert("请先登录");
+                       location.href = "tologin.action";
+                   }
+               }
+           });
+       }
+    });
+
+    $('.createOrderButton').on('click',function () {
+        var param = "";
+        $(".cartProductItemTR").each(function () {
+            if ("selectit" === $(this).attr("selectit")) {
+                var gid = $(this).find('.cartProductItemSmallSumPrice').attr("gid");
+                param += "&gid=" + gid;
+            }
+        });
+        param = param.substring(1);
+        location.href = "tobuyitem?" + param;
+    });
+
+    var clearGoods = function () {
+        var num = 0;
+        $(".cartProductItemTR[status!='0']").each(function(){
+            deleteOrderItem = true;
+            deleteOrderItemSid = $(this).attr("sid");
+            $("#deleteConfirmModal").trigger("hidden");
+            num++;
+        });
+        deleteOrderItem = false;
+        window.location.reload();
+    };
+
+    var deleteSelectItem = function(){
+        $(".cartProductItemTR[selectit='selectit']").each(function () {
+            deleteOrderItem = true;
+            deleteOrderItemSid = $(this).attr("sid");
+            $("#deleteConfirmModal").trigger("hidden");
+        });
+        deleteOrderItem = false;
+        selectNumber = 0;
+        number = 0;
+        allMoney = 0;
+        $(".selectAllItem").attr("src","images/cartNotSelected.png");
+        $(".selectAllItem").attr("selectit","false");
+        window.location.reload();
+    };
+
+
+</script>
+
+</html>

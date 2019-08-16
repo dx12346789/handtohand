@@ -1,0 +1,221 @@
+/**
+ * sendMessage  发送消息
+ * loadHistory 加载历史信息
+ * loadMessage 页面进入加载信息
+ * unreadMessage 未读信息
+ * listMessage 消息列表
+ */
+var hostname;
+var port;
+var path;
+var selfId;
+var targetId;
+var ws;
+
+$(function () {
+    hostname = document.location.hostname;
+    port = document.location.port;
+    path = "/Transaction";
+    selfId = $("#uid").text().trim();
+    console.log(selfId);
+    ws = new WebSocket("ws://" + hostname + ":" + port + path + "/websocket/" +selfId + "/" + $("#destId").text().trim());
+
+    $("#text").keyup(function (evt) {
+        if (evt.which === 13 && !evt.ctrlKey){
+            var msg =$(this).val();
+            msg = packMsg(msg);
+            doSend(msg);
+            $(this).val('');
+        }
+        if(evt.which === 13 && evt.ctrlKey){
+            var msg = $(this).val();
+            msg += "\r\n";
+            $(this).val(msg);
+        }
+    });
+    $("#submit").click(function () {
+        var msg =$("#text").val();
+        msg = packMsg(msg);
+        doSend(msg);
+        $("#text").val('');
+    });
+
+
+
+
+    ws.onopen = function (ev) {
+        alert('开始聊天');
+    };
+
+    ws.onerror = function (ev) {
+        alert('发送异常');
+        console.log(ev);
+    };
+
+    ws.onmessage = function (ev) {
+        var msg = ev.data;
+        console.log(msg);
+        parseMsg(msg);
+    };
+
+    $("#histStart").on("click",function () {
+        //点击加载历史消息
+        var histtime = $("#hists").children(":first").find(".msg-ball").attr("title");
+        var time = histtime||$("#msgs").children(":first").find(".msg-ball").attr("title");
+        console.log(time);
+        var param = "{\"data\":\"loadHistory\",\"message\":{\"destId\":\"" + targetId + "\",\"srcId\":\"" + selfId + "\",\"time\":\"" + time + "\"}}";
+        console.log(param);
+        doSend(param);
+    });
+});
+
+/**
+ * 将空格和回车这两个特殊字符转成html格式
+ * @param msg
+ * @returns {string}
+ */
+function packMsg(msg) {
+    console.log(msg.length);
+    if(msg === "" || msg === null || msg === undefined){
+        alert("不能发送空信息");
+    }else{
+        console.log(msg);
+        msg = msg.replace(new RegExp("\n","g"),"<br/>").replace(new RegExp(" ","g"),"&nbsp;");
+        console.log(msg);
+        var tId = targetId || $("#destId").text().trim();
+        return "{\"data\":\"sendMessage\",\"message\":{\"destId\":\"" + tId + "\",\"srcId\":\"" + selfId + "\",\"message\":\"" + msg + "\"}}";
+    }
+}
+
+/**
+ *  * sendMessage  发送消息
+ * loadHistory 加载历史信息
+ * loadMessage 页面进入加载信息
+ * unreadMessage 未读信息
+ * listMessage 消息列表
+ */
+function parseMsg(msg) {
+    msg = jQuery.parseJSON(msg);
+    console.log(msg);
+    var messages = msg.message;
+    console.log(messages);
+    if (msg.data === "loadHistory"){
+        //同下
+        for (message of messages) {
+            console.log(message);
+            var result = createMessageHtml(message);
+            appendHistoryHtml(result);
+        }
+
+    } else if (msg.data === "loadMessage"){
+        //src:uid、nickname、headImage    dest:uid、nickname、headImaage   message   time
+        for (message of messages){
+            console.log(message);
+            var result = createMessageHtml(message);
+            appendLoadHtml(result);
+        }
+
+    } else if (msg.data === "unreadMessage") {
+        // uid、count
+    } else if (msg.data === "listMessage") {
+        // uid、nickname、headIamge
+        for (message of messages) {
+            console.log(message);
+            var result = createListHtml(message);
+            appendListHtml(result);
+        }
+    } else if(msg.data === "sendMessage") {
+
+        for (message of messages) {
+            if (message.dest.uid !== targetId){
+                return false;
+            }
+            var result = createMessageHtml(message);
+            appendMessageHtml(result);
+        }
+    }
+}
+
+/**
+ *  src包含 uid、nickname、headImage
+ *  dest包含 uid、nickname、headImage
+ *  message对应发送的信息
+ *  time就是发送的时间
+ * */
+function createMessageHtml(msg) {
+    var src = msg.src;
+    var dest = msg.dest;
+    var result = "";
+    if (src.uid === selfId) {  //显示在自己这里
+        result = "<div class=\"msg robot\">\n" +
+            "     <div class=\"msg-right\" uid=\"" + src.uid + "\">\n" +
+            "    <div class=\"msg-host photo\" style=\"background-image: url('" + src.headImage + "');\"></div>\n" +
+            "      <div class=\"msg-ball\" title=\"" + msg.time + "\">" + msg.message + "</div>\n" +
+            "                        </div>\n" +
+            "                    </div>";
+    } else {   //显示在对方那里
+        result = "   <div class=\"msg guest\">\n" +
+            "         <div class=\"msg-left\" worker=\"" + src.nickname + "\" uid=\"" + src.uid + "\">\n" +
+            "         <div class=\"msg-host photo\" style=\"background-image: url('" + src.headImage + "')\"></div>\n" +
+            "         <div class=\"msg-ball\" title=\"" + msg.time + "\">" + msg.message + "</div>\n" +
+            "         </div>\n" +
+            "         </div>";
+    }
+    return result;
+}
+
+/**
+ * headImage 用户头像
+ * uid 用户id
+ * nickname 用户名
+ * 创建消息列表
+ */
+var createListHtml = function (msg) {
+    var result = " <div class=\"chat-user\">\n" +
+        "                                <span class=\"pull-right label label-primary hidden\">1</span>\n" +
+        "                                <img class=\"chat-avatar\" src=\" " + msg.headImage + " \" alt />\n" +
+        "                                <div class=\"chat-name \" onclick='nicknameClick(this);'>\n" +
+        "                                    <a href=\"#\" uid=\"" + msg.uid + "\"> " + msg.nickname + " </a>\n" +
+        "                                </div>\n" +
+        "                            </div>";
+    return result;
+};
+
+function doSend(msg) {
+    console.log(msg);
+    ws.send(msg);
+}
+
+function appendMessageHtml(msg) {
+    $("#msgs").append($(msg));
+}
+
+function appendLoadHtml(msg){
+    $("#msgs").prepend($(msg));
+}
+
+function appendHistoryHtml(msg){
+    $("#hists").prepend($(msg));
+}
+
+function appendListHtml(msg) {
+    $(".chat-list").prepend($(msg));
+}
+
+var nicknameClick = function (obj) {
+    $("#msgs").empty();
+    $("#hists").empty();
+    var newId = $(obj).children(":first").attr("uid").trim()
+    console.log($(obj).children(":first").attr("uid"));
+    if (newId === targetId){
+        return false;
+    }
+    targetId = newId;
+    $(".chat-name").each(function () {
+        $(this).removeClass("now-chat");
+    });
+    $(obj).addClass("now-chat");
+    var param = "{\"data\":\"loadMessage\",\"message\":{\"destId\":\"" + targetId + "\",\"srcId\":\"" + selfId + "\"}}";
+    console.log(param);
+    doSend(param);
+};

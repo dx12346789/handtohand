@@ -1,0 +1,33 @@
+package com.qst.grade.service.Impl;
+
+import com.qst.grade.dao.CategoryDao;
+import com.qst.grade.po.Category;
+import com.qst.grade.service.CategoryService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+@Service
+@Transactional
+public class CategoryServiceImpl implements CategoryService {
+
+    private CategoryDao categoryDao;
+
+    @Autowired
+    public CategoryServiceImpl(CategoryDao categoryDao) {
+        this.categoryDao = categoryDao;
+    }
+
+
+    @Override
+    public List<Category> findAllCategory() {
+        List<Category> categories=categoryDao.findAllCategory();
+
+        return categories;
+    }
+
+
+
+
+}

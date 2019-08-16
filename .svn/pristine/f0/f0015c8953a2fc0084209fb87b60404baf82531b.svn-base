@@ -1,0 +1,93 @@
+package com.qst.grade.po;
+
+import javax.persistence.*;
+import java.util.Objects;
+
+@Entity
+@Table(name = "`order_detail`", schema = "hand_to_hand")
+public class OrderDetail {
+    private String oDid;
+    private String oid;
+    private String gid;
+    private int count;
+    private String seller;
+    private String buyyer;
+
+    @Id
+    @Column(name = "o_did")
+    public String getoDid() {
+        return oDid;
+    }
+
+    public void setoDid(String oDid) {
+        this.oDid = oDid;
+    }
+
+    @Basic
+    @Column(name = "oid")
+    public String getOid() {
+        return oid;
+    }
+
+    public void setOid(String oid) {
+        this.oid = oid;
+    }
+
+    @Basic
+    @Column(name = "gid")
+    public String getGid() {
+        return gid;
+    }
+
+    public void setGid(String gid) {
+        this.gid = gid;
+    }
+
+    @Basic
+    @Column(name = "count")
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
+    }
+
+    @Basic
+    @Column(name = "seller")
+    public String getSeller() {
+        return seller;
+    }
+
+    public void setSeller(String seller) {
+        this.seller = seller;
+    }
+
+    @Basic
+    @Column(name = "buyyer")
+    public String getBuyyer() {
+        return buyyer;
+    }
+
+    public void setBuyyer(String buyyer) {
+        this.buyyer = buyyer;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        OrderDetail that = (OrderDetail) o;
+        return count == that.count &&
+                Objects.equals(oDid, that.oDid) &&
+                Objects.equals(oid, that.oid) &&
+                Objects.equals(gid, that.gid) &&
+                Objects.equals(seller, that.seller) &&
+                Objects.equals(buyyer, that.buyyer);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(oDid, oid, gid, count, seller, buyyer);
+    }
+}

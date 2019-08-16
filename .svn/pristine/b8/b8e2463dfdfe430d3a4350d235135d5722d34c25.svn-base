@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="com.qst.grade.po.GoodsDetail" table="goods_detail" schema="hand_to_hand">
+        <id name="gDid" column="g_did"/>
+        <property name="gid" column="gid"/>
+        <property name="specifications" column="specifications"/>
+        <property name="count" column="count"/>
+        <property name="price" column="price"/>
+        <property name="imagePath" column="image_path"/>
+    </class>
+</hibernate-mapping>

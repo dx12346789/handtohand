@@ -1,0 +1,249 @@
+<%--
+  Created by IntelliJ IDEA.
+  User: 一别半笙
+  Date: 2019/8/4
+  Time: 16:38
+  To change this template use File | Settings | File Templates.
+--%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@taglib uri="/struts-tags" prefix="s"%>
+<html>
+<head>
+    <title>注册</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="jquery-1.11.3/jquery.min.js"></script>
+    <link rel="shortcut icon" type="image/x-icon" href="images/favicon.png" />
+    <link rel="stylesheet" href="plugins/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="plugins/slick-carousel/slick/slick.css"/>
+    <link rel="stylesheet" type="text/css" href="plugins/slick-carousel/slick/slick-theme.css"/>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body id="body">
+<section class="page-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="content">
+                    <h1 class="page-name">Register</h1>
+                    <ol class="breadcrumb">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="tologin.action">Login</a></li>
+                        <li class="active">Register</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+<section class="page-wrapper">
+    <div class="contact-section">
+        <div class="container">
+            <div class="row">
+                <!-- Contact Form -->
+
+                <div class="contact-form col-md-6 " >
+                    <form id="contact-form" method="post" action="register.action" role="form" name="form1">
+
+                        <div class="input-group subscription-form" style="padding: 10px 0;">
+                            <input type="text" class="form-control" placeholder="邮箱 | 手机号" name="account" id="Account">
+                            <span class="input-group-btn">
+								<a id="getcode" class="btn btn-main" href="javascript:void(0);">点击获取验证码</a>
+							</span>
+                        </div><!-- /input-group -->
+                        <div class="form-group">
+                            <input type="password" placeholder="密码" class="form-control" name="user.pass" id="Pwd">
+                        </div>
+                        <div class="form-group">
+                            <input type="password" placeholder="确认密码" class="form-control" id="Pwd2">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" placeholder="验证码" class="form-control" id="Volidate">
+                        </div>
+                        <div id="cf-submit">
+                            <input type="submit" id="contact-submit" class="btn btn-transparent" value="注册">
+                        </div>
+                        <div  class="form-group" style="text-align: center;padding: 10px 0;">
+                            <span id="error"><s:property value="jsonObject.data" /></span>
+                        </div>
+                    </form>
+                    <script type="text/javascript">
+                        var isGetCode = true;
+                        var isCodeOk = false;
+                        
+                        $("#Account").change(function () {
+                            isCodeOk = false;
+                        });
+                        
+                        
+                        $("#getcode").click(function () {
+                            if(!isGetCode){
+                                return;
+                            }
+                            var email = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
+                            var phone = /^(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\d{8}$/;
+                            var content = $("#Account").val();
+                            var url = "";
+                            var data = {"receiver":content};
+                            if(email.test(content)){
+                                url = "getRegisterEmailCode";
+                            }else if(phone.test(content)){
+                                url = "getRegisterPhoneCode";
+                            }else {
+                                $("#error").html("请输入正确的手机号或邮箱");
+                                return;
+                            }
+                            $.ajax({
+                                url:url,
+                                type:"post",
+                                async:true,
+                                dataType:"json",
+                                data:data,
+                                success:function (data) {
+                                    data = eval(data);
+                                    console.log(data);
+                                    if(data.status === "200"){
+                                        setTime();
+                                    }else {
+                                        $('#getcode').text("点击获取验证码");
+                                        $("#error").html(data.data);
+                                    }
+                                },
+                                error:function (xhr,type,errorThrown) {
+                                    
+                                }
+                            })
+                        });
+                        var time = 60;
+                        var setTime = function(){
+                            console.log("倒计时");
+                            if (time === 0) {
+                                isGetCode = true;
+                                $('#getcode').text("点击获取验证码");
+                                return;
+                            } else {
+                                isGetCode = false;
+                                time--;
+                                $('#getcode').text(time);
+                            }
+                            setTimeout(function() {
+                                setTime();
+                            },1000);
+                        };
+
+                        $("#Volidate").change(function () {
+                            var data = {"newCode":$("#Volidate").val()};
+                            $.ajax({
+                                url:"checkCode",
+                                type:"post",
+                                dataType:"json",
+                                async:true,
+                                data:data,
+                                success:function (data) {
+                                    data = eval(data);
+                                    console.log(data);
+                                    if(data.data == "OK"){
+                                        isCodeOk = true;
+                                        $("#error").html("");
+                                    }else{
+                                        isCodeOk = false;
+                                        $("#error").html("验证码错误");
+                                    }
+                                },
+                                error:function (xhr,type,errorThrown) {
+
+                                }
+                            })
+                        })
+                        $("#contact-form").submit(function () {
+                            if(isCodeOk){
+                                if($("#Pwd").val().length > 0){
+                                    if($("#Pwd").val() === $("#Pwd2").val()){
+                                        return true;
+                                    }else {
+                                        $("#error").html("两次密码不匹配");
+                                    }
+                                }else {
+                                    $("#error").html("请输入密码");
+                                }
+
+                            }else {
+                                $("#error").html("请输入正确验证码");
+                            }
+                            return false;
+                        });
+                    </script>
+                </div>
+
+                <div class="col-md-6 " id="handtohand" style="height: 350px; background: -webkit-linear-gradient(0deg, rgba(0,0,0,0.1), rgba(0,0,0,0));">
+                    <h1>Hand To Hand</h1>
+                </div>
+
+
+            </div>
+            <!-- / End Contact Details -->
+
+
+
+        </div> <!-- end row -->
+    </div> <!-- end container -->
+    </div>
+</section>
+
+
+
+
+
+
+
+
+<footer class="footer section text-center">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <ul class="social-media">
+                    <li>
+                        <a href="">
+                            <i class="tf-ion-social-facebook"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="">
+                            <i class="tf-ion-social-instagram"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="">
+                            <i class="tf-ion-social-twitter"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="">
+                            <i class="tf-ion-social-pinterest"></i>
+                        </a>
+                    </li>
+                </ul>
+                <ul class="footer-menu">
+                    <li>
+                        <a href="">CONTACT</a>
+                    </li>
+                    <li>
+                        <a href="">SHIPPING</a>
+                    </li>
+                    <li>
+                        <a href="">TERMS OF SERVICE</a>
+                    </li>
+                    <li>
+                        <a href="">PRIVACY POLICY</a>
+                    </li>
+                </ul>
+
+            </div>
+        </div>
+    </div>
+</footer>
+</body>
+</html>

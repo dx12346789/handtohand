@@ -1,0 +1,38 @@
+package com.qst.grade.action;
+
+import com.qst.grade.po.User;
+import com.qst.grade.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+
+public class UserMessageAction {
+    private UserService userService;
+    private String uid;
+    private User user;
+
+    @Autowired
+    public UserMessageAction(UserService userService) {
+        this.userService = userService;
+    }
+
+    public String toUserDetails() {
+        System.out.println(uid);
+        //user = userService.findByuId(uid);
+        return "success";
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+}

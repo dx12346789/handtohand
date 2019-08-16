@@ -1,0 +1,199 @@
+package com.qst.grade.action.admin;
+
+import com.qst.grade.po.User;
+import com.qst.grade.service.UserManageService;
+import com.qst.grade.service.UserService;
+import com.qst.grade.util.Email;
+import com.qst.grade.util.EmailImpl;
+import com.qst.grade.util.SendSmSUtil;
+import net.sf.json.JSONObject;
+import org.dom4j.DocumentException;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import javax.mail.MessagingException;
+import java.io.UnsupportedEncodingException;
+import java.util.List;
+
+/**
+ * 管理员对用户的各种管理
+ */
+public class UserManageAction {
+
+    private UserManageService userManageService;
+    private UserService userService;
+
+    private String uid;
+    private String message;
+    private List<User> users;
+    private JSONObject jsonObject;
+
+    @Autowired
+    public UserManageAction(UserManageService userManageService, UserService userService) {
+        this.userManageService = userManageService;
+        this.userService = userService;
+    }
+
+    private boolean updateApplication(String localUId) {
+        /*Map application = ActionContext.getContext().getApplication();
+        Map loginUsers = (Map) application.get("loginUsers");
+        loginUsers.remove(localUId);*/
+        return true;
+    }
+
+    public String toAdmin(){
+        return "success";
+    }
+
+    public String toUserManage() {
+        users = userManageService.findUserAll();
+        return "success";
+    }
+
+    public String toAdminManage() {
+        users = userManageService.findAdminAll();
+        return "success";
+    }
+
+    /**
+     * 冻结账号
+     *
+     * @return
+     */
+    public String freezeUser() {
+        System.out.println("冻结账号");
+        User localUser = userService.findByuId(uid);
+        int status = localUser.getStatus();
+        if (status == 2) {
+            status = 0;
+        } else {
+            status = 2;
+        }
+        localUser.setStatus(status);
+        userService.updateUser(localUser);
+        updateApplication(localUser.getUid());
+        String content;
+        String temp;
+        if(localUser.getStatus() == 2){
+            content = "被冻结";
+            temp = SendSmSUtil.FREEZE_USERS;
+        }else {
+            content = "解冻";
+            temp = SendSmSUtil.FREEZE_USERS;
+        }
+        if (localUser.getMail() != null) {
+            sendEmail(localUser.getMail(), "HandToHand", "尊敬的" + localUser.getNickname() + "用户，您的账号已" + content);
+        } else {
+            JSONObject jsonObject1 = new JSONObject();
+            jsonObject1.put("name",localUser.getNickname());
+            sendPhone(localUser.getTelphone(),SendSmSUtil.FREEZE_USERS,jsonObject1.toString());
+        }
+        jsonObject = new JSONObject();
+        jsonObject.put("status", "200");
+        jsonObject.put("msg", "ok");
+        jsonObject.put("data", "ok");
+        return "success";
+    }
+
+    /**
+     * 删除账号
+     *
+     * @return
+     */
+    public String delUser() {
+        System.out.println("删除账号");
+
+        User localUser = userService.findByuId(uid);
+        localUser.setStatus(1);
+        userService.updateUser(localUser);
+        updateApplication(localUser.getUid());
+        if (localUser.getMail() != null) {
+            sendEmail(localUser.getMail(), "HandToHand", "尊敬的" + localUser.getNickname() + "，您好，您的账号因涉嫌非法操作，已被管理员删除，如有疑问，请联系管理员");
+        } else {
+            JSONObject jsonObject1 = new JSONObject();
+            jsonObject1.put("name",localUser.getNickname());
+            sendPhone(localUser.getTelphone(),SendSmSUtil.DELETE_USERS,jsonObject1.toString());
+        }
+        jsonObject = new JSONObject();
+        jsonObject.put("status", "200");
+        jsonObject.put("msg", "ok");
+        jsonObject.put("data", "ok");
+        return "success";
+    }
+
+    /**
+     * 更新密码
+     *
+     * @return
+     */
+    public String updatePass() {
+        System.out.println("重置密码");
+        System.out.println(message);
+        User localUser = userService.findByuId(uid);
+        localUser.setPass(message);
+        userService.updateUser(localUser);
+        updateApplication(localUser.getUid());
+        if (localUser.getMail() != null) {
+            sendEmail(localUser.getMail(), "重置密码", "您好，您的密码已经重置为123456，请及时登陆并修改密码。");
+        } else {
+            JSONObject jsonObject1 = new JSONObject();
+            jsonObject1.put("password","123456");
+            sendPhone(localUser.getTelphone(),SendSmSUtil.RESET_PASSWORD,jsonObject1.toString());
+        }
+        jsonObject = new JSONObject();
+        jsonObject.put("status", "200");
+        jsonObject.put("msg", "ok");
+        jsonObject.put("data", "ok");
+        return "success";
+    }
+
+    private void sendPhone(String recipient, String templateCode, String content) {
+
+        SendSmSUtil.sendSmS(SendSmSUtil.REGIONID, recipient, templateCode, content);
+    }
+
+    private void sendEmail(String recipient, String title, String content) {
+        Email email = new EmailImpl();
+        try {
+            email.sendTextEmail(recipient, title, content);
+        } catch (DocumentException e) {
+            e.printStackTrace();
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
+    }
+
+    public JSONObject getJsonObject() {
+        return jsonObject;
+    }
+
+    public void setJsonObject(JSONObject jsonObject) {
+        this.jsonObject = jsonObject;
+    }
+}

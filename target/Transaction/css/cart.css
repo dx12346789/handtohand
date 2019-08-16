@@ -1,0 +1,149 @@
+.cartDiv {
+    max-width: 1013px;
+    margin: 5% auto;
+    color: black;
+}
+.cartTitle button {
+    background-color: #AAAAAA;
+    border: 1px solid #AAAAAA;
+    color: white;
+    width: 53px;
+    height: 25px;
+    border-radius: 2px;
+}
+.cartTitlePrice {
+    color: #C40000;
+    font-size: 14px;
+    font-weight: bold;
+    margin-left: 5px;
+    margin-right: 3px;
+}
+.cartProductTable {
+    width: 100%;
+    font-size:12px;
+}
+.cartProductTable th {
+    font-weight: normal;
+    color: #3C3C3C;
+    padding: 20px 20px;
+}
+.cartProductTable th.operation{
+    width:80px;
+}
+.cartProductTable th.selectAndImage{
+    width:150px;
+}
+.cartProductItemIfSelected, img.selectAllItem {
+    cursor: pointer;
+}
+.cartProductItemTR td {
+    padding: 20px 20px;
+}
+.cartProductItemTR {
+    border: 1px solid #CCCCCC;
+}
+.cartProductItemIfSelected, img.selectAllItem,.cartSellerNameTR {
+    cursor: pointer;
+}
+.cartProductImg {
+    padding: 1px;
+    border: 1px solid #EEEEEE;
+    width: 80px;
+    height: 80px;
+}
+.cartProductLinkOutDiv {
+    position: relative;
+    height: 80px;
+}
+.cartProductLink {
+    color: #3C3C3C;
+}
+.cartProductLink:hover {
+    color: #C40000;
+    text-decoration: underline;
+}
+.cartProductLinkInnerDiv {
+    position: absolute;
+    bottom: 0;
+    height: 20px;
+}
+.cartProductLinkInnerDiv img{
+    margin: 0 2px;
+}
+.cartProductLinkOutDiv {
+    position: relative;
+    height: 80px;
+}
+.cartProductItemOringalPrice {
+    text-decoration: line-through;
+    color: #9C9C9C;
+    display: block;
+    font-weight: bold;
+    font-size: 14px;
+}
+.cartProductItemPromotionPrice {
+    font-family: Arial;
+    font-size: 14px;
+    font-weight: bold;
+    color: #C40000;
+}
+.cartProductChangeNumberDiv {
+    border: solid 1px #E5E5E5;
+    width: 80px;
+}
+.cartProductChangeNumberDiv input {
+    border: solid 1px #AAAAAA;
+    width: 42px;
+    display: inline-block;
+}
+.cartProductChangeNumberDiv a {
+    width: 14px;
+    display: inline-block;
+    text-align: center;
+    color: black;
+    text-decoration: none;
+    margin: 0px;
+}
+.cartProductItemSmallSumPrice {
+    font-family: Arial;
+    font-size: 14px;
+    font-weight: bold;
+    color: #C40000;
+}
+.cartFoot {
+    background-color: #E5E5E5;
+    line-height: 50px;
+    margin: 20px 0px;
+    color: black;
+    padding-left: 20px;
+}
+.cartFoot button {
+    background-color: #AAAAAA;
+    border: 0px solid #AAAAAA;
+    color: white;
+    /*height: height%;*/
+    width: 120px;
+    height: 50px;
+    font-size: 20px;
+    text-align: center;
+    /* 	border-radius: 2px; */
+}
+.cartSumNumber {
+    color: #C40000;
+    font-weight: bold;
+    font-size: 16px;
+}
+.cartSumPrice {
+    color: #C40000;
+    font-weight: bold;
+    font-size: 20px;
+}
+.deleteOrderItem{
+    margin: 0px;;
+}
+.cartTitleName{
+    font-size: 17px;;
+}
+.cartTitle{
+    line-height: 0.4343;
+}

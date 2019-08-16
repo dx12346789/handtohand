@@ -1,0 +1,104 @@
+package com.qst.grade.po;
+
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
+public class Comment {
+    private String commentId;
+    private String commentator;
+    private String respondent;
+    private String gid;
+    private String content;
+    private int status;
+
+    @Id
+    @Column(name = "comment_id")
+    public String getCommentId() {
+        return commentId;
+    }
+
+    public void setCommentId(String commentId) {
+        this.commentId = commentId;
+    }
+
+    @Basic
+    @Column(name = "commentator")
+    public String getCommentator() {
+        return commentator;
+    }
+
+    public void setCommentator(String commentator) {
+        this.commentator = commentator;
+    }
+
+    @Basic
+    @Column(name = "respondent")
+    public String getRespondent() {
+        return respondent;
+    }
+
+    public void setRespondent(String respondent) {
+        this.respondent = respondent;
+    }
+
+    @Basic
+    @Column(name = "gid")
+    public String getGid() {
+        return gid;
+    }
+
+    public void setGid(String gid) {
+        this.gid = gid;
+    }
+
+    @Basic
+    @Column(name = "content")
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    @Basic
+    @Column(name = "status")
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Comment comment = (Comment) o;
+
+        if (status != comment.status) return false;
+        if (commentId != null ? !commentId.equals(comment.commentId) : comment.commentId != null) return false;
+        if (commentator != null ? !commentator.equals(comment.commentator) : comment.commentator != null) return false;
+        if (respondent != null ? !respondent.equals(comment.respondent) : comment.respondent != null) return false;
+        if (gid != null ? !gid.equals(comment.gid) : comment.gid != null) return false;
+        if (content != null ? !content.equals(comment.content) : comment.content != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = commentId != null ? commentId.hashCode() : 0;
+        result = 31 * result + (commentator != null ? commentator.hashCode() : 0);
+        result = 31 * result + (respondent != null ? respondent.hashCode() : 0);
+        result = 31 * result + (gid != null ? gid.hashCode() : 0);
+        result = 31 * result + (content != null ? content.hashCode() : 0);
+        result = 31 * result + status;
+        return result;
+    }
+}

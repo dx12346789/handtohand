@@ -1,0 +1,133 @@
+package com.qst.grade.service.Impl;
+
+import com.qst.grade.dao.UserDao;
+import com.qst.grade.po.User;
+import com.qst.grade.service.UserService;
+import com.qst.grade.util.UtilDate;
+import org.apache.commons.io.FileUtils;
+import org.apache.struts2.ServletActionContext;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
+
+@Service("userService")
+@Transactional
+public class UserServiceImpl implements UserService {
+    private UserDao userDao;
+
+    @Autowired
+    public UserServiceImpl(UserDao userDao) {
+        this.userDao = userDao;
+    }
+
+    @Override
+    public String addUser(User user) {
+        return userDao.addUser(user);
+    }
+
+    @Override
+    public boolean updateUser(User user) {
+        userDao.updateUser(user);
+        return true;
+    }
+
+    @Override
+    public boolean updateUserHeadImage(String uId, File file, String fileName, String fileType) {
+        String path = "headImage";
+        String realPath = ServletActionContext.getServletContext().getRealPath("") + path;
+        User user = findByuId(uId);
+        /*
+        头像写入文件
+         */
+
+        fileName = Long.toString(UtilDate.getDate()) + fileName.substring(fileName.lastIndexOf(".") - 1);
+        File localFile = new File(realPath);
+        if (!localFile.exists()) {
+            localFile.mkdirs();
+        }
+        try {
+            FileUtils.copyFile(file, new File(localFile, fileName));
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+        fileName = path + "/" + fileName;
+
+        /*
+        删除原先文件
+         */
+
+        localFile = new File(realPath + user.getHeadImage());
+
+        if (localFile.exists() && localFile.isFile()) {
+            if (localFile.delete()) {
+                System.out.println("删除单个文件" + fileName + "成功！");
+            } else {
+                System.out.println("删除单个文件" + fileName + "失败！");
+            }
+        } else {
+            System.out.println("删除单个文件失败：" + fileName + "不存在！");
+        }
+        user.setHeadImage(fileName);
+        updateUser(user);
+        return true;
+    }
+
+    @Override
+    public User findByMail(String mail) {
+        List<User> users = userDao.findByMail(mail);
+        for (User user : users) {
+            if (user.getStatus() != 1) {
+                return user;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public User findByPhone(String phone) {
+        List<User> users = userDao.findByPhone(phone);
+        for (User user : users) {
+            if (user.getStatus() != 1) {
+                return user;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public User findByMailAndPass(String mail, String pass) {
+        List<User> users = userDao.findByMailAndPass(mail, pass);
+        for (User user : users) {
+            if (user.getStatus() == 0) {
+                return user;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public User findByPhoneAndPass(String phone, String pass) {
+        List<User> users = userDao.findByPhoneAndPass(phone, pass);
+        for (User user : users) {
+            if (user.getStatus() == 0) {
+                return user;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public User findByuId(String uid) {
+        return userDao.findByuId(uid);
+    }
+
+    @Override
+    public List<User> findAll() {
+        return userDao.findAll();
+    }
+}

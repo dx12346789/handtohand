@@ -1,0 +1,136 @@
+package com.qst.grade.action;
+
+import com.opensymphony.xwork2.ActionContext;
+import com.qst.grade.po.User;
+import com.qst.grade.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.io.File;
+import java.util.Map;
+
+public class UserMessageAction {
+    private UserService userService;
+    private String uid;
+    private User user;
+    private String account;
+
+    private File doc;
+    private String docFileName;
+    private String docContentType;
+
+    @Autowired
+    public UserMessageAction(UserService userService) {
+        this.userService = userService;
+    }
+
+    /**
+     * 跳转到用户详情页
+     *
+     * @return
+     */
+    public String toUserDetails() {
+        System.out.println("进入详情");
+        System.out.println(uid);
+        System.out.println(uid);
+        if (uid != null) {
+            user = userService.findByuId(uid);
+        } else {
+            Map session = ActionContext.getContext().getSession();
+            user = (User) session.get("loginUser");
+        }
+        System.out.println(user);
+        return "success";
+    }
+
+    /**
+     * 更新用户基本信息
+     *
+     * @return
+     */
+    public String updateEssentialInformation() {
+        System.out.println("更新前用户:" + user);
+        User localUser = userService.findByuId(uid);
+        localUser.setNickname(user.getNickname());
+        localUser.setBirthday(user.getBirthday());
+        localUser.setSex(user.getSex());
+        System.out.println("更新后用户信息" + localUser);
+        userService.updateUser(user);
+        return "success";
+    }
+
+    /**
+     * 更新头像
+     *
+     * @return
+     */
+    public String updateHeadImage() {
+        if (userService.updateUserHeadImage(uid, doc, docFileName, docContentType)) {
+            return "success";
+        }
+        return "error";
+    }
+
+    /**
+     * 更换联系方式
+     * @return
+     */
+    public String updateAccount(){
+        User localUser = userService.findByuId(uid);
+        if(account.contains("@")){
+            account.toLowerCase();
+            localUser.setMail(account);
+        }else {
+            localUser.setTelphone(account);
+        }
+        userService.updateUser(user);
+        return "success";
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public File getDoc() {
+        return doc;
+    }
+
+    public void setDoc(File doc) {
+        this.doc = doc;
+    }
+
+    public String getDocFileName() {
+        return docFileName;
+    }
+
+    public void setDocFileName(String docFileName) {
+        this.docFileName = docFileName;
+    }
+
+    public String getDocContentType() {
+        return docContentType;
+    }
+
+    public void setDocContentType(String docContentType) {
+        this.docContentType = docContentType;
+    }
+
+    public String getAccount() {
+        return account;
+    }
+
+    public void setAccount(String account) {
+        this.account = account;
+    }
+}

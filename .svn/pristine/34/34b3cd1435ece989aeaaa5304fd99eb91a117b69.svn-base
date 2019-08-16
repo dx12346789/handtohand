@@ -1,0 +1,199 @@
+package com.qst.grade.service.Impl;
+
+import com.qst.grade.dao.MessageDao;
+import com.qst.grade.dao.UserDao;
+import com.qst.grade.po.Message;
+import com.qst.grade.po.User;
+import com.qst.grade.service.MessageService;
+import com.qst.grade.util.UUID;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import javax.json.JsonArray;
+import java.util.Date;
+import java.util.List;
+import java.util.Objects;
+
+@Service("messageService")
+public class MessageServiceImpl implements MessageService {
+
+    private final MessageDao messageDao;
+    private final UserDao userDao;
+
+    @Autowired
+    public MessageServiceImpl(MessageDao messageDao, UserDao userDao) {
+        this.messageDao = messageDao;
+        this.userDao = userDao;
+    }
+
+    @Override
+    public String save(Message message) {
+        return messageDao.save(message);
+    }
+
+    @Override
+    public JSONObject packJson(Message message, User srcUser, User destUser) {
+        JSONObject result = new JSONObject();
+        JSONObject dest = new JSONObject();
+        JSONObject src = new JSONObject();
+
+
+        dest.put("uid", destUser.getUid());
+        dest.put("nickname",destUser.getNickname());
+        dest.put("headImage", destUser.getHeadImage());
+
+        src.put("uid", srcUser.getUid());
+        src.put("nickname",srcUser.getNickname());
+        src.put("headImage", srcUser.getHeadImage());
+
+        result.put("dest",dest);
+        result.put("src",src);
+        result.put("message",message.getMessage());
+        result.put("time",message.getSendTime().getTime());
+        return result;
+    }
+
+    @Override
+    public JSONObject parseMessage(String str) {
+        JSONObject result = new JSONObject();
+        JSONObject jsonObject = JSONObject.fromObject(str);
+        String data = (String) jsonObject.get("data");
+        if ("loadMessage".equals(data)) { //加载信息
+            JSONArray jsonArray = this.loadMessage(jsonObject);
+            result.put("data","loadMessage");
+            result.put("message",jsonArray);
+        } else if ("loadHistory".equals(data)) { //加载历史信息
+            JSONArray jsonArray = this.loadHistoryMessage(jsonObject);
+            result.put("data", "loadHistory");
+            result.put("message",jsonArray);
+        } else if ("sendMessage".equals(data)) {  //发送消息
+            JSONArray jsonArray = this.sendMessage(jsonObject);
+            result.put("data", "sendMessage");
+            result.put("message", jsonArray);
+        } else if ("unreadMessage".equals(data)) { //未读消息
+            JSONObject object = unReadMessage(jsonObject);
+            result.put("data","unreadMessage");
+            result.put("message",jsonObject);
+        } else if ("changeStatus".equals(data)){ //改变信息状态
+            changeMessageStatus(jsonObject);
+        }
+        return result;
+    }
+
+    public void changeMessageStatus(JSONObject jsonObject){
+        JSONObject message = (JSONObject) jsonObject.get("message");
+        String srcId = (String) message.get("srcId");
+        String destId = (String) message.get("destId");
+        this.setMessageStatus(srcId,destId,2);
+    }
+
+    @Override
+    public JSONObject onOpen(String userId, String destUserId) {
+        JSONObject result = new JSONObject();
+        result.put("data","listMessage");
+        JSONArray jsonArray = new JSONArray();
+        List<String> uidList = messageDao.findAllByUid(userId);
+        User destUser = userDao.findByuId(destUserId);
+        JSONObject object = new JSONObject();
+        object.put("uid",destUser.getUid());
+        object.put("nickname",destUser.getNickname());
+        object.put("headImage",destUser.getHeadImage());
+        int count = messageDao.unReadMessage(destUserId, userId);
+        object.put("count",count);
+        jsonArray.add(object);
+        System.out.println("聊天列表的id为：" + uidList);
+        if (uidList != null) {
+            for (String uid: uidList) {
+                User user = userDao.findByuId(uid);
+                System.out.println(user);
+                if (Objects.equals(destUser.getUid(), user.getUid())){
+                    continue;
+                }
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("uid",user.getUid());
+                jsonObject.put("nickname",user.getNickname());
+                jsonObject.put("headImage",user.getHeadImage());
+                int unread = messageDao.unReadMessage(user.getUid(), userId);
+                jsonObject.put("count",unread);
+                jsonArray.add(jsonObject);
+            }
+        }
+        result.put("message",jsonArray);
+        System.out.println(jsonArray.toString());
+        return result;
+    }
+
+    public JSONObject unReadMessage(JSONObject jsonObject){
+        JSONObject message = (JSONObject) jsonObject.get("message");
+        String destId = (String) message.get("destId");
+        String srcId = (String) message.get("srcId");
+        Integer count = messageDao.unReadMessage(srcId, destId);
+        JSONObject result = new JSONObject();
+        result.put("destId",destId);
+        result.put("srcId",srcId);
+        result.put("count",count);
+        return result;
+    }
+
+    @Override
+    public void setMessageStatus(String srcId, String destId,int status) {
+        messageDao.setMessageStatus(srcId, destId, status);
+    }
+
+    //加载历史信息
+    private JSONArray loadHistoryMessage(JSONObject jsonObject){
+        JSONObject message = (JSONObject) jsonObject.get("message");
+        String srcId = (String) message.get("srcId");
+        String destId = (String) message.get("destId");
+        String timeStr = (String) message.get("time");
+        Date time = new Date(Long.valueOf(timeStr));
+        List<Message> messageList = messageDao.findHistoryMessage(srcId, destId, time);
+        return getJSONArray(messageList);
+    }
+
+    private JSONArray loadMessage(JSONObject jsonObject){
+        JSONObject message = (JSONObject) jsonObject.get("message");
+        String srcId = (String) message.get("srcId");
+        String destId = (String) message.get("destId");
+        List<Message> messageList = messageDao.findMessage(srcId, destId);
+        return getJSONArray(messageList);
+    }
+
+    private JSONArray getJSONArray(List<Message> messageList) {
+        JSONArray jsonArray = new JSONArray();
+        if (messageList != null) {
+            for (Message message1: messageList) {
+                User src = userDao.findByuId(message1.getSender());
+                User dest = userDao.findByuId(message1.getRecipient());
+                JSONObject msg = this.packJson(message1, src, dest);
+                jsonArray.add(msg);
+            }
+        }
+        return jsonArray;
+    }
+
+    private JSONArray sendMessage(JSONObject jsonObject){
+        JSONObject message = (JSONObject) jsonObject.get("message");
+        String srcId = (String) message.get("srcId");
+        String destId = (String) message.get("destId");
+        String msg = (String) message.get("message");
+        Message message1 = new Message();
+        message1.setMid("O" + UUID.getUUID(32));
+        message1.setStatus(0);
+        message1.setSendTime(new Date(System.currentTimeMillis()));
+        message1.setSender(srcId);
+        message1.setRecipient(destId);
+        message1.setMessage(msg);
+
+        this.save(message1);
+
+        User src = userDao.findByuId(srcId);
+        User dest = userDao.findByuId(destId);
+        JSONObject msgjson = this.packJson(message1, src, dest);
+        JSONArray jsonArray = new JSONArray();
+        jsonArray.add(msgjson);
+        return jsonArray;
+    }
+}

@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="com.qst.grade.po.ShopCart" table="`shop_cart`" schema="hand_to_hand">
+        <id name="sid" column="sid"/>
+        <property name="gid" column="gid"/>
+        <property name="uid" column="uid"/>
+        <property name="count" column="count"/>
+    </class>
+</hibernate-mapping>

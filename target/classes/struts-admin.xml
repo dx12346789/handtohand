@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+        "http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+
+    <package name="adminUserInterceptor" namespace="/" extends="interceptor">
+        <interceptors>
+            <interceptor name="adminUser" class="com.qst.grade.interceptor.AdminInterceptor" />
+            <interceptor-stack name="adminUserInterceptor">
+                <interceptor-ref name="LoginUser"/>
+                <interceptor-ref name="adminUser"/>
+            </interceptor-stack>
+        </interceptors>
+        <global-results>
+            <result name="toIndex" type="redirect">/</result>
+        </global-results>
+    </package>
+
+    <package name="admin" namespace="/" extends="adminUserInterceptor,struts-default,json-default">
+        <default-interceptor-ref name="adminUserInterceptor"/>
+        <action name="toadmin" class="com.qst.grade.action.admin.UserManageAction" method="toAdmin">
+            <result name="success">/admin/index.jsp</result>
+        </action>
+        <action name="toadminIndex" class="com.qst.grade.action.admin.AdminIndexAction" method="toAdminIndex">
+            <result name="success">/admin/admin-index.jsp</result>
+        </action>
+        <action name="getGoodsHit" class="com.qst.grade.action.admin.AdminIndexAction" method="getHitGoods">
+            <result name="success" type="json">
+                <param name="root">goods</param>
+            </result>
+        </action>
+        <action name="toUserManage" class="com.qst.grade.action.admin.UserManageAction" method="toUserManage">
+            <result name="success">/admin/user-manage-list.jsp</result>
+        </action>
+        <action name="toAdminManage" class="com.qst.grade.action.admin.UserManageAction" method="toAdminManage">
+            <result name="success">/admin/admin-manage-list.jsp</result>
+        </action>
+        <action name="freezeuser" class="com.qst.grade.action.admin.UserManageAction" method="freezeUser">
+            <result name="success" type="json">
+                <param name="root">jsonObject</param>
+            </result>
+        </action>
+        <action name="deluser" class="com.qst.grade.action.admin.UserManageAction" method="delUser">
+            <result name="success" type="json">
+                <param name="root">jsonObject</param>
+            </result>
+        </action>
+        <action name="adminUpdatePass" class="com.qst.grade.action.admin.UserManageAction" method="updatePass">
+            <result name="success" type="json">
+                <param name="root">jsonObject</param>
+            </result>
+        </action>
+        <action name="toReport" class="com.qst.grade.action.NoticAction" method="findAll">
+            <result name="success">/admin/message.jsp</result>
+        </action>
+        <action name="delReport" class="com.qst.grade.action.NoticAction" method="delReport">
+            <result name="success" type="json">
+                <param name="root">jsonObject</param>
+            </result>
+        </action>
+        <action name="updateStatus" class="com.qst.grade.action.NoticAction" method="updateStatus">
+            <result name="success" type="json">
+                <param name="root">jsonObject</param>
+            </result>
+        </action>
+        <action name="tovolume" class="com.qst.grade.action.admin.VolumeAction" method="toVolume">
+            <result name="success">/admin/volume.jsp</result>
+        </action>
+        <action name="toOnline" class="com.qst.grade.action.admin.OnlineAction" method="toOnline">
+            <result name="success">/admin/Online.jsp</result>
+        </action>
+        <action name="Offline" class="com.qst.grade.action.admin.OnlineAction" method="offline">
+            <result name="success" type="json">
+                <param name="root">jsonObject</param>
+            </result>
+        </action>
+        <action name="toRegisterUsers" class="com.qst.grade.action.admin.RegisterUsersContentAction" method="toRegisterContent">
+            <result name="success">/admin/registerUsers.jsp</result>
+        </action>
+        <action name="exportUser" class="com.qst.grade.action.admin.ExcelAction" method="exportUser">
+            <result name="success" type="stream">
+                <param name="inputStream">inputStream</param>
+                <param name="ContentType">application/vnd.ms-excel</param>
+                <param name="contentDisposition">filename="UserInfo.xls"</param>
+            </result>
+        </action>
+    </package>
+</struts>

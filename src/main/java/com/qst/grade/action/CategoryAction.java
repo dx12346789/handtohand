@@ -1,0 +1,116 @@
+package com.qst.grade.action;
+
+import com.qst.grade.po.Category;
+import com.qst.grade.service.CategoryService;
+import net.sf.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.List;
+
+public class CategoryAction {
+    private Category category;
+    private CategoryService categoryService;
+    private List<Category> categorys;
+    private String cid;
+    private String typename;
+    private JSONObject jsonObject;
+
+
+    public String toaddtype() {
+        categorys = categoryService.findAllCategory();
+        return "success";
+    }
+
+    public String deltype() {
+        System.out.println("执行deltype");
+        jsonObject = new JSONObject();
+        if(!categoryService.existGoods(cid))
+        {
+            categoryService.deltype(cid);
+            jsonObject.put("status","200");
+            jsonObject.put("msg","ok");
+            jsonObject.put("data","删除成功");
+        }else{
+            jsonObject.put("status","400");
+            jsonObject.put("msg","error");
+            jsonObject.put("data","删除异常，库中还有该类型的商品，不可删除该分类！");
+        }
+
+        return "success";
+    }
+
+    public String addtype() {
+        System.out.println("执行addtype");
+        System.out.println(typename);
+        cid = categoryService.addtype(typename);
+        jsonObject = new JSONObject();
+        if (cid != null) {
+            jsonObject.put("status", "200");
+            jsonObject.put("msg", "OK");
+            JSONObject jsonObject1 = new JSONObject();
+            jsonObject1.put("typeid", cid);
+            jsonObject1.put("typename", typename);
+            jsonObject.put("data", jsonObject1);
+        } else {
+            jsonObject.put("status", "400");
+            jsonObject.put("msg", "error");
+            jsonObject.put("data", "该类型已存在！");
+        }
+
+        return "success";
+    }
+
+    public String getTypename() {
+        return typename;
+    }
+
+    public void setTypename(String typename) {
+        this.typename = typename;
+    }
+
+    public String getCid() {
+        return cid;
+    }
+
+    public void setCid(String cid) {
+        this.cid = cid;
+    }
+
+    public CategoryService getCategoryService() {
+        return categoryService;
+    }
+
+    public void setCategoryService(CategoryService categoryService) {
+        this.categoryService = categoryService;
+    }
+
+    @Autowired
+    public CategoryAction(CategoryService categoryService) {
+        this.categoryService = categoryService;
+    }
+
+    public List<Category> getCategorys() {
+        return categorys;
+    }
+
+    public void setCategorys(List<Category> categorys) {
+        this.categorys = categorys;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public JSONObject getJsonObject() {
+        return jsonObject;
+    }
+
+    public void setJsonObject(JSONObject jsonObject) {
+        this.jsonObject = jsonObject;
+    }
+}
+

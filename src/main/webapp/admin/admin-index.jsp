@@ -1,0 +1,143 @@
+﻿<%@ taglib prefix="s" uri="/struts-tags" %>
+<!-- 内容头部 -->
+<section class="content-header">
+    <h1>
+        控制面板
+        <small>首页</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="${pageContext.request.contextPath}/"><i class="fa fa-dashboard"></i> 首页</a></li>
+    </ol>
+</section>
+<!-- 内容头部 /-->
+<!-- 正文区域 -->
+<section class="content">
+    <!-- 统计数值 -->
+    <div class="row">
+        <div class="col-lg-4 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-aqua">
+                <div class="inner">
+                    <h3><s:property value="jsonObject.data.volume"/></h3>
+                    <p>成交量</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-bag"></i>
+                </div>
+                <a href="javascript:void(0);" onclick="getHtml('tables-simple','tovolume.action')" class="small-box-footer">详细 <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-4 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-green">
+                <div class="inner">
+                    <h3><s:property value="jsonObject.data.online"/></h3>
+                    <p>在线人数</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-stats-bars"></i>
+                </div>
+                <a href="javascript:void(0);" onclick="getHtml('tables-dat','toOnline.action')" class="small-box-footer">详细 <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-4 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-yellow">
+                <div class="inner">
+                    <h3><s:property value="jsonObject.data.registerNumber"/></h3>
+                    <p>注册用户</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-person-add"></i>
+                </div>
+                <a href="javascript:void(0);" onclick="getHtml('ttables-data2','toRegisterUsers.action')" class="small-box-footer">详细 <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <!-- ./col -->
+        <%--<div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-red">
+                <div class="inner">
+                    <h3>65</h3>
+                    <p>日PV</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-pie-graph"></i>
+                </div>
+                <a href="all-ad-statistics-list.html" class="small-box-footer">详细 <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>--%>
+        <!-- ./col -->
+    </div>
+    <!-- /.row -->
+    <!-- 待处理订单 -->
+    <div class="box box-primary">
+        <div class="box-header with-border">
+            <i class="fa fa-cube"></i>
+            <h3 class="box-title">热销商品</h3>
+            <button type="button" onclick="window.location.href='exportUser.action'" class="btn bg-olive btn-xs pull-right">
+                导出
+            </button>
+        </div>
+        <div class="box-body">
+            <!-- 数据表格 -->
+            <div class="table-box">
+                <!--数据列表-->
+                <table id="dataList" class="table table-bordered table-striped table-hover dataTable">
+                    <thead>
+                    <tr>
+                        <th class="">产品名称</th>
+                        <th class="">商品描述</th>
+                    <%--<th class="">发布人</th>--%>
+                        <th class="">库存</th>
+                        <th class="">价格</th>
+                        <th class="">点击量</th>
+                        <th class="text-center">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody id="goodsContent">
+
+                    </tbody>
+                </table>
+                <!--数据列表/-->
+            </div>
+            <!-- 数据表格 /-->
+        </div>
+        <!-- /.box-body -->
+    </div>
+    <!-- 待处理订单 /-->
+</section>
+<!-- 正文区域 /-->
+
+<script type="text/javascript">
+    $.ajax({
+        url:"getGoodsHit",
+        type:"get",
+        dataType:"json",
+        success:function (data) {
+            console.log(data);
+            $.each(data,function (index,item) {
+                let content = "<tr>";
+                content += "<td>" + item.name.substring(0, 10);
+                if(item.name.length > 10){
+                    content += "。。。"
+                }
+                content += "</td>";
+                content += "<td>" + item.detail.substring(0, 20);
+                if(item.detail.length > 20){
+                    content += "。。。"
+                }
+                content += "</td>";
+                content += "<td>" + item.count  + "</td>";
+                content += "<td>" + item.price  + "</td>";
+                content += "<td>" + item.hit  + "</td>";
+
+                content += "<td class=\"text-center\"><a href=\"toGoods.action?gid=" + item.gid + "\"><button type=\"button\" class=\"btn bg-olive btn-xs\">查看详情</button></a>" + "</td>";
+                content += "</tr>"
+                $("#goodsContent").append(content);
+            })
+        }
+    });
+</script>

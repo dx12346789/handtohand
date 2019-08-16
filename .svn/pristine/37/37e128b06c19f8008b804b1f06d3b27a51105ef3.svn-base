@@ -1,0 +1,33 @@
+package com.qst.grade.dao.Impl;
+
+import com.qst.grade.dao.UserDao;
+import com.qst.grade.po.User;
+import org.hibernate.Query;
+import org.hibernate.SessionFactory;
+import org.springframework.orm.hibernate3.HibernateTemplate;
+import org.springframework.stereotype.Repository;
+
+import javax.annotation.Resource;
+import java.util.List;
+
+@Repository
+public class UserDaoImpl extends HibernateTemplate implements UserDao {
+
+    @Resource(name = "sessionFactory")
+    public void setSessionFactory(SessionFactory sessionFactory){
+        super.setSessionFactory(sessionFactory);
+    }
+
+    @Override
+    public String addUser(User user) {
+        return (String) super.save(user);
+    }
+
+    @Override
+    public List<User> findByMailAndPass(String mail, String pass) {
+        Query query = super.getSession().createSQLQuery("select * from user where mail = ? and pass = ?").addEntity(User.class);
+        query.setString(0,mail);
+        query.setString(1,pass);
+        return query.list();
+    }
+}

@@ -1,0 +1,76 @@
+package com.qst.grade.po;
+
+import javax.persistence.*;
+
+@Entity
+@Table(name = "order_detail", schema = "hand_to_hand", catalog = "")
+public class OrderDetail {
+    private String oDid;
+    private String oid;
+    private String gid;
+    private int count;
+
+    @Id
+    @Column(name = "o_did")
+    public String getoDid() {
+        return oDid;
+    }
+
+    public void setoDid(String oDid) {
+        this.oDid = oDid;
+    }
+
+    @Basic
+    @Column(name = "oid")
+    public String getOid() {
+        return oid;
+    }
+
+    public void setOid(String oid) {
+        this.oid = oid;
+    }
+
+    @Basic
+    @Column(name = "gid")
+    public String getGid() {
+        return gid;
+    }
+
+    public void setGid(String gid) {
+        this.gid = gid;
+    }
+
+    @Basic
+    @Column(name = "count")
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        OrderDetail that = (OrderDetail) o;
+
+        if (count != that.count) return false;
+        if (oDid != null ? !oDid.equals(that.oDid) : that.oDid != null) return false;
+        if (oid != null ? !oid.equals(that.oid) : that.oid != null) return false;
+        if (gid != null ? !gid.equals(that.gid) : that.gid != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = oDid != null ? oDid.hashCode() : 0;
+        result = 31 * result + (oid != null ? oid.hashCode() : 0);
+        result = 31 * result + (gid != null ? gid.hashCode() : 0);
+        result = 31 * result + count;
+        return result;
+    }
+}

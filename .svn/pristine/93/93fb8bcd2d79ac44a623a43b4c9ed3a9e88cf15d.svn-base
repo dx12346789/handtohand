@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.5//EN"
+        "http://struts.apache.org/dtds/struts-2.5.dtd">
+
+<struts>
+    <!-- /config-browser
+     可查看映射-->
+
+    <!--交给Spring管理-->
+    <constant name="struts.objectFactory" value="spring"/>
+    <!--指定解析编码-->
+    <constant name="struts.i18n.encoding" value="UTF-8"/>
+    <!--文件上传大小，默认2m-->
+    <constant name="struts.multipart.maxSize" value="10240000"/>
+    <!-- 当struts.xml改动后，是否重新加载。默认值为false(生产环境下使用),开发阶段最好打开  -->
+    <constant name="struts.configuration.xml.reload" value="true"/>
+    <!-- 是否使用struts的开发模式。开发模式会有更多的调试信息。默认值为false(生产环境下使用),开发阶段最好打开  -->
+    <constant name="struts.devMode" value="true"/>
+    <!-- 设置浏览器是否缓存静态内容。默认值为true(生产环境下使用),开发阶段最好关闭  -->
+    <constant name="struts.serve.static.browserCache" value="false"/>
+
+    <package name="/" namespace="/" extends="struts-default,json-default">
+        <action name="toregister" class="com.qst.grade.action.UserAction" method="toRegister">
+            <result name="success">/register.jsp</result>
+        </action>
+        <action name="tologin" class="com.qst.grade.action.UserAction" method="toLogin">
+            <result name="success">/login.jsp</result>
+        </action>
+        <action name="register" class="com.qst.grade.action.UserAction" method="register">
+            <result name="success">tologin</result>
+            <result name="error" type="chain">toregister</result>
+        </action>
+        <action name="login" class="com.qst.grade.action.UserAction" method="login">
+            <result name="success">/main.jsp</result>
+            <result name="error" type="chain">tologin</result>
+        </action>
+
+        <action name="getRegisterEmailCode" class="com.qst.grade.action.CodeAction" method="sendRegisterEmailCode">
+            <result name="res" type="json">
+                <param name="jsonObject">jsonObject</param>
+            </result>
+        </action>
+        <action name="getRegisterPhoneCode" class="com.qst.grade.action.CodeAction" method="sendPhoneCode">
+            <result name="res" type="json">
+                <param name="jsonObject">jsonObject</param>
+            </result>
+        </action>
+        <action name="getCountCode" class="com.qst.grade.action.CodeAction" method="getCountCode">
+            <result type="stream" name="code">
+                <param name="contentType">image/jpeg</param>
+                <param name="inputName">inputStream</param>
+                <param name="bufferSize">2048</param>
+            </result>
+        </action>
+        <action name="checkCode" class="com.qst.grade.action.CodeAction" method="checkCode">
+            <result name="res" type="json">
+                <param name="jsonObject">jsonObject</param>
+            </result>
+        </action>
+        <action name="toIssue" class="com.qst.grade.action.GoodsAction" method="toIssue">
+            <result name="success">/issue.jsp</result>
+        </action>
+    </package>
+</struts>

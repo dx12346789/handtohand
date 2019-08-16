@@ -1,0 +1,16 @@
+package com.qst.grade.dao;
+
+import com.qst.grade.po.User;
+
+import java.util.List;
+
+public interface UserDao {
+    /**
+     * 添加用户信息
+     * @param user
+     * @return
+     */
+    public String addUser(User user);
+
+    public List<User> findByMailAndPass(String mail, String pass);
+}

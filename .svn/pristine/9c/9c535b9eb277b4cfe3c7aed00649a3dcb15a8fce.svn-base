@@ -1,0 +1,76 @@
+[
+  {
+    "name": "首页",
+    "url": "toadminIndex.action",
+    "id": "admin-index",
+    "img": "fa-dashboard",
+    "treeList": []
+  },
+  {
+    "name": "用户管理",
+    "url": "javascript:void(0);",
+    "id": "",
+    "img": "fa-folder",
+    "treeList": [
+      {
+        "name": "管理员",
+        "url": "toAdminManage.action",
+        "id": "admin-manage",
+        "img": "fa-circle-o"
+      },
+      {
+        "name": "用户管理",
+        "url": "toUserManage.action",
+        "id": "user-manage",
+        "img": "fa-circle-o"
+      }
+    ]
+  },
+  {
+    "name": "分类管理",
+    "url": "toaddtype.action",
+    "id": "type",
+    "img": "fa-pie-chart",
+    "treeList": []
+  },
+  {
+    "name": "积分管理",
+    "url": "topoints.action",
+    "id": "point",
+    "img": "fa-laptop",
+    "treeList": []
+  },
+  {
+    "name": "消息列表",
+    "url": "toReport.action",
+    "id": "message",
+    "img": "fa-envelope-o",
+    "treeList": []
+  },
+  {
+    "name": "数据分析",
+    "url": "javascript:void(0);",
+    "id": "",
+    "img": "fa-table",
+    "treeList": [
+      {
+        "name": "成交量",
+        "url": "tovolume.action",
+        "id": "tables-simple",
+        "img": "fa-circle-o"
+      },
+      {
+        "name": "在线人数",
+        "url": "toOnline.action",
+        "id": "tables-data",
+        "img": "fa-circle-o"
+      },
+      {
+        "name": "注册用户统计",
+        "url": "toRegisterUsers.action",
+        "id": "tables-data2",
+        "img": "fa-circle-o"
+      }
+    ]
+  }
+]

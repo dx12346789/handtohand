@@ -1,0 +1,85 @@
+package com.qst.grade.service.Impl;
+
+import com.qst.grade.dao.GoodsDao;
+import com.qst.grade.dao.OrderDao;
+import com.qst.grade.dao.OrderDetailDao;
+import com.qst.grade.dao.UserDao;
+import com.qst.grade.po.Goods;
+import com.qst.grade.po.Order;
+import com.qst.grade.po.OrderDetail;
+import com.qst.grade.po.User;
+import com.qst.grade.service.OrderDetailService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@Service
+@Transactional
+public class OrderDetailServiceImpl implements OrderDetailService {
+    private final OrderDao orderDao;
+    private final UserDao userDao;
+    private final GoodsDao goodsDao;
+    private final OrderDetailDao orderDetailDao;
+
+    @Autowired
+    public OrderDetailServiceImpl(OrderDao orderDao,  UserDao userDao, GoodsDao goodsDao, OrderDetailDao orderDetailDao) {
+        this.orderDao = orderDao;
+        this.userDao = userDao;
+        this.goodsDao = goodsDao;
+        this.orderDetailDao = orderDetailDao;
+    }
+
+
+    @Override
+    public List<OrderDetail> findOrdersBypayer(String uid) {
+        return orderDetailDao.findorderpayerAll(uid);
+    }
+
+    @Override
+    public List<Goods> findGoodsBygid(List<OrderDetail> orderDetails) {
+        List<Goods> goodslist = new ArrayList<Goods>();
+        for (OrderDetail orderDetail : orderDetails) {
+            Goods goods = new Goods();
+            goods = goodsDao.findGoodsByGid(orderDetail.getGid());
+            goodslist.add(goods);
+        }
+        return goodslist;
+    }
+
+    @Override
+    public List<User> findUsersByuid(List<OrderDetail> orderDetails) {
+        List<User> users = new ArrayList<User>();
+
+        for (OrderDetail orderDetail : orderDetails) {
+            User user= new User();
+            user=userDao.findByuId(orderDetail.getSeller());
+            users.add(user);
+        }
+        return users;
+    }
+
+    @Override
+    public List<Order> findorderByoid(List<OrderDetail> orderDetails) {
+        List<Order> orders = new ArrayList<Order>();
+        for (OrderDetail orderDetail : orderDetails) {
+            Order order = new Order();
+            order = orderDao.findOrderByoid(orderDetail.getOid());
+            orders.add(order);
+        }
+
+        return orders;
+    }
+
+    @Override
+    public OrderDetail findByodid(String odid) {
+        return orderDetailDao.findByODid(odid);
+    }
+
+    @Override
+    public void updateorderDetail(OrderDetail orderDetail) {
+         orderDetailDao.updateorderDetail(orderDetail);
+    }
+}

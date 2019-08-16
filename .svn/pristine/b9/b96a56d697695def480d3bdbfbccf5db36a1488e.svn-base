@@ -1,0 +1,14 @@
+package com.qst.grade.service;
+
+import com.qst.grade.po.Category;
+
+import java.util.List;
+
+public interface CategoryService {
+    public List<Category> findAllCategory();
+    public Category findCategoryByCid(String cid);
+    public void deltype(String cid);
+    public String addtype(String typename);
+    public String existGoods(String cid);
+
+}

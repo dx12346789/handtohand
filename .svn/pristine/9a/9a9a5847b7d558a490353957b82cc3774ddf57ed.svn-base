@@ -1,0 +1,212 @@
+<%@ taglib prefix="s" uri="/struts-tags" %>
+<%--
+  Created by IntelliJ IDEA.
+  User: hmxh
+  Date: 2019-08-06
+  Time: 下午 07:54
+  To change this template use File | Settings | File Templates.
+--%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
+<%
+    String path = request.getContextPath();
+    String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
+            + path + "/";
+%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <base href="<%=basePath%>">
+    <title>MyPage</title>
+    <!--meta tags -->
+    <meta charset="UTF-8">
+
+    <link href="css/mypage.css" rel='stylesheet' type='text/css' media="all">
+    <script src="js/jquery.min.js"></script>
+    <script src="bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/model2.css" />
+    <link rel="stylesheet" type="text/css" href="font-awesome-4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="bootstrap-3.3.7-dist/css/bootstrap.min.css" />
+    <script type="text/javascript" src="js/dcalendar.picker.js"></script>
+</head>
+<body>
+<div class="agileits_main">
+
+    <span>我的主页</span><br/>
+    <div class="xian">
+
+    </div>
+    <h3>MyPage</h3>
+
+</div>
+<!-- //banner -->
+</div>
+<!-- //header -->
+<!-- about -->
+<div class="about" id="about" style="height: 600px;">
+    <div class="container">
+
+        <div class="about-agileinfo">
+            <div class="col-md-4 col-sm-4 about-left ">
+                <img src="images/bio.jpg" class="img-responsive" alt=""/>
+            </div>
+            <div class="col-md-8 col-sm-8 about-right wthree">
+                <h2> 昵称：<s:property value="user.nickname"/></h2>
+                <ul class="address">
+
+                    <li>
+                        <ul class="agileits-address-text">
+                            <li><b>性别</b></li>
+                            <li>
+                                <s:if test="user.sex == 0">
+                                    女
+                                </s:if>
+                                <s:elseif test="user.sex == 1">
+                                    男
+                                </s:elseif>
+                                <s:else>
+                                    未知
+                                </s:else>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <ul class="agileits-address-text">
+                            <li><b>生日</b></li>
+                            <li><s:property value="user.birthday"/></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <ul class="agileits-address-text">
+                            <li><b>我的手机</b></li>
+                            <li><s:property value="user.telphone"/></li>
+                            <li><a href="form.html">&nbsp;<i class="fa fa-pencil-square-o" aria-hidden="true"></i> </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <ul class="agileits-address-text">
+                            <li><b>邮箱</b></li>
+                            <li><a href="mailto:<s:property value='user.mail'/>"> <s:property value="user.mail"/></a>
+                            </li>
+                            <li><a href="form.html">&nbsp;<i class="fa fa-pencil-square-o" aria-hidden="true"></i> </a>
+                            </li>
+                        </ul>
+                    </li>
+
+
+                    <li>
+                        <ul class="agileits-address-text">
+                            <li><b>我的积分</b></li>
+                            <li><s:property value="user.gold"/></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <ul class="agileits-address-text">
+                            <li><b>我的收货地址&nbsp;</b></li>
+                            <li>湖南省常德市技术附件想</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <ul class="agileits-address-text">
+                            <li><b></b></li>
+                            <li>添加新地址</li>
+                            <li>&nbsp;&nbsp;<a href="javascript:void(0);" data-toggle="modal" data-target="#contact"><i
+                                    class="fa fa-plus-square-o " aria-hidden="true"></i></a></li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <div class="hire-w3lgrids">
+                    <a href="#" class="wthree-more w3more1 nina" data-text="联系Ta">
+                        <span>联系</span>
+                    </a>
+                    <a href="javascript:void(0);" class="wthree-more w3more1 nina" data-text="编辑" data-toggle="modal"
+                       data-target="#baseinformat">
+                        <span>修改</span>
+                    </a>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- 模态框基本信息修改 -->
+    <div class="modal fade" id="baseinformat" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        修改基本信息
+                    </h4>
+                    <h5>edit</h5>
+                </div>
+                <div class="modal-body">
+
+                    <div class="modal-div">
+                        昵称：<input type="text" name="nickname" value="" class="text-input input-size1"/>
+                    </div>
+
+                    <div class="modal-div">
+                        生日：<input type="text" name=" " value="" class="text-input input-size1" id="mydatepicker1"/>
+                        <script type="text/javascript">
+                            $('#mydatepicker1').dcalendarpicker({
+                                format: 'yyyy-mm-dd'
+                            });
+                        </script>
+
+                    </div>
+                    <div class="modal-div">
+                        性别：<select class="select">
+                        <option value="">男</option>
+                        <option value="">女</option>
+                    </select>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="mod-button btn-cansal" data-dismiss="modal">关闭
+                    </button>
+                    <button type="button" class=" mod-button btn-submit">
+                        确定
+                    </button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+    <!-- /拟态框1——基本信息修改 -->
+
+    <!-- 模态框2——地址修改 -->
+    <div class="modal fade" id="contact" tabindex="-1" role="dialog" aria-labelledby="contact" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        添加新地址
+                    </h4>
+                    <h5>address</h5>
+                </div>
+                <div class="modal-body">
+                    主体
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="mod-button btn-cansal" data-dismiss="modal">关闭
+                    </button>
+                    <button type="button" class=" mod-button btn-submit">
+                        确定
+                    </button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+    <!-- /拟态框2——地址修改 -->
+
+</body>
+</html>

@@ -1,0 +1,8 @@
+package com.qst.grade.service;
+
+import com.qst.grade.po.User;
+
+public interface UserService {
+     String addUser(User user);
+     User findByMailAndPass(String mail,String pass);
+}

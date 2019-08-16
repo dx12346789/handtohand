@@ -1,0 +1,39 @@
+package com.qst.grade.service.Impl;
+
+import com.qst.grade.dao.GoodsDao;
+import com.qst.grade.po.Goods;
+import com.qst.grade.service.IndexService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+public class IndexServiceImpl implements IndexService {
+    private final GoodsDao goodsDao;
+
+    private final int OFFSET = 30;  //每页个数
+
+    @Autowired
+    public IndexServiceImpl(GoodsDao goodsDao) {
+        this.goodsDao = goodsDao;
+    }
+
+    @Override
+    public Integer getTotalPage() {
+        Integer result = goodsDao.getTotalCount();
+        if (result == null || result == 0) {
+            return 0;
+        }
+        if (result % 6 == 0) {
+            return result / 6;
+        } else {
+            return result / 6 + 1;
+        }
+    }
+
+    @Override
+    public List<Goods> getGoods(Integer currentPage, Integer totalPage) {
+        return goodsDao.findAllByPageAndOffset(currentPage, OFFSET);
+    }
+}

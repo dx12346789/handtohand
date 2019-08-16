@@ -1,0 +1,239 @@
+(function ($) { 'use strict';
+	
+
+  // Homepage Slider
+  $(document).ready(function(){
+    $('.home-slider').slick();
+  });
+
+
+
+
+
+
+})(jQuery);
+
+
+var searchSubmit = function () {
+    var title = $("#searchText").val();
+    var lowPrice = $("#lowprice").val() || -1;
+    var highprice = $("#highprice").val() || -1;
+    var cid = $("#select").attr("value");
+    console.log(cid);
+    var data = "title=" + title + "&price1=" + lowPrice + "&price2=" + highprice + "&cid=" + cid + "&type=0";
+    location.href = "search.action?" + data;
+    return true;
+};
+
+var createGoods = function (goods){
+  console.log(goods);
+  var html = "<div class=\"col-md-2\">" +
+      "                <div class=\"product-item\">" +
+      "                    <div class=\"product-thumb\">" +
+      "     <img class=\"img-responsive\" src=\"" + goods.imgPath.split(',')[0] + "\" alt=\"product-img\" style='height: 197.1px'/>" +
+      "                        <div class=\"preview-meta\">" +
+      "                            <ul>" +
+      "                                <li>" +
+      "<span data-toggle=\"modal\" data-target=\"#product-modal\" onclick='toGoods(\"" + goods.gid + "\")'>" +
+      "<i class=\"tf-ion-ios-search-strong\"></i>" +
+      "</span>" +
+      "                                </li>" +
+      "                                <li>" +
+      "<a href=\"javascript:void(0)\" onclick='addFavorite(\"" + goods.gid + "\")'><i class=\"tf-ion-ios-heart\"></i></a>" +
+      "                                </li>" +
+      "                                <li>" +
+      "<a href=\"javascript:void(0)\" onclick='addCart(\"" + goods.gid + "\")'><i class=\"tf-ion-android-cart\"></i></a>" +
+      "                                </li>" +
+      "                            </ul>" +
+      "                        </div>" +
+      "                    </div>" +
+      "                    <div class=\"product-content\">" +
+      "                        <h4><a href=\"toGoods.action?gid=" + goods.gid + "\">" + goods.name + "</a></h4>" +
+      "                        <p class=\"price\">$" + goods.price + "</p>" +
+      "                    </div>" +
+      "                </div>" +
+      "            </div>";
+  return html;
+};
+
+function  toGoods(gid) {
+  location.href = "toGoods.action?gid=" + gid;
+}
+
+function addFavorite(gid) {
+  $.ajax({
+    url: "addfavorite.action",
+    type: "post",
+    data: {"gid":gid}
+    success:function (data) {
+      if (data.trim() === 'add') {
+        console.log('收藏成功');
+      }else {
+        console.log('您已取消收藏');
+      }
+    }
+  });
+}
+
+function addCart(gid) {
+  $.ajax({
+    url: "addcart.action",
+    type: "post",
+    data: {"gid1":gid,"count":1}
+    success:function (data) {
+      console.log('添加购物车成功');
+    }
+  });
+}
+
+function toCart() {
+  location.href="toCart.action";
+}
+
+var turnSearch = function(page) {
+    console.log(page);
+    var title = $("#searchText").val();
+    if (title === undefined || title.trim() === ""){
+        return false;
+    }
+    var lowPrice = $("#lowprice").val() || -1;
+    var highPrice = $("#highprice").val() || -1;
+    var result = "title=" + title + "&price1=" + lowPrice + "&price2=" + highPrice + "page=" + page + "&type=0";
+    location.href = "search.action?" + result;
+    // var result = {"title":title,"price1":lowPrice,"price2":highPrice,"page":page};
+    // $.ajax({
+    //     url: "search.action",
+    //     type: "post",
+    //     data: result,
+    //     success: function (data) {
+    //         if (data.status === "200") {
+    //             var GoodsList = data.data.GoodsList;
+    //             var index = 0;
+    //             var content = $("#goodsList");
+    //             content.empty();
+    //             var row = $(content).children(":last");
+    //             var div;
+    //             console.log(GoodsList);
+    //             for (goods of GoodsList) {
+    //                 if (index % 6 == 0) {
+    //                     div = "<div class=\"row\"></div>";
+    //                     content.append(div);
+    //                     row = $(content).children(":last");
+    //                 }
+    //                 div = createGoods(goods);
+    //                 row.append($(div));
+    //                 index++;
+    //             }
+    //         }
+    //     }
+    // });
+};
+	
+	/* ========================================================================= */
+	/*	Google Map
+	/* =========================================================================  */
+ 	
+	function initMap() {
+      // Styles a map in night mode.
+      var map = new google.maps.Map(document.getElementById('map'), {
+        center: {lat: 40.674, lng: -73.945},
+        zoom: 12,
+        styles: [
+          {elementType: 'geometry', stylers: [{color: '#242f3e'}]},
+          {elementType: 'labels.text.stroke', stylers: [{color: '#242f3e'}]},
+          {elementType: 'labels.text.fill', stylers: [{color: '#746855'}]},
+          {
+            featureType: 'administrative.locality',
+            elementType: 'labels.text.fill',
+            stylers: [{color: '#d59563'}]
+          },
+          {
+            featureType: 'poi',
+            elementType: 'labels.text.fill',
+            stylers: [{color: '#d59563'}]
+          },
+          {
+            featureType: 'poi.park',
+            elementType: 'geometry',
+            stylers: [{color: '#263c3f'}]
+          },
+          {
+            featureType: 'poi.park',
+            elementType: 'labels.text.fill',
+            stylers: [{color: '#6b9a76'}]
+          },
+          {
+            featureType: 'road',
+            elementType: 'geometry',
+            stylers: [{color: '#38414e'}]
+          },
+          {
+            featureType: 'road',
+            elementType: 'geometry.stroke',
+            stylers: [{color: '#212a37'}]
+          },
+          {
+            featureType: 'road',
+            elementType: 'labels.text.fill',
+            stylers: [{color: '#9ca5b3'}]
+          },
+          {
+            featureType: 'road.highway',
+            elementType: 'geometry',
+            stylers: [{color: '#746855'}]
+          },
+          {
+            featureType: 'road.highway',
+            elementType: 'geometry.stroke',
+            stylers: [{color: '#1f2835'}]
+          },
+          {
+            featureType: 'road.highway',
+            elementType: 'labels.text.fill',
+            stylers: [{color: '#f3d19c'}]
+          },
+          {
+            featureType: 'transit',
+            elementType: 'geometry',
+            stylers: [{color: '#2f3948'}]
+          },
+          {
+            featureType: 'transit.station',
+            elementType: 'labels.text.fill',
+            stylers: [{color: '#d59563'}]
+          },
+          {
+            featureType: 'water',
+            elementType: 'geometry',
+            stylers: [{color: '#17263c'}]
+          },
+          {
+            featureType: 'water',
+            elementType: 'labels.text.fill',
+            stylers: [{color: '#515c6d'}]
+          },
+          {
+            featureType: 'water',
+            elementType: 'labels.text.stroke',
+            stylers: [{color: '#17263c'}]
+          }
+        ]
+      });
+    }
+
+ 	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

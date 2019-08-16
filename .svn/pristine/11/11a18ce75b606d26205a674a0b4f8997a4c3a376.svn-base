@@ -1,0 +1,76 @@
+package com.qst.grade.service.Impl;
+
+import com.qst.grade.dao.CartDao;
+import com.qst.grade.dao.GoodsDao;
+import com.qst.grade.dao.OrderDao;
+import com.qst.grade.dao.OrderDetailDao;
+import com.qst.grade.po.Goods;
+import com.qst.grade.po.Order;
+import com.qst.grade.po.OrderDetail;
+import com.qst.grade.po.ShopCart;
+import com.qst.grade.service.OrderService;
+import com.qst.grade.util.UUID;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+@Service
+@Transactional
+public class OrderServiceImpl implements OrderService {
+    private final OrderDao orderDao;
+    private final CartDao cartDao;
+    private final GoodsDao goodsDao;
+    private final OrderDetailDao orderDetailDao;
+
+    @Autowired
+    public OrderServiceImpl(OrderDao orderDao, CartDao cartDao, GoodsDao goodsDao, OrderDetailDao orderDetailDao) {
+        this.orderDao = orderDao;
+        this.cartDao = cartDao;
+        this.goodsDao = goodsDao;
+        this.orderDetailDao = orderDetailDao;
+    }
+
+    public String createOrder(String[] gid, String[] sid, String uid, String aid, double totalPrice) {
+        String oid = "O" + UUID.getUUID(32);
+        Order order = new Order();
+        order.setOid(oid);
+        order.setPrice(totalPrice);
+        Date date = new Date(System.currentTimeMillis());
+        order.setCreateTime(new Timestamp(date.getTime()));
+        order.setAid(aid);
+        orderDao.save(order);
+        createOrderDetail(gid,sid,uid,oid);
+        return oid;
+    }
+
+    @Override
+    public void paySuccess(String oid, String pid) {
+        orderDao.save(oid, pid);
+    }
+
+
+
+    private void createOrderDetail(String[] gid, String[] sid, String uid, String oid) {
+
+        for(int i = 0; i < gid.length; i++) {
+            OrderDetail orderDetail = new OrderDetail();
+            Goods goods = goodsDao.findGoodsByGid(gid[i]);
+            ShopCart shopCart = cartDao.findBySid(sid[i]);
+            String oDid = "o" + UUID.getUUID(32);
+            orderDetail.setGid(goods.getGid());
+            orderDetail.setOid(oid);
+            orderDetail.setBuyyer(uid);
+            orderDetail.setSeller(goods.getUid());
+            orderDetail.setCount(shopCart.getCount());
+            orderDetail.setoDid(oDid);
+            orderDetailDao.save(orderDetail);
+            goodsDao.updateCountByGid(goods.getGid(), shopCart.getCount());
+            cartDao.deleteOrderItem(shopCart.getSid());
+        }
+    }
+}

@@ -1,0 +1,211 @@
+<%--
+  Created by IntelliJ IDEA.
+  User: ding xin
+  Date: 2019/8/7
+  Time: 17:14
+  To change this template use File | Settings | File Templates.
+--%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="s" uri="/struts-tags" %>
+<html>
+<head>
+    <title>Title</title>
+    <!-- Mobile Specific Meta-->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="images/favicon.png"/>
+    <link rel="stylesheet" type="text/css" href="css/buy.css">
+    <link rel="shortcut icon" type="image/x-icon" href="images/favicon.png"/>
+    <link rel="stylesheet" href="plugins/themefisher-font/style.css">
+    <link rel="stylesheet" type="text/css" href="plugins/slick-carousel/slick/slick.css"/>
+    <link rel="stylesheet" type="text/css" href="plugins/slick-carousel/slick/slick-theme.css"/>
+    <link rel="stylesheet" type="text/css" href="font-awesome-4.7.0/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="bootstrap-3.3.7-dist/css/bootstrap.min.css"/>
+    <script type="text/javascript" src="bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="jquery-1.11.3/jquery.min.js"></script>
+    <script src="plugins/slick-carousel/slick/slick.min.js"></script>
+    <script src="js/script.js"></script>
+    <style>
+        .btn--red {
+            border: 0 solid red;
+            background-color: red;
+            color: white;
+            height: 40px;
+            width: 120px;
+        }
+
+        #totalPrice {
+
+            font-size: 16px;
+            color: red;
+        }
+
+        .input {
+            border: none;
+            outline: none;
+            background-color: #fff;
+        }
+    </style>
+</head>
+<body>
+
+<section class="top-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 col-xs-12 col-sm-4">
+                <div class="contact-number">
+                    <i class="tf-ion-ios-telephone"></i>
+                    <span>0129- 12323-1213123</span>
+                </div>
+            </div>
+            <div class="col-md-4 col-xs-12 col-sm-4">
+                <div class="logo text-center">
+                    <a href="${pageContext.request.contextPath}/">
+                        <svg width="320px" height="40px" viewBox="-55 0 320 30" version="1.1"
+                             xmlns="http://www.w3.org/2000/svg"
+                             xmlns:xlink="http://www.w3.org/1999/xlink">
+                            <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" font-size="30"
+                               font-family="AustinBold, Austin"
+                               font-weight="bold">
+                                <g id="Group" transform="translate(-99.000000, -297.000000)" fill="#000000">
+                                    <text id="AVIATO">
+                                        <tspan x="89.94" y="325">Hand To Hand</tspan>
+                                    </text>
+                                </g>
+                            </g>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<%--<s:iterator value="data.address" var="add">--%>
+<%--    <s:property value="nickname" />--%>
+<%--</s:iterator>--%>
+
+<div class="buyPageDiv">
+    <form action="createorder" method="post">
+        <div class="address">
+            <div class="addressTip">选择收货地址</div>
+            <s:iterator value="data.address" var="address">
+            <div>
+<%--                <s:radio list="data.address" name="aid" listKey="aid" listTitle="nickname" listValue="nickname"  />--%>
+                <input type="radio" name="aid" value="<s:property value="aid"/>" id="<s:property value="aid"/>" checked>
+                <label for="<s:property value="aid"/>"><s:property value="nickname"/></label>
+                <span><s:property value="province"/></span>
+                <span><s:property value="city"/></span>
+                <span><s:property value="town"/></span>
+                <span><s:property value="detail_address"/></span>
+                <span>联系电话：<s:property value="telphone"/></span>
+            </div>
+            </s:iterator>
+        </div>
+        <div class="productList">
+            <div class="productListTip">确认订单信息</div>
+            <table class="productListTable">
+                <thead>
+                <tr>
+                    <th colspan="2" class="productListTableFirstColumn">
+                        <a class="marketLink" href="#nowhere">店铺：个人店铺</a>
+                        <a class="wangwanglink" href="#nowhere"> <span class="wangwangGif"></span> </a>
+                    </th>
+                    <th>单价</th>
+                    <th>数量</th>
+                    <th>小计</th>
+                    <th>配送方式</th>
+                </tr>
+                <tr class="rowborder">
+                    <td colspan="2"></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                </thead>
+                <tbody class="productListTableTbody">
+                <s:iterator value="data.data" var="data" status="st">
+                    1234:<s:property value="#data.cart.count"/>
+                    <s:if test="#data.cart.count > 0">
+                    <tr class="orderItemTR">
+                        <td class="orderItemFirstTD">
+                            <img class="orderItemImg" src="<s:property value="#data.good.imgPath.split(\",\")[0]"/>">
+                        </td>
+                        <td class="orderItemProductInfo">
+                            <a href="toGoods?gid=<s:property value="#data.good.gid"/>" class="orderItemProductLink">
+                                <s:property value="#data.good.name"/>
+                            </a>
+                            <img src="images/creditcard.png" title="支持信用卡支付">
+                            <img src="images/7day.png" title="消费者保障服务,承诺7天退货">
+                            <img src="images/promise.png" title="消费者保障服务,承诺如实描述">
+                        </td>
+                        <td>
+                            <span class="orderItemProductPrice">￥<s:property value="#data.good.price"/></span>
+                        </td>
+                        <td>
+                            <span class="orderItemProductNumber"><s:property value="#data.cart.count"/></span>
+                        </td>
+                        <td><span class="orderItemUnitSum">￥
+                            <s:property value="#data.cart.count * #data.good.price"/></span></td>
+                        <div hidden="hidden">
+                            <input hidden="hidden" class="goodsId" name="gid"
+                                   value="<s:property value="#data.good.gid"/>"/>
+                            <input hidden="hidden" class="sartId" name="sid"
+                                   value="<s:property value="#data.cart.sid"/>"/>
+                        </div>
+                        <td class="orderItemLastTD">
+                            <label class="orderItemDeliveryLabel">
+                                <input type="radio" value="" checked="checked">普通配送
+                            </label>
+                            <select class="orderItemDeliverySelect" class="form-control">
+                                <option>快递 免邮费</option>
+                            </select>
+                        </td>
+                    </tr>
+                    </s:if>
+                </s:iterator>
+
+                </tbody>
+            </table>
+        </div>
+        <div class="totalPrice">
+            <span>总计：<span id="total-Price"></span></span>
+            <span>积分抵扣：<strong id="gold"></strong>元</span>
+        </div>
+        <div class="orderItemTotalSumDiv">
+            <div class="pull-right">
+                <span>实付款</span>
+                <input class="orderItemTotalSumSpan input" readonly name="totalPrice" value="" >
+            </div>
+        </div>
+        <div class="submitOrderDiv">
+            <button type="submit" class="submitOrderButton">提交订单</button>
+        </div>
+    </form>
+</div>
+
+</body>
+<script type="text/javascript">
+    $(function () {
+
+    });
+    $(function () {
+        var price = 0;
+        $(".orderItemUnitSum").each(function () {
+           price += Number($(this).text().substring(1));
+        });
+        $("#total-Price").text(price);
+        var gold = ${data.gold / 100.0};
+        if (gold > price){
+            gold = price;
+        }
+        $("#gold").text(gold);
+        var result = price - gold > 0 ? price - gold : 0.01;
+        $(".orderItemTotalSumSpan").val(result);
+    });
+</script>
+</html>
+
+<%--  商品数量、商品总价格、店家id、商品id  --%>

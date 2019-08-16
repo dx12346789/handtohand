@@ -1,0 +1,124 @@
+package com.qst.grade.action;
+
+import com.opensymphony.xwork2.ActionContext;
+import com.opensymphony.xwork2.ActionSupport;
+import com.qst.grade.po.Goods;
+import com.qst.grade.po.Order;
+import com.qst.grade.po.OrderDetail;
+import com.qst.grade.po.User;
+import com.qst.grade.service.OrderDetailService;
+import com.qst.grade.service.OrderService;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.math.BigDecimal;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
+public class OrderListAction extends ActionSupport {
+    private OrderDetailService orderDetailService;
+    private List<OrderDetail> payerlist;
+    private List<Goods> goodslist;
+    private List<Order> orderlist;
+    private List<User> userlist;
+    private JSONObject jsonObject;
+
+    @Autowired
+    public OrderListAction(OrderDetailService orderDetailService) {
+        this.orderDetailService = orderDetailService;
+    }
+
+
+    public String orderlistpayer()  {
+        jsonObject = new JSONObject();
+        Map session = ActionContext.getContext().getSession();
+        User user = (User) session.get("loginUser");
+
+        payerlist = orderDetailService.findOrdersBypayer(user.getUid());
+        goodslist = orderDetailService.findGoodsBygid(payerlist);
+        orderlist = orderDetailService.findorderByoid(payerlist);
+        userlist  = orderDetailService.findUsersByuid(payerlist);
+
+        JSONArray jsonArray = new JSONArray();
+        for (int i = 0; i < payerlist.size(); i++) {
+            OrderDetail orderDetail = payerlist.get(i);
+            Goods goods =goodslist.get(i);
+            Order order=orderlist.get(i);
+            User seller=userlist.get(i);
+            JSONObject localJSONObject = new JSONObject();
+
+            localJSONObject.put("orderid", orderDetail.getoDid());
+            localJSONObject.put("goodsgid", goods.getGid());
+            localJSONObject.put("goodsimg",goods.getImgPath().split(",")[0] );
+            localJSONObject.put("goodsname", goods.getName());
+            localJSONObject.put("goodscount", orderDetail.getCount());
+            localJSONObject.put("goodspricetotal",  (orderDetail.getCount() * goods.getPrice()));
+            localJSONObject.put("orderstatus", orderDetail.getStatus());
+            localJSONObject.put("seller", user.getNickname());
+            localJSONObject.put("ordernum", order.getOid());
+            localJSONObject.put("paynum", order.getPid());
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String dateString = formatter.format(order.getPayTime());
+            Date date = new Date();
+            //注意format的格式要与日期String的格式相匹配
+            DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            try {
+                sdf.parse(dateString);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            localJSONObject.put("paytime",date);
+            jsonArray.add(localJSONObject);
+            System.out.println(localJSONObject);
+        }
+        jsonObject.put("status", "200");
+        jsonObject.put("msg", "OK");
+        jsonObject.put("data", jsonArray);
+        return "success";
+    }
+
+
+    public List<Goods> getGoodslist() {
+        return goodslist;
+    }
+
+    public void setGoodslist(List<Goods> goodslist) {
+        this.goodslist = goodslist;
+    }
+
+    public List<Order> getOrderlist() {
+        return orderlist;
+    }
+
+    public void setOrderlist(List<Order> orderlist) {
+        this.orderlist = orderlist;
+    }
+
+    public List<User> getUserlist() {
+        return userlist;
+    }
+
+    public void setUserlist(List<User> userlist) {
+        this.userlist = userlist;
+    }
+
+    public JSONObject getJsonObject() {
+        return jsonObject;
+    }
+
+    public void setJsonObject(JSONObject jsonObject) {
+        this.jsonObject = jsonObject;
+    }
+    public List<OrderDetail> getPayerlist() {
+        return payerlist;
+    }
+
+    public void setPayerlist(List<OrderDetail> payerlist) {
+        this.payerlist = payerlist;
+    }
+}

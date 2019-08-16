@@ -1,0 +1,24 @@
+package com.qst.grade.po;
+
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+import javax.persistence.Entity;
+
+@Setter
+@Getter
+@ToString
+@Entity
+public class Comment {
+    private String id;
+    //评论人
+    private User commentator;
+    //被评论人
+    private User respondent;
+    //被评论的商品
+    private Goods goods;
+    private String content;
+    //0为正常，1为删除
+    private int status;
+}

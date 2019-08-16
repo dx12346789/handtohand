@@ -1,0 +1,150 @@
+.search-title {
+	height: 164px;
+	width: 100%;
+
+}
+
+.search-body {
+	padding: 0px 10px 10px 0px;
+	text-align: right;
+}
+
+.pricepart {
+	height: 30px !important;
+	border: noe;
+	width: 100px;
+	background-color: white;
+	border: 1px solid #8C8C8C;
+	padding-left: 10px;
+}
+
+.pricepart:hover {
+	border: 1px solid black;
+}
+
+.searchspan {
+	color: #5E5E5E;
+}
+
+.liney {
+	height: 2px;
+	width: 30px;
+
+	background-color: red;
+}
+
+.search-top {
+	padding: 30px 30px 30px 30px;
+	background: url(../images/obg.jpg);
+
+
+}
+
+.searchinput {
+	text-align: center;
+	height: 90px;
+	padding: 20px 0px 0px 0px;
+
+
+}
+
+.search {
+	height: 50px;
+	width: 500px;
+	background-color: white;
+	border: 1px solid black;
+	padding-left: 20px;
+	*position: absolute;
+}
+
+.button {
+	*position: relative;
+	top: 0px;
+	left: 500px;
+	margin-left: -10px;
+	height: 50px !important;
+	border: none;
+	width: 100px;
+	background-color: black;
+	color: white;
+}
+.wait{
+	height: 300px;
+	width: 593px;
+    margin: 0 auto;
+	background-color:rgb(0,0,0,0.3);
+	position: relative;
+	/* top: -20px; */
+	z-index: 999999999;
+	display: none;
+
+
+}
+
+.type {
+	text-align: center;
+}
+
+
+.select-box {
+	height: 40px;
+	width: 150px;
+	padding: 0px 0px 10px 20px;
+	z-index: 999999 !important;
+
+}
+.select{
+	height: 200px;
+	z-index: 9999 !important;
+}
+
+.select-box span {
+	padding-left: 15px;
+	height: 30px;
+	width: 130px;
+	display: block;
+	border: 1px solid black;
+	line-height: 30px;
+	background-color: white;
+	color: #4A4949;
+}
+
+.change {
+	background-color: #EEEEEE;
+	color: black;
+}
+
+.ul {
+	
+	height: 150px;
+	border: 1px solid black;
+	line-height: 30px;
+	background-color: white;
+	display: none;
+	overflow-y: auto;
+
+}
+
+ul li {
+	cursor: pointer;
+	display: block;
+	padding: 0 5px;
+
+}
+.pagination > li > a:focus, .pagination > li > a:hover, .pagination > li > span:focus, .pagination > li > span:hover {
+    z-index: 2;
+    color: #7F7F7F;
+    background-color: #eee;
+    border-color: #ddd;
+}
+.pagination > li > a, .pagination > li > span {
+    position: relative;
+    float: left;
+    padding: 6px 12px;
+    margin-left: -1px;
+    line-height: 1.42857143;
+    color: black;
+    text-decoration: none;
+    background-color: #fff;
+    border: 1px solid #ddd;
+}

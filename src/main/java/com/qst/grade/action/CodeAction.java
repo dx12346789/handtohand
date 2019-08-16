@@ -1,0 +1,200 @@
+package com.qst.grade.action;
+
+import com.opensymphony.xwork2.ActionContext;
+import com.qst.grade.util.*;
+import net.sf.json.JSONObject;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.stereotype.Controller;
+
+import java.awt.image.BufferedImage;
+import java.io.InputStream;
+import java.util.Map;
+import java.util.Random;
+
+@Controller
+public class CodeAction {
+
+    private static final Log log = LogFactory.getLog(CodeAction.class);
+
+    private JSONObject jsonObject;
+    private String receiver;
+    private String newCode;
+    private InputStream inputStream;
+    private Email email = new EmailImpl();
+
+    private String getCode(int length) {
+        StringBuilder code = new StringBuilder(16);
+        Random random = new Random();
+        for (int i = 0; i < length; i++) {
+            code.append(random.nextInt(10));
+        }
+        System.out.println("验证码" + code);
+        return code.toString();
+    }
+
+    /**
+     * 发送邮箱注册验证码
+     *
+     * @return
+     */
+    public String sendRegisterEmailCode() {
+        jsonObject = new JSONObject();
+        String code = getCode(6);
+        String content = ContentTemplate.REGISTER_CONTENT.replace("${code}", code);
+        try {
+            email.sendTextEmail(receiver, ContentTemplate.TITLE, content);
+            Map session = ActionContext.getContext().getSession();
+            //HttpSession session = ServletActionContext.getRequest().getSession();
+            session.put("code", code);
+            jsonObject.put("status", "200");
+            jsonObject.put("msg", "OK");
+            jsonObject.put("data", "OK");
+        } catch (Exception e) {
+            jsonObject.put("status", "400");
+            jsonObject.put("msg", "ERROR");
+            jsonObject.put("data", "OTHER");
+            e.printStackTrace();
+        }
+        return "res";
+    }
+
+    /**
+     * 发送手机号注册验证码
+     *
+     * @return
+     */
+    public String sendPhoneCode() {
+        jsonObject = new JSONObject();
+        String code = getCode(6);
+        String content = "{\"code\":\"" + code + "\"}";
+        JSONObject resJsonObject = JSONObject.fromObject(SendSmSUtil.sendSmS(SendSmSUtil.REGIONID, receiver, SendSmSUtil.REGISTER_CODE, content));
+        System.out.println("短信验证码返回" + resJsonObject);
+        String message = resJsonObject.getString("Code");
+        if ("OK".equals(message)) {
+            //调用成功
+            Map session = ActionContext.getContext().getSession();
+            session.put("code", code);
+            jsonObject.put("status", "200");
+            jsonObject.put("msg", "OK");
+            jsonObject.put("data", "OK");
+        } else if ("isv.DAY_LIMIT_CONTROL".equals(message)) {
+            jsonObject.put("status", "400");
+            jsonObject.put("msg", "发送超限");
+            jsonObject.put("data", "DAY_LIMIT_CONTROL");
+            //日发送限额
+        } else if ("isv.SMS_CONTENT_ILLEGAL".equals(message)) {
+            //内容非法
+            jsonObject.put("status", "400");
+            jsonObject.put("msg", "内容非法");
+            jsonObject.put("data", "SMS_CONTENT_ILLEGAL");
+        } else if ("isv.OUT_OF_SERVICE".equals(message)) {
+            //余额不足
+            jsonObject.put("status", "400");
+            jsonObject.put("msg", "余额不足");
+            jsonObject.put("data", "OUT_OF_SERVICE");
+        } else if ("isv.ACCOUNT_NOT_EXISTS".equals(message)) {
+            //账户不存在
+            jsonObject.put("status", "400");
+            jsonObject.put("msg", "账户不存在");
+            jsonObject.put("data", "ACCOUNT_NOT_EXISTS");
+        } else if ("isv.ACCOUNT_ABNORMAL".equals(message)) {
+            //账户异常
+            jsonObject.put("status", "400");
+            jsonObject.put("msg", "账户异常");
+            jsonObject.put("data", "ACCOUNT_ABNORMAL");
+        } else if ("isp.SYSTEM_ERROR".equals(message)) {
+            //系统错误
+            jsonObject.put("status", "400");
+            jsonObject.put("msg", "发送超限");
+            jsonObject.put("data", "DAY_LIMIT_CONTROL");
+        } else if ("isv.MOBILE_NUMBER_ILLEGAL".equals(message)) {
+            //手机号非法
+            jsonObject.put("status", "400");
+            jsonObject.put("msg", "手机号非法");
+            jsonObject.put("data", "MOBILE_NUMBER_ILLEGAL");
+        } else if ("isv.BUSINESS_LIMIT_CONTROL".equals(message)) {
+            //业务限流
+            jsonObject.put("status", "400");
+            jsonObject.put("msg", "业务限流");
+            jsonObject.put("data", "BUSINESS_LIMIT_CONTROL");
+        } else if ("isv.AMOUNT_NOT_ENOUGH".equals(message)) {
+            //余额不足
+            jsonObject.put("status", "400");
+            jsonObject.put("msg", "余额不足");
+            jsonObject.put("data", "AMOUNT_NOT_ENOUGH");
+        } else {
+            jsonObject.put("status", "400");
+            jsonObject.put("msg", "error");
+            jsonObject.put("data", "OTHER");
+        }
+
+        return "res";
+    }
+
+    public String getCountCode() {
+        Map<String, Object> codeMap = Validate.createImage();
+        try {
+            inputStream = Validate.getInputStream((BufferedImage) codeMap.get("image"));
+            String code = (String) codeMap.get("code");
+            code = code.toUpperCase();
+            log.info("验证码获取成功" + code);
+            Map<String, Object> session = ActionContext.getContext().getSession();
+            session.put("code", codeMap.get("result"));
+        } catch (Exception e) {
+            log.info("验证码获取异常");
+            e.printStackTrace();
+        }
+        return "code";
+    }
+
+    public String checkCode() {
+        Map session = ActionContext.getContext().getSession();
+        String scode = (String) session.get("code");
+        System.out.println(scode + "-------" + newCode);
+        jsonObject = new JSONObject();
+        if (scode.equals(newCode)) {
+            jsonObject.put("status", "200");
+            jsonObject.put("msg", "OK");
+            jsonObject.put("data", "OK");
+//            session.remove("code");
+        } else {
+            jsonObject.put("status", "400");
+            jsonObject.put("msg", "error");
+            jsonObject.put("data", "OTHER");
+        }
+        return "res";
+    }
+
+    public JSONObject getJsonObject() {
+        return jsonObject;
+    }
+
+    public void setJsonObject(JSONObject jsonObject) {
+        this.jsonObject = jsonObject;
+    }
+
+    public String getReceiver() {
+        return receiver;
+    }
+
+    public void setReceiver(String receiver) {
+        this.receiver = receiver;
+    }
+
+    public String getNewCode() {
+        return newCode;
+    }
+
+    public void setNewCode(String newCode) {
+        this.newCode = newCode;
+    }
+
+    public InputStream getInputStream() {
+        return inputStream;
+    }
+
+    public void setInputStream(InputStream inputStream) {
+        this.inputStream = inputStream;
+    }
+}

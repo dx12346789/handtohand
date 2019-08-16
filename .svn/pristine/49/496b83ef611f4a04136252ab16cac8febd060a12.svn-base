@@ -1,0 +1,185 @@
+package com.qst.grade.po;
+
+import javax.persistence.*;
+import java.sql.Date;
+
+@Entity
+@Table(name = "`user`")
+public class User {
+    private String uid;
+    private String pass;
+    private String nickname;
+    private String mail;
+    private String headImage;
+    private String telphone;
+    private Integer sex;
+    private Date birthday;
+    private int gold;
+    private int status;
+    private int auth;
+
+    @Id
+    @Column(name = "uid")
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
+
+    @Basic
+    @Column(name = "pass")
+    public String getPass() {
+        return pass;
+    }
+
+    public void setPass(String pass) {
+        this.pass = pass;
+    }
+
+    @Basic
+    @Column(name = "nickname")
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    @Basic
+    @Column(name = "mail")
+    public String getMail() {
+        return mail;
+    }
+
+    public void setMail(String mail) {
+        this.mail = mail;
+    }
+
+    @Basic
+    @Column(name = "head_image")
+    public String getHeadImage() {
+        return headImage;
+    }
+
+    public void setHeadImage(String headImage) {
+        this.headImage = headImage;
+    }
+
+    @Basic
+    @Column(name = "telphone")
+    public String getTelphone() {
+        return telphone;
+    }
+
+    public void setTelphone(String telphone) {
+        this.telphone = telphone;
+    }
+
+    @Basic
+    @Column(name = "sex")
+    public Integer getSex() {
+        return sex;
+    }
+
+    public void setSex(Integer sex) {
+        this.sex = sex;
+    }
+
+    @Basic
+    @Column(name = "birthday")
+    public Date getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
+    }
+
+    @Basic
+    @Column(name = "gold")
+    public int getGold() {
+        return gold;
+    }
+
+    public void setGold(int gold) {
+        this.gold = gold;
+    }
+
+    @Basic
+    @Column(name = "status")
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    @Basic
+    @Column(name = "auth")
+    public int getAuth() {
+        return auth;
+    }
+
+    public void setAuth(int auth) {
+        this.auth = auth;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        User user = (User) o;
+
+        if (gold != user.gold) return false;
+        if (status != user.status) return false;
+        if (auth != user.auth) return false;
+        if (uid != null ? !uid.equals(user.uid) : user.uid != null) return false;
+        if (pass != null ? !pass.equals(user.pass) : user.pass != null) return false;
+        if (nickname != null ? !nickname.equals(user.nickname) : user.nickname != null) return false;
+        if (mail != null ? !mail.equals(user.mail) : user.mail != null) return false;
+        if (headImage != null ? !headImage.equals(user.headImage) : user.headImage != null) return false;
+        if (telphone != null ? !telphone.equals(user.telphone) : user.telphone != null) return false;
+        if (sex != null ? !sex.equals(user.sex) : user.sex != null) return false;
+        if (birthday != null ? !birthday.equals(user.birthday) : user.birthday != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = uid != null ? uid.hashCode() : 0;
+        result = 31 * result + (pass != null ? pass.hashCode() : 0);
+        result = 31 * result + (nickname != null ? nickname.hashCode() : 0);
+        result = 31 * result + (mail != null ? mail.hashCode() : 0);
+        result = 31 * result + (headImage != null ? headImage.hashCode() : 0);
+        result = 31 * result + (telphone != null ? telphone.hashCode() : 0);
+        result = 31 * result + (sex != null ? sex.hashCode() : 0);
+        result = 31 * result + (birthday != null ? birthday.hashCode() : 0);
+        result = 31 * result + gold;
+        result = 31 * result + status;
+        result = 31 * result + auth;
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "uid='" + uid + '\'' +
+                ", pass='" + pass + '\'' +
+                ", nickname='" + nickname + '\'' +
+                ", mail='" + mail + '\'' +
+                ", headImage='" + headImage + '\'' +
+                ", telphone='" + telphone + '\'' +
+                ", sex=" + sex +
+                ", birthday=" + birthday +
+                ", gold=" + gold +
+                ", status=" + status +
+                ", auth=" + auth +
+                '}';
+    }
+}

@@ -1,0 +1,111 @@
+package com.qst.grade.action;
+
+import com.opensymphony.xwork2.ActionContext;
+import com.qst.grade.po.Goods;
+import com.qst.grade.po.User;
+import com.qst.grade.service.GoodsService;
+import com.qst.grade.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+@Controller
+public class IssueManageAction {
+    private Goods goods;
+    private User user;
+    private int onShelf;
+    private int removeShelf;
+    private List<Goods> goodsList;
+    private List<Goods> goodsOnList;
+    private List<Goods> goodsDownList;
+    private GoodsService goodsService;
+    private UserService userService;
+
+    @Autowired
+    public IssueManageAction(GoodsService goodsService, UserService userService) {
+        this.goodsService = goodsService;
+        this.userService = userService;
+    }
+
+    public String toMyIssue(){
+        Map session = ActionContext.getContext().getSession();
+        User user1= (User) session.get("loginUser");
+        String uid="Uce13f891c69e447bb6264fdca345016d";
+        goodsList=goodsService.findGoodsByUid(uid);
+        goodsOnList=new ArrayList<Goods>();
+        goodsDownList=new ArrayList<Goods>();
+        for(Goods goods:goodsList){
+            System.out.println("------商品："+goods.getName());
+            System.out.println("------图片名称："+goods.getImgPath());
+            if(goods.getStatus()==0){
+                goodsOnList.add(goods);
+            }else if(goods.getStatus()==2){
+                goodsDownList.add(goods);
+            }
+        }
+        onShelf=goodsOnList.size();
+        removeShelf=goodsDownList.size();
+        System.out.println("[上架的商品数："+onShelf+"],[下架的商品数："+removeShelf+"]");
+
+        return "success";
+    }
+
+    public Goods getGoods() {
+        return goods;
+    }
+
+    public void setGoods(Goods goods) {
+        this.goods = goods;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public List<Goods> getGoodsOnList() {
+        return goodsOnList;
+    }
+
+    public void setGoodsOnList(List<Goods> goodsOnList) {
+        this.goodsOnList = goodsOnList;
+    }
+
+    public List<Goods> getGoodsDownList() {
+        return goodsDownList;
+    }
+
+    public void setGoodsDownList(List<Goods> goodsDownList) {
+        this.goodsDownList = goodsDownList;
+    }
+
+    public List<Goods> getGoodsList() {
+        return goodsList;
+    }
+
+    public void setGoodsList(List<Goods> goodsList) {
+        this.goodsList = goodsList;
+    }
+
+    public int getOnShelf() {
+        return onShelf;
+    }
+
+    public void setOnShelf(int onShelf) {
+        this.onShelf = onShelf;
+    }
+
+    public int getRemoveShelf() {
+        return removeShelf;
+    }
+
+    public void setRemoveShelf(int removeShelf) {
+        this.removeShelf = removeShelf;
+    }
+}

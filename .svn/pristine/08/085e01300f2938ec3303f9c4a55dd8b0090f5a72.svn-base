@@ -1,0 +1,18 @@
+package com.qst.grade.po;
+
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+import javax.persistence.Entity;
+import java.util.Set;
+
+@Setter
+@Getter
+@ToString
+@Entity
+public class GoodCategory {
+    private String id;
+    private Category category;
+    private Set<Goods> goods;
+}

@@ -1,0 +1,16 @@
+package com.qst.grade.po;
+
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+import javax.persistence.Entity;
+
+@Setter
+@Getter
+@ToString
+@Entity
+public class Favorite {
+    private String fid;
+    private Goods goods;
+}

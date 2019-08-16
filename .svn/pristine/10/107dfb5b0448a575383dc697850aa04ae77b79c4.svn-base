@@ -1,0 +1,227 @@
+package com.qst.grade.action;
+
+import com.opensymphony.xwork2.ActionContext;
+import com.qst.grade.po.Category;
+import com.qst.grade.po.Comment;
+import com.qst.grade.po.Goods;
+import com.qst.grade.po.User;
+import com.qst.grade.service.CategoryService;
+import com.qst.grade.service.CommentService;
+import com.qst.grade.service.GoodsService;
+import com.qst.grade.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+
+@Controller
+public class IssueManageAction {
+    private Goods goods;
+    private User user;
+    private int onShelf;
+    private int removeShelf;
+    private String gid;
+    private int status;
+    private String cid;
+    private Category category;
+    private Comment comment;
+    private List<Goods> goodsList;
+    private List<Goods> goodsOnList;
+    private List<Goods> goodsDownList;
+    private List<Comment> commentList;
+    private List<User> userList;
+    private GoodsService goodsService;
+    private UserService userService;
+    private CategoryService categoryService;
+    private CommentService commentService;
+
+    @Autowired
+    public IssueManageAction(GoodsService goodsService, UserService userService, CategoryService categoryService, CommentService commentService) {
+        this.goodsService = goodsService;
+        this.userService = userService;
+        this.categoryService = categoryService;
+        this.commentService = commentService;
+    }
+
+    public String toMyIssue(){
+//        Map session = ActionContext.getContext().getSession();
+//        User user1= (User) session.get("loginUser");
+        String uid="Uce13f891c69e447bb6264fdca345016d";
+        goodsList=goodsService.findGoodsByUid(uid);
+        goodsOnList=new ArrayList<Goods>();
+        goodsDownList=new ArrayList<Goods>();
+        for(Goods goods:goodsList){
+            System.out.println("------商品："+goods.getName());
+            System.out.println("------图片名称："+goods.getImgPath());
+            if(goods.getStatus()==0){
+                goodsOnList.add(goods);
+            }else if(goods.getStatus()==2){
+                goodsDownList.add(goods);
+            }
+        }
+        onShelf=goodsOnList.size();
+        removeShelf=goodsDownList.size();
+        System.out.println("[上架的商品数："+onShelf+"],[下架的商品数："+removeShelf+"]");
+
+        return "success";
+    }
+
+    public String toAmendGoodsStatus(){
+        System.out.println("[获取到的gid:"+gid+"],[status:"+status+"]");
+        if(status==0){
+            goodsService.makeGoodsStatusToRemoveShelf(gid);
+        }else if(status==2){
+            goodsService.makeGoodsStatusToOnShelf(gid);
+        }
+        return "toMyissue";
+    }
+
+    public String toDeleteGoods(){
+        System.out.println("获取到的gid:"+gid);
+        goodsService.makeGoodsStatusToDelete(gid);
+        return "toMyissue";
+    }
+    public String toCheckUpGoods(){
+        System.out.println("[获取到的gid:"+gid+"]");
+//        Map session=ActionContext.getContext().getSession();
+//        User user1=(User)session.get("loginUser");
+
+        goods=goodsService.findGoodsByGid(gid);
+        System.out.println("--------商品名称："+goods.getName());
+        category=categoryService.findCategoryByCid(goods.getCid());
+        commentList=commentService.findByGid(goods.getGid());
+        System.out.println("---------评论个数："+commentList.size());
+        user=userService.findByuId(goods.getUid());
+        userList=userService.findAll();
+        for (int i = 0; i < commentList.size(); i++) {
+            Comment comment = commentList.get(i);
+            for (int j = 0; j < userList.size(); j++) {
+                User u = userList.get(j);
+                if (comment.getAnonymous() == 1 && Objects.equals(comment.getCommentator(), u.getUid())) {
+                    StringBuilder str = new StringBuilder(16);
+                    String name = u.getNickname();
+                    str.append(name.charAt(0));
+                    str.append("***");
+                    str.append(name.charAt(name.length() - 1));
+                    u.setNickname(str.toString());
+                }
+            }
+        }
+        return "toDetail";
+    }
+
+    public Goods getGoods() {
+        return goods;
+    }
+
+    public void setGoods(Goods goods) {
+        this.goods = goods;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public List<Goods> getGoodsOnList() {
+        return goodsOnList;
+    }
+
+    public void setGoodsOnList(List<Goods> goodsOnList) {
+        this.goodsOnList = goodsOnList;
+    }
+
+    public List<Goods> getGoodsDownList() {
+        return goodsDownList;
+    }
+
+    public void setGoodsDownList(List<Goods> goodsDownList) {
+        this.goodsDownList = goodsDownList;
+    }
+
+    public List<Goods> getGoodsList() {
+        return goodsList;
+    }
+
+    public void setGoodsList(List<Goods> goodsList) {
+        this.goodsList = goodsList;
+    }
+
+    public int getOnShelf() {
+        return onShelf;
+    }
+
+    public void setOnShelf(int onShelf) {
+        this.onShelf = onShelf;
+    }
+
+    public int getRemoveShelf() {
+        return removeShelf;
+    }
+
+    public void setRemoveShelf(int removeShelf) {
+        this.removeShelf = removeShelf;
+    }
+
+    public String getGid() {
+        return gid;
+    }
+
+    public void setGid(String gid) {
+        this.gid = gid;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public Comment getComment() {
+        return comment;
+    }
+
+    public void setComment(Comment comment) {
+        this.comment = comment;
+    }
+
+    public List<Comment> getCommentList() {
+        return commentList;
+    }
+
+    public void setCommentList(List<Comment> commentList) {
+        this.commentList = commentList;
+    }
+
+    public String getCid() {
+        return cid;
+    }
+
+    public void setCid(String cid) {
+        this.cid = cid;
+    }
+
+    public List<User> getUserList() {
+        return userList;
+    }
+
+    public void setUserList(List<User> userList) {
+        this.userList = userList;
+    }
+}

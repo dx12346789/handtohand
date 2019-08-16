@@ -1,0 +1,8 @@
+package com.qst.grade.dao;
+
+import com.qst.grade.po.OrderDetail;
+
+public interface OrderDetailDao {
+
+    String save(OrderDetail orderDetail);
+}

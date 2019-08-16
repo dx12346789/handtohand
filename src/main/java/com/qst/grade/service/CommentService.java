@@ -1,0 +1,12 @@
+package com.qst.grade.service;
+
+import com.qst.grade.po.Comment;
+
+import java.util.List;
+
+public interface CommentService {
+    public List<Comment> findByGid(String gid);
+    String saveComment(Comment comment);
+    Comment findByOid(String oid);
+    int count(String gid);
+}

@@ -1,0 +1,6 @@
+package com.qst.grade.service;
+
+public interface OrderService {
+
+    String createOrder(String[] gid, String[] sid, String uid, double totalPrice);
+}

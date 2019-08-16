@@ -1,0 +1,180 @@
+package com.qst.grade.po;
+
+import javax.persistence.*;
+import java.util.Objects;
+
+@Entity
+@Table(name = "`goods`")
+public class Goods{
+    private String gid;
+    private String name;
+    private String detail;
+    private int status;
+    private String uid;
+    private int count;
+    private double price;
+    private String imgPath;
+    private String acronym;
+    private String fullpinyin;
+    private String cid;
+    private Integer hit;
+
+    @Id
+    @Column(name = "gid")
+    public String getGid() {
+        return gid;
+    }
+
+    public void setGid(String gid) {
+        this.gid = gid;
+    }
+
+    @Basic
+    @Column(name = "name")
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Basic
+    @Column(name = "detail")
+    public String getDetail() {
+        return detail;
+    }
+
+    public void setDetail(String detail) {
+        this.detail = detail;
+    }
+
+    @Basic
+    @Column(name = "status")
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    @Basic
+    @Column(name = "uid")
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
+
+    @Basic
+    @Column(name = "count")
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
+    }
+
+    @Basic
+    @Column(name = "price")
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    @Basic
+    @Column(name = "img_path")
+    public String getImgPath() {
+        return imgPath;
+    }
+
+    public void setImgPath(String imgPath) {
+        this.imgPath = imgPath;
+    }
+
+    @Basic
+    @Column(name = "acronym")
+    public String getAcronym() {
+        return acronym;
+    }
+
+    public void setAcronym(String acronym) {
+        this.acronym = acronym;
+    }
+
+    @Basic
+    @Column(name = "fullpinyin")
+    public String getFullpinyin() {
+        return fullpinyin;
+    }
+
+    public void setFullpinyin(String fullpinyin) {
+        this.fullpinyin = fullpinyin;
+    }
+
+    @Basic
+    @Column(name = "cid")
+    public String getCid() {
+        return cid;
+    }
+
+    public void setCid(String cid) {
+        this.cid = cid;
+    }
+
+    @Basic
+    @Column(name = "hit")
+    public Integer getHit() {
+        return hit;
+    }
+
+    public void setHit(Integer hit) {
+        this.hit = hit;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Goods goods = (Goods) o;
+        return status == goods.status &&
+                count == goods.count &&
+                Double.compare(goods.price, price) == 0 &&
+                Objects.equals(gid, goods.gid) &&
+                Objects.equals(name, goods.name) &&
+                Objects.equals(detail, goods.detail) &&
+                Objects.equals(uid, goods.uid) &&
+                Objects.equals(imgPath, goods.imgPath) &&
+                Objects.equals(acronym, goods.acronym) &&
+                Objects.equals(fullpinyin, goods.fullpinyin) &&
+                Objects.equals(cid, goods.cid);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(gid, name, detail, status, uid, count, price, imgPath, acronym, fullpinyin, cid);
+    }
+
+    @Override
+    public String toString() {
+        return "Goods{" +
+                "gid='" + gid + '\'' +
+                ", name='" + name + '\'' +
+                ", detail='" + detail + '\'' +
+                ", status=" + status +
+                ", uid='" + uid + '\'' +
+                ", count=" + count +
+                ", price=" + price +
+                ", imgPath='" + imgPath + '\'' +
+                ", acronym='" + acronym + '\'' +
+                ", fullpinyin='" + fullpinyin + '\'' +
+                '}';
+    }
+}

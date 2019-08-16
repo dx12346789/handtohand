@@ -1,0 +1,72 @@
+package com.qst.grade.dao.Impl;
+
+import com.qst.grade.dao.GoodsDao;
+import com.qst.grade.po.Goods;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.springframework.orm.hibernate3.HibernateTemplate;
+import org.springframework.stereotype.Repository;
+
+import javax.annotation.Resource;
+import java.util.List;
+
+@Repository
+public class GoodsDaoImpl extends HibernateTemplate implements GoodsDao {
+
+    @Resource(name = "sessionFactory")
+    public void setSessionFactory(SessionFactory sessionFactory) {
+        super.setSessionFactory(sessionFactory);
+    }
+
+    private Session before() {
+        SessionFactory sessionFactory = super.getSessionFactory();
+        assert sessionFactory != null;
+        return sessionFactory.getCurrentSession();
+    }
+
+    @Override
+    public String addGoods(Goods goods) {
+        return (String) super.save(goods);
+    }
+
+    /**
+     * 按Gid查找goods表所有信息
+     *
+     * @return
+     */
+    @Override
+    public Goods findGoodsByGid(String gid) {
+        Session session = this.before();
+        Query query = session.createQuery("from Goods where gid=?");
+        query.setString(0, gid);
+        return (Goods) query.uniqueResult();
+    }
+
+    @Override
+    public Goods findBytypeid(String typeid) {
+        Query query = super.getSession().createSQLQuery("select * from goods where cid = ?").addEntity(Goods.class);
+        query.setString(0,typeid);
+        return (Goods) query.uniqueResult();
+
+    }
+
+    @Override
+    public Integer updateCountByGid(String gid, int count) {
+        Session session = this.before();
+        Query query = session.createSQLQuery("update `goods` set count = ? where gid = ?");
+        query.setInteger(0, count);
+        query.setString(1, gid);
+        return query.executeUpdate();
+    }
+
+    @Override
+    public List<Goods> findGoodsByUid(String uid) {
+        Query query = super.getSession().createSQLQuery("select * from goods where uid=?").addEntity(Goods.class);
+        query.setString(0,uid);
+        return query.list();
+    }
+
+
+}

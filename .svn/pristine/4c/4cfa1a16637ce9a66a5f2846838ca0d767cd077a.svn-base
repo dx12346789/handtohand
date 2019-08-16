@@ -1,0 +1,36 @@
+package com.qst.grade.service.Impl;
+
+import com.qst.grade.dao.SearchDao;
+import com.qst.grade.po.Goods;
+import com.qst.grade.service.SearchService;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.math.BigDecimal;
+import java.util.List;
+
+@Service
+@Transactional
+public class SearchServiceImpl implements SearchService {
+    private SearchDao searchDao;
+
+
+    @Autowired
+    public SearchServiceImpl(SearchDao searchDao) {
+        this.searchDao = searchDao;
+    }
+
+    @Override
+    public JSONObject findAllByNameAndPrice1AndPrice2AndCid(String name, BigDecimal price1, BigDecimal price2, String cid,int page) {
+        List<Goods> goods = searchDao.findAllByNameAndPriceAndCid(name,price1,price2,cid,page * 20);
+        int totalPage = searchDao.findCountByNameAndPriceAndCid(name,price1,price2,cid);
+        JSONObject localJSONObject = new JSONObject();
+        localJSONObject.put("page",page);
+        localJSONObject.put("totalPage",totalPage);
+        localJSONObject.put("GoodsList", JSONArray.fromObject(goods));
+        return localJSONObject;
+    }
+}

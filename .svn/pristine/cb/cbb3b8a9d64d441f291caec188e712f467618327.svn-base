@@ -1,0 +1,30 @@
+package com.qst.grade.service.Impl;
+
+import com.qst.grade.dao.GoodsDao;
+import com.qst.grade.po.Goods;
+import com.qst.grade.service.GoodsService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+@Service
+@Transactional
+public class GoodsServiceImpl implements GoodsService {
+
+    private GoodsDao goodsDao;
+
+    @Autowired
+    public GoodsServiceImpl(GoodsDao goodsDao){
+        this.goodsDao=goodsDao;
+    }
+
+    @Override
+    public String addGoods(Goods goods) {
+        return goodsDao.addGoods(goods);
+    }
+
+    @Override
+    public Goods findGoodsById(String gid) {
+        return goodsDao.findGoodsByGid(gid);
+    }
+}

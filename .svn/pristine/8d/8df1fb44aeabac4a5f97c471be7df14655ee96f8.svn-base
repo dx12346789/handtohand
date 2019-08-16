@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<points>
+    <business>50</business>
+    <point id="0">
+        <low>0</low>
+        <high>100</high>
+        <number>4</number>
+    </point>
+    <point id="2" >
+        <low>101</low>
+        <high>300</high>
+        <number>10</number>
+    </point>
+    <point id="3">
+        <low>301</low>
+        <high>500</high>
+        <number>15</number>
+    </point>
+</points>

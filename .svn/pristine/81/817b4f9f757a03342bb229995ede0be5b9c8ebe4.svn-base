@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="com.qst.grade.po.Order" table="`order`" schema="hand_to_hand">
+        <id name="oid" column="oid"/>
+        <property name="price" column="price"/>
+        <property name="createTime" column="create_time"/>
+        <property name="payTime" column="pay_time"/>
+        <property name="status" column="status"/>
+        <property name="pid" column="pid"/>
+        <property name="aid" column="aid"/>
+    </class>
+</hibernate-mapping>

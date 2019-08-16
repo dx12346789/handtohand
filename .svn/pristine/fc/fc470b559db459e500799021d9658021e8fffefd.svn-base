@@ -1,0 +1,130 @@
+package com.qst.grade.po;
+
+import javax.persistence.*;
+import java.sql.Timestamp;
+import java.util.Date;
+
+@Entity
+@Table(name = "`notic`")
+public class Notic {
+    private String nid;
+    private String title;
+    private String content;
+    private Date createTime;
+    private String sender;
+    private String recipient;
+    private int status;
+
+    @Id
+    @Column(name = "nid")
+    public String getNid() {
+        return nid;
+    }
+
+    public void setNid(String nid) {
+        this.nid = nid;
+    }
+
+    @Basic
+    @Column(name = "title")
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    @Basic
+    @Column(name = "content")
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    @Basic
+    @Column(name = "create_time")
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    @Basic
+    @Column(name = "sender")
+    public String getSender() {
+        return sender;
+    }
+
+    public void setSender(String sender) {
+        this.sender = sender;
+    }
+
+    @Basic
+    @Column(name = "recipient")
+    public String getRecipient() {
+        return recipient;
+    }
+
+    public void setRecipient(String recipient) {
+        this.recipient = recipient;
+    }
+
+    @Basic
+    @Column(name = "status")
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Notic notic = (Notic) o;
+
+        if (status != notic.status) return false;
+        if (nid != null ? !nid.equals(notic.nid) : notic.nid != null) return false;
+        if (title != null ? !title.equals(notic.title) : notic.title != null) return false;
+        if (content != null ? !content.equals(notic.content) : notic.content != null) return false;
+        if (createTime != null ? !createTime.equals(notic.createTime) : notic.createTime != null) return false;
+        if (sender != null ? !sender.equals(notic.sender) : notic.sender != null) return false;
+        if (recipient != null ? !recipient.equals(notic.recipient) : notic.recipient != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = nid != null ? nid.hashCode() : 0;
+        result = 31 * result + (title != null ? title.hashCode() : 0);
+        result = 31 * result + (content != null ? content.hashCode() : 0);
+        result = 31 * result + (createTime != null ? createTime.hashCode() : 0);
+        result = 31 * result + (sender != null ? sender.hashCode() : 0);
+        result = 31 * result + (recipient != null ? recipient.hashCode() : 0);
+        result = 31 * result + status;
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Notic{" +
+                "nid='" + nid + '\'' +
+                ", title='" + title + '\'' +
+                ", content='" + content + '\'' +
+                ", createTime=" + createTime +
+                ", sender='" + sender + '\'' +
+                ", recipient='" + recipient + '\'' +
+                ", status=" + status +
+                '}';
+    }
+}

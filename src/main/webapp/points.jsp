@@ -1,0 +1,269 @@
+<%--
+  Created by IntelliJ IDEA.
+  User: 一别半笙
+  Date: 2019/8/8
+  Time: 16:19
+  To change this template use File | Settings | File Templates.
+--%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@taglib uri="/struts-tags" prefix="s" %>
+
+    <link rel="stylesheet" type="text/css" href="font-awesome-4.7.0/css/font-awesome.min.css"/>
+    <link rel="stylesheet" type="text/css" href="bootstrap-3.3.7-dist/css/bootstrap.min.css"/>
+    <script src="jquery-1.11.3/jquery.min.js"></script>
+    <script src="bootstrap-3.3.7-dist/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+    <link rel="stylesheet" type="text/css" href="css/points.css"/>
+    <script type="text/javascript">
+        var finddel = function (id,low,high) {
+            console.log("进入FINDDEL");
+            console.log(id);
+            console.log(low);
+            console.log(high);
+            $("#delpoint").html("确定删除区间为" + low + "——" + high + "的规则");
+            $("#delsure").click(function () {
+                console.log("进入delsure");
+                $.ajax({
+                    url:"delpoints",
+                    type:"post",
+                    data:{"delid":id},
+                    datatype:"json",
+                    success:function (data) {
+                        data=eval(data);
+                        if(data.status==="200"){
+
+                            $("#"+id).remove();
+                        }else{
+                            alert("删除失败");
+                        }
+
+                    }
+
+                });
+            });
+        }
+        var update = function (id, low, high, number) {
+            console.log("12312");
+            $("#tid").val(id);
+            $("#baselow").val(low);
+            $("#basehigh").val(high);
+            $("#basenumber").val(number);
+        }
+    </script>
+<section class="content-header">
+    <h1>
+        积分管理
+    </h1>
+</section>
+<section class="page-two">
+    <div style="padding-left: 75%;">
+        <a href="" data-toggle="modal" data-target="#baseinformat">
+            <button class="button button-size">添加新规则</button>
+        </a>
+    </div>
+    <div class="col-sm-1">
+
+    </div>
+    <div class="col-sm-10">
+        <div class="type_table">
+            <table style="width: 100%;" cellspacing="0" cellpadding="0" border="0">
+
+                <thead style="border-top:1px solid #DDDDDD;height: 60px;">
+                <tr>
+                    <th class="table-center">
+                        <div class="table-cell"><span>最小价格</span></div>
+                    </th>
+
+                    <th class="table-center">
+                        <div class="table-cell"><span>最大价格</span></div>
+                    </th>
+                    <th class="table-center">
+                        <div class="table-cell"><span>获得积分数</span></div>
+                    </th>
+                    <th class="table-center">
+                        <div><span>操作</span></div>
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+
+                <s:iterator value="points" var="point">
+                    <tr id="<s:property value="id"/>">
+                        <td class="table-color"><s:property value="low"/></td>
+                        <td class="table-color"><s:property value="high"/></td>
+                        <td class="table-color"><s:property value="number"/></td>
+                        <td class="table-center">
+                            <a href="javascript:void(0);" data-toggle="modal" data-target="#baseinformat"
+                               onclick="update('<s:property value="id"/>','<s:property value="low"/>','<s:property value="high"/>','<s:property value="number"/>')">
+                                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                            </a>&nbsp;
+                            <a href="javascript:void(0)" data-toggle="modal"  data-target="#del"  >
+                                <i class="fa fa-trash" aria-hidden="true"
+                                   onclick="finddel('<s:property value="id"/>','<s:property value="low"/>','<s:property value="high"/>')"></i>
+                            </a>
+                        </td>
+                    </tr>
+                </s:iterator>
+                </tbody>
+            </table>
+            <!-- 模态框添加积分信息 -->
+            <div class="modal fade" id="baseinformat" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                &times;
+                            </button>
+                            <h4 class="modal-title">
+                                积分规则管理
+                            </h4>
+                        </div>
+                        <div class="modal-body">
+
+                            <div class="modal-div">
+
+                                最小价格：<input type="text" name="point.low" id="baselow" value="" class="input"/>
+                            </div>
+                            <div class="modal-div">
+                                最大价格：<input type="text" name="point.high" id="basehigh" value="" class="input"/>
+                            </div>
+                            <div class="modal-div">
+                                积分数量：<input type="text" name="point.number" id="basenumber" value="" class="input"/>
+                            </div>
+                            <input type="hidden" value="-1" id="tid">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" id="cancel" class="button" data-dismiss="modal">关闭
+                            </button>
+                            <a href="javascript:void(0);" data-dismiss="modal" id="submit">
+                                <button class="button">
+                                    确定
+                                </button>
+                            </a>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal -->
+            </div>
+            <!-- /拟态框1——添加积分信息 -->
+            <!-- 模态框删除 -->
+            <div class="modal fade" id="del" style="padding-top:180px;">
+                <div class="modal-dialog modal-sm">
+                    <div class="modal-content">
+
+                        <!-- 模态框头部 -->
+                        <div class="modal-header">
+                            <h5 class="modal-title">删除</h5>
+                            <button type="button" id="close" class="close" data-dismiss="modal"
+                                    style="width: 10px;height: 20px;position: relative;margin-top: -20px;background-color:white;">
+                                &times;
+                            </button>
+                        </div>
+
+                        <!-- 模态框主体 -->
+                        <div class="modal-body" id="delpoint">
+                            是否确认删除该条记录
+                        </div>
+
+                        <!-- 模态框底部 -->
+                        <div class="modal-footer">
+                            <div class="conf">
+                                <a href="javascript:void(0);" data-dismiss="modal" id="delsure">确定</a>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!-- /模态框删除 -->
+        </div>
+    </div>
+
+
+    </div>
+
+
+</section>
+
+
+<script type="text/javascript">
+    $("#baseinformat").on("hide.bs.modal",function () {
+        $("#tid").val("-1");
+        $("#baselow").val("");
+        $("#basehigh").val("");
+        $("#basenumber").val("");
+    });
+
+    $("#submit").click(function () {
+        var flag = "" + $("#tid").val();
+        console.log("+" + flag + "+");
+        // return;
+        var url = "";
+        console.log(flag === "-1");
+        if (flag === "-1") {
+            url = "addpoints";
+            console.log("添加传值");
+            var pid="-1";
+            var plow = $("#baselow").val();
+            var phigh = $("#basehigh").val();
+            var pnumber = $("#basenumber").val();
+            console.log(plow + "---" + phigh + "---" + pnumber);
+        } else {
+            url = "uppoints";
+            console.log("修改传值");
+            var pid = $("#tid").val();
+            var plow = $("#baselow").val();
+            var phigh = $("#basehigh").val();
+            var pnumber = $("#basenumber").val();
+            console.log(pid + "---" + plow + "---" + phigh + "---" + pnumber);
+        }
+        console.log("复默认值");
+        $("#tid").val("-1");
+        $("#baselow").val("");
+        $("#basehigh").val("");
+        $("#basenumber").val("");
+        console.log("/复默认值")
+
+        $.ajax({
+            url: url,
+            type: "post",
+            data: {"point.id":pid,"point.low": plow, "point.high": phigh, "point.number": pnumber},
+            dataType: "json",
+            success: function (data) {
+                data = eval(data);
+                console.log(data);
+                if (data.status === "200") {
+
+                    alert("保存成功");
+                    $("tbody").append(" <tr id='"+data.data+"'>" +
+                        "<td class='table-color'>"+plow+"</td>" +
+                        "<td class='table-color'>"+phigh+"</td>" +
+                        "<td class='table-color'>"+pnumber+"</td>" +
+                        "<td class='table-center'>" +
+                        "<a href='##' data-toggle='modal' data-target='#baseinformat' " +
+                        "onclick='update(\"" + pid + "\",\" "+plow+"\",\""+phigh+"\",\""+pnumber+"\")'> " +
+                        "<i class='fa fa-pencil-square-o' aria-hidden='true'></i> " +
+                        "</a>&nbsp; " +
+                        "<a href='' data-toggle='modal'  data-target='#del'  > " +
+                        "<i class='fa fa-trash' aria-hidden='true'" +
+                        "onclick='finddel(\"" +data.data+"\",\" "+plow+"\",\""+phigh+"\") '></i> " +
+                        "</a> " +
+                        "</td> " +
+                        "</tr>");
+                } else if(data.status==="201") {
+                   console.log("修改结果返回");
+                   console.log(pid + "---" + plow + "---" + phigh + "---" + pnumber);
+                   var update= $("#"+pid).children();
+                  update.eq(0).html(plow);
+                  update.eq(1).html(phigh);
+                  update.eq(2).html(pnumber);
+
+                }else{
+                    alert("操作失败");
+                }
+            }
+        });
+
+
+});
+</script>
+

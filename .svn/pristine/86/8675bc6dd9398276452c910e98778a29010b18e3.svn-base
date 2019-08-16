@@ -1,0 +1,70 @@
+package com.qst.grade.po;
+
+import javax.persistence.*;
+import java.util.Date;
+import java.util.Objects;
+
+@Entity
+@Table(name = "`favorite`")
+public class Favorite {
+    private String fid;
+    private String gid;
+    private String uid;
+    private Date addTime;
+
+    @Id
+    @Column(name = "fid")
+    public String getFid() {
+        return fid;
+    }
+
+    public void setFid(String fid) {
+        this.fid = fid;
+    }
+
+    @Basic
+    @Column(name = "gid")
+    public String getGid() {
+        return gid;
+    }
+
+    public void setGid(String gid) {
+        this.gid = gid;
+    }
+
+    @Basic
+    @Column(name = "uid")
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
+
+    @Basic
+    @Column(name = "add_time")
+    public Date getAddTime() {
+        return addTime;
+    }
+
+    public void setAddTime(Date addTime) {
+        this.addTime = addTime;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Favorite favorite = (Favorite) o;
+        return Objects.equals(fid, favorite.fid) &&
+                Objects.equals(gid, favorite.gid) &&
+                Objects.equals(uid, favorite.uid) &&
+                Objects.equals(addTime, favorite.addTime);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(fid, gid, uid, addTime);
+    }
+}

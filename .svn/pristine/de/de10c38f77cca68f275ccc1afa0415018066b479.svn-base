@@ -1,0 +1,64 @@
+package com.qst.grade.util;
+
+
+import net.sourceforge.pinyin4j.PinyinHelper;
+import net.sourceforge.pinyin4j.format.HanyuPinyinOutputFormat;
+import net.sourceforge.pinyin4j.format.exception.BadHanyuPinyinOutputFormatCombination;
+
+public class PinYinUtil {
+
+    /**
+     * 根据传入的字符串返回全拼
+     * @param str 字符串
+     * @return 全拼 传入为空返回 ""
+     */
+    public static String getFullPinYin(String str){
+        StringBuilder result = new StringBuilder(16);
+        HanyuPinyinOutputFormat format = new HanyuPinyinOutputFormat();
+        char[] strArray = str.toCharArray();
+        int length = strArray.length;
+        if (length <= 0) {
+            return result.toString();
+        }
+        for (char c : strArray) {
+            try {
+                if (Character.toString(c).matches("[\\u4E00-\\u9FA5]+")) {
+                    String[] temp = PinyinHelper.toHanyuPinyinStringArray(c, format);
+                    result.append(temp[0]);
+                } else {
+                    result.append(c);
+                }
+            } catch (BadHanyuPinyinOutputFormatCombination badHanyuPinyinOutputFormatCombination) {
+                badHanyuPinyinOutputFormatCombination.printStackTrace();
+            }
+        }
+        return result.toString();
+    }
+
+    /**
+     * 获取拼音首字母
+     * @param str 字符串
+     * @return 拼音首字母集合
+     */
+    public static String getAcronym(String str){
+        StringBuilder result = new StringBuilder(16);
+        char[] strArray = str.toCharArray();
+        int length = strArray.length;
+        if (length <= 0) {
+            return result.toString();
+        }
+        for (char c : strArray) {
+            String temp = getFullPinYin(Character.toString(c));
+            result.append(temp.charAt(0));
+        }
+
+        return result.toString();
+    }
+
+    public static void main(String[] args) {
+        String str = "陈芬";
+        System.out.println(getAcronym(str));
+        System.out.println(getFullPinYin(str));
+    }
+
+}

@@ -1,0 +1,84 @@
+package com.qst.grade.action;
+
+import com.opensymphony.xwork2.ActionContext;
+import com.qst.grade.po.User;
+import com.qst.grade.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.Map;
+
+/**
+ * 管理员对用户的各种管理
+ */
+public class UserManageAction {
+    private String uId;
+    private UserService userService;
+    private String message;
+
+    @Autowired
+    public UserManageAction(UserService userService) {
+        this.userService = userService;
+    }
+
+    private boolean updateApplication(String localUId) {
+        Map application = ActionContext.getContext().getApplication();
+        Map loginUsers = (Map) application.get("loginUsers");
+        loginUsers.remove(localUId);
+        return true;
+    }
+
+    /**
+     * 冻结账号
+     *
+     * @return
+     */
+    public String freezeUser() {
+        User localUser = userService.findByuId(uId);
+        localUser.setStatus(2);
+        userService.updateUser(localUser);
+        /*updateApplication(localUser.getUid());*/
+        return "error";
+    }
+
+    /**
+     * 删除账号
+     *
+     * @return
+     */
+    public String delUser() {
+        User localUser = userService.findByuId(uId);
+        localUser.setStatus(1);
+        userService.updateUser(localUser);
+        /*updateApplication(localUser.getUid());*/
+        return "error";
+    }
+
+    /**
+     * 更新密码
+     * @return
+     */
+    public String updatePass(){
+        User localUser = userService.findByuId(uId);
+        localUser.setPass(message);
+        userService.updateUser(localUser);
+        /*updateApplication(localUser.getUid());*/
+        return "success";
+    }
+
+
+    public String getuId() {
+        return uId;
+    }
+
+    public void setuId(String uId) {
+        this.uId = uId;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+}

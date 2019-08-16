@@ -1,0 +1,14 @@
+package com.qst.grade.dao;
+
+import com.qst.grade.po.Message;
+
+import java.util.Date;
+import java.util.List;
+
+public interface MessageDao {
+    String save(Message message);
+    List<String> findAllByUid(String uid);
+    List<Message> findHistoryMessage(String srcId, String destId, Date time);
+    List<Message> findMessage(String srcId, String destId);
+    void setMessageStatus(String srcId, String destId, int status);
+}

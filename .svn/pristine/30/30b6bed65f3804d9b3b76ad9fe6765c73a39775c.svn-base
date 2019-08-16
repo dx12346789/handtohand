@@ -1,0 +1,11 @@
+package com.qst.grade.dao;
+
+import com.qst.grade.po.Goods;
+
+public interface GoodsDao {
+
+    /**
+     * 添加商品
+     * **/
+    public String addGoods(Goods goods);
+}

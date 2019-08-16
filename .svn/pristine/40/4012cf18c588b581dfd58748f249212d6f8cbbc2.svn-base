@@ -1,0 +1,42 @@
+package com.qst.grade.service;
+
+import com.qst.grade.po.Goods;
+import com.qst.grade.po.Order;
+import com.qst.grade.po.OrderDetail;
+import com.qst.grade.po.User;
+
+import java.util.List;
+
+public interface OrderDetailService {
+    /**
+     *查询该用户已购买的订单详情
+     * @param uid
+     * @return
+     */
+    List<OrderDetail> findOrdersBypayer(String uid);
+
+    /**
+     * 该用户订单详情中的商品详情
+     * @param orderDetails
+     * @return
+     */
+    List<Goods> findGoodsBygid(List<OrderDetail> orderDetails);
+
+    /**
+     * 通过订单详情的Uid查找对应卖家名
+     * @param orderDetails
+     * @return
+     */
+    List<User>  findUsersByuid(List<OrderDetail> orderDetails);
+
+    /**
+     * 通过订单详情中的订单ID查找对应的订单信息
+     * @param orderDetails
+     * @return
+     */
+  List<Order>   findorderByoid(List<OrderDetail> orderDetails );
+  OrderDetail findByodid(String odid);
+  void updateorderDetail(OrderDetail orderDetail);
+
+
+}
