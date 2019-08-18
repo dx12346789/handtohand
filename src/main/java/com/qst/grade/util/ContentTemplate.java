@@ -1,4 +1,4 @@
-package com.qst.grade.util;
+﻿package com.qst.grade.util;
 
 import org.junit.Test;
 
@@ -6,7 +6,7 @@ public class ContentTemplate {
     /**
      * 发送标题
      */
-    public static final String TITLE = "HandToHand";
+    public static final String TITLE = "应用名称";
     /**
      * 注册验证码内容
      */
